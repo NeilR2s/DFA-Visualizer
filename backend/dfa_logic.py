@@ -36,11 +36,7 @@ class DFA:
             input_string (str): User input string to process.
 
         Returns:
-            tuple: A tuple containing:
-                - bool: True if the string is accepted, False otherwise.
-                - list: A list of states visited during the simulation, starting with the start state.
-                        Returns [start_state] if the string is empty.
-                        Includes a special 'REJECT_STATE' if simulation fails.
+            out: None
         '''
         current_state = self.start_state
         state_sequence = [current_state]
