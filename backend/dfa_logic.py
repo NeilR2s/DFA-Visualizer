@@ -20,7 +20,8 @@ class DFA:
             raise ValueError(f'Start state "{start_state}" is not in the set of states.') # basic guards for fast validation, plz help write more tests  
         if not final_states.issubset(states):
             raise ValueError('Final states must be a subset of the states.')
-
+        if not trap_states.issubset(states):
+            raise ValueError('Trap states must be a subset of the states.')
         self.states = states
         self.alphabet = alphabet
         self.transitions = transitions 
@@ -28,7 +29,7 @@ class DFA:
         self.final_states = final_states
         self.trap_states = trap_states
 
-    def simulate(self, input_string: str) -> tuple[bool, list]:
+    def simulate(self, input_string: str) -> dict:
         '''
         Simulates the DFA on the given input string.
 
@@ -36,50 +37,57 @@ class DFA:
             input_string (str): User input string to process.
 
         Returns:
-            out: None
+            out: dict
         '''
         current_state = self.start_state
-        state_sequence = [current_state]
+        state_sequence = []
+        state_sequence.append(current_state)
+        error_message = None
 
         # unsure if this covers all cases and edge cases, need more testing 
 
         for symbol in input_string:
-            try: 
-                if symbol not in self.alphabet:
-                    state_sequence.append('REJECT_STATE_INVALID_SYMBOL')
-                    raise ValueError(f'Simulation Error: Symbol "{symbol}" not in alphabet {self.alphabet}.')
 
-                state_transitions = self.transitions.get(current_state)
+            if symbol not in self.alphabet:
+                state_sequence.append('REJECT_STATE_INVALID_SYMBOL')
+                error_message = str(f'Simulation Error: Symbol "{symbol}" not in alphabet {self.alphabet}.')
+                break
+            
+            state_transitions = self.transitions.get(current_state)
 
-                if state_transitions is None:
-                    state_sequence.append('REJECT_STATE_NO_TRANSITION')
-                    raise ValueError(f'Simulation Error: State "{current_state}" has no defined transitions.')
+            if state_transitions is None:
+                state_sequence.append('REJECT_STATE_NO_TRANSITION')
+                error_message = str(f'Simulation Error: State "{current_state}" has no defined transitions.')
+                break
 
-                next_state = state_transitions.get(symbol)
+            next_state = state_transitions.get(symbol)
 
-                if next_state is None:
-                    state_sequence.append('REJECT_STATE_MISSING_TRANSITION')
-                    raise ValueError(f'Simulation Error: "{next_state}" has no defined state transition. Set a valid state transition for all cases.')
-                if next_state in self.trap_states:
-                    state_sequence.append('REJECT_STATE_TRAP_STATE')
-                    raise ValueError(f'Simulation Error: Transition leads to trap state {next_state}.')
+            if next_state is None or next_state not in self.states:
+                state_sequence.append('REJECT_STATE_INVALID_TARGET')
+                error_message = str(f'Simulation Error: "{next_state}" has no defined state transition. Set a valid state transition for all cases, and define all states.')
+                break
 
-                if next_state not in self.states:
-                    state_sequence.append('REJECT_STATE_INVALID_TARGET')
-                    raise ValueError(f'Internal DFA Error: Transition leads to undefined state "{next_state}".')
+            if next_state in self.trap_states:
+                state_sequence.append('REJECT_STATE_TRAP_STATE')
+                error_message = str(f'Simulation Error: Transition leads to trap state {next_state}.')
+                break
+
+            current_state = next_state
+            state_sequence.append(current_state)
     
-                current_state = next_state
-                state_sequence.append(current_state)
-            except ValueError as ve:
-                return (f'{ve}')
 
         is_accepted = current_state in self.final_states
 
-        print(f'Input: "{input_string}", Final State: {current_state}, Accepted: {is_accepted}')
-        print(f'State Sequence: {state_sequence}')
+        return {
+            'input': input_string,
+            'final state': current_state,
+            'accepted': is_accepted,
+            'state sequence': state_sequence,
+            'error': error_message
+        }
 
 
-    def debug_info(self) -> dict:
+    def dfa_properties(self) -> dict:
         '''
         Packs all info about the DFA in a dictionary.
 
@@ -180,25 +188,22 @@ if __name__ == '__main__':
         )
         print('Stars DFA compiled successfully.')
     except Exception as e:
-        print(f'Error Compiling Bets DFA. Please adhere to the formatting specified by the docstrings: {e}')
+        print(f'Error Compiling Stars DFA. Please adhere to the formatting specified by the docstrings: {e}')
 
 
     print('--- DFA Compiler CLI Mockup ---') 
     while True:
         print('1. (111 + 101 + 001 + 010) (1 + 0 + 11)(1 + 0 + 11)* (111 + 000) (111 + 000)* (01 + 10 + 00)')
         print('2. (aa + bb + aba + ba) (aba + bab + bbb) (a + b)* (a + b + aa + abab) (aa + bb)*')
-        choice = int(input('Choose a DFA to simulate.'))
+        choice = int(input('Choose a DFA to simulate: '))
         word = str(input('Enter a word to validate : '))
         if choice == 1:
-            accepted = stars_dfa.simulate(word)
-        elif choice ==2: 
-            accepted = bets_dfa.simulate(word)
-        else:
-            print('Please choose a valid DFA to simulate.')
-            continue
+            print(stars_dfa.simulate(word))
+        if  choice == 2: 
+            print(bets_dfa.simulate(word))
         if word.lower() == 'exit':
             exit()
-        accepted = bets_dfa.simulate(word)
+        
     
 
 
