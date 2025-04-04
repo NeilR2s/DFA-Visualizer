@@ -33,7 +33,7 @@ class DFA:
         '''
         Simulates the DFA on the given input string.
 
-        Paremeters:
+        Parameters:
             input_string (str): User input string to process.
 
         Returns:
@@ -43,6 +43,7 @@ class DFA:
         state_sequence = []
         state_sequence.append(current_state)
         error_message = None
+        is_accepted = False
 
         # unsure if this covers all cases and edge cases, need more testing 
 
@@ -67,16 +68,18 @@ class DFA:
                 error_message = str(f'Simulation Error: "{next_state}" has no defined state transition. Set a valid state transition for all cases, and define all states.')
                 break
 
-            if next_state in self.trap_states:
-                state_sequence.append('REJECT_STATE_TRAP_STATE')
-                error_message = str(f'Simulation Error: Transition leads to trap state {next_state}.')
-                break
-
             current_state = next_state
             state_sequence.append(current_state)
-    
 
-        is_accepted = current_state in self.final_states
+            if current_state in self.trap_states:
+                state_sequence.append('REJECT_STATE_TRAP_STATE')
+                error_message = str(f'Simulation Error: Transition leads to trap state {next_state}.')
+                break    
+
+            
+        if error_message is None:
+            is_accepted = current_state in self.final_states
+
 
         return {
             'input': input_string,
