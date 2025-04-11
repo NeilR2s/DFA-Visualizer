@@ -25,6 +25,26 @@ h2 {
     border-bottom: 1px dashed #1d344f;
 }
 
+/* --- Header Stuff --- */
+.header-container {
+    display: flex;
+    flex-direction: space-between;
+    justify-content: center;
+    max-width: 100%;
+    padding: 0 20px;
+    gap: 1rem;
+  }
+  
+  .logo {
+    display: flex;
+    margin-top: auto;
+    margin-bottom: auto;
+    width: 5%;
+    max-width: 170px;
+    min-height: 30px;
+    height: auto;
+  }
+
 /* --- Layout Container --- */
 .container {
     display: grid;
@@ -281,10 +301,8 @@ button:disabled {
      dominant-baseline: central;
      pointer-events: none;
      user-select: none;
-     stroke: #011627; 
-     stroke-width: 2px;
-     stroke-linecap: butt;
-     stroke-linejoin: miter;
+     stroke: #d6deeb; 
+     stroke-width: 0.25;
 }
 
 /* Arrowhead Marker */
