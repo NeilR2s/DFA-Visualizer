@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DFA Simulator</title>
+    <link rel="stylesheet" href="style.css"> 
+</head>
+
+<body>
+    <h1>DFA Simulator</h1>
+
+    <div class="container">
+        <div class="controls">
+            <h2>Input & Controls</h2>
+            <label for="dfa-select">Select DFA:</label>
+            <select id="dfa-select">
+                <option value="bets_dfa" selected>(aa + bb + aba + ba) (aba + bab + bbb) (a + b)* (a + b + aa + abab) (aa + bb)*</option>
+                <option value="stars_dfa">(111 + 101 + 001 + 010) (1 + 0 + 11)(1 + 0 + 11)* (111 + 000) (111 + 000)* (01 + 10 + 00)</option>
+            </select>
+            <br><br>
+            <label for="input-string">Input String:</label>
+            <input type="text" id="input-string" placeholder="Enter string...">
+            <br><br>
+            <button id="simulate-button">Simulate</button>
+            <button id="reset-button">Reset</button>
+             <p id="loading-indicator" class="hidden">Simulating...</p>
+        </div>
+
+        <div class="results">
+            <h2>Simulation Status</h2>
+            <p id="status-message">Enter a string and click Simulate.</p>
+            <h3>Result: <span id="result-display">-</span></h3>
+            <h3>State Sequence:</h3>
+            <div id="state-sequence-display">
+
+            </div>
+             <p id="error-message" class="error hidden"></p>
+            </div>
+
+        <div class="visualization">
+            <h2>DFA Structure</h2>
+            <svg id="dfa-visualization" width="100%" height="400" viewbox="0 0 600 400" preserveAspectRatio="xMidYMid meet"> </svg>
+        </div>
+   
+         
+    </div>
+        
+    <script src="script.js"></script> 
+</body>
+</html>

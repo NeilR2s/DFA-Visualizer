@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from dfa_logic import DFA
 import pathlib
 import logging.config
@@ -7,7 +8,7 @@ import json
 
 # dunno if there is a better way to do this, but minimal setup should work for now
 logger = logging.getLogger('app')
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static', static_url_path='')
 
 def logger_setup():
     config_file = pathlib.Path('logs/config.json')
@@ -51,7 +52,7 @@ try:
 except Exception as e:
     logger.error(f'Error Compiling Bets DFA. Please adhere to the formatting specified by the docstrings: {e}')
 
-stars_states = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24}
+stars_states = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23}
 stars_alphabet = {'0','1'}
 stars_transitions = {
     0:{'0': 1, '1':2},
@@ -140,3 +141,9 @@ def simulate_dfa():
         
 if __name__ == '__main__':
     app.run(debug=True, port=5500)
+
+'''
+how to test that the endpoint works?
+
+curl -X POST -H 'Content-Type: application/json' -H 'Accept: application/json' -d '{"dfa_type": "bets_dfa", "dfa_input": "abc123"}' http://localhost:5500/simulate-dfa
+'''
