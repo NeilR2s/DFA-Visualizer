@@ -8,7 +8,6 @@ const resultDisplay = document.getElementById('result-display');
 const sequenceDisplay = document.getElementById('state-sequence-display');
 const errorMessage = document.getElementById('error-message');
 const currentVisState = document.getElementById('current-vis-state');
-
 const BACKEND_URL = 'http://localhost:5500';
 
 simulateButton.addEventListener('click', handleSimulate);
@@ -481,7 +480,7 @@ async function animateSequence(sequence) {
         currentStateElement.classList.add('highlight');
         statusMessage.textContent = `Processing... Current state: ${stateValue}`;
 
-        await sleep(400); // Animation speed
+        await sleep(10); // Animation speed
 
          // Remove highlight from text step before moving to next
          currentStateElement.classList.remove('highlight');
@@ -495,5 +494,5 @@ async function animateSequence(sequence) {
 // --- Initial setup on page load ---
 handleReset(); // Reset form
 drawDFA(dfaSelect.value); 
-console.log('DFA Simulator script loaded.');
+console.log('DFA Compiler script loaded.');
 
