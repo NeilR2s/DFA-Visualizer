@@ -4,39 +4,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DFA Simulator</title>
+    <title>Formal Language Compiler</title>
+    <link rel="stylesheet" href="css.css"> 
     <link rel="stylesheet" href="style.css"> 
 </head>
 
 <body>
     <header>
         <div class="header-container">
-            <img src="/assets/dlsud-logo.png" class="dlsud-logo" alt="dlsud-logo">
-            
-        </div>
+            </div>
     </header>
 
-    <h1>DFA Simulator</h1>
+    <h1>Formal Language Compiler o1-mini</h1>
 
     <div class="container">
+
         <div class="controls">
-            <h2>Input & Controls</h2>
+
+            <h2>Controls</h2>
             <label for="dfa-select">Select DFA:</label>
             <select id="dfa-select">
                 <option value="bets_dfa" selected>(aa + bb + aba + ba) (aba + bab + bbb) (a + b)* (a + b + aa + abab) (aa + bb)*</option>
                 <option value="stars_dfa">(111 + 101 + 001 + 010) (1 + 0 + 11)(1 + 0 + 11)* (111 + 000) (111 + 000)* (01 + 10 + 00)</option>
             </select>
             <br><br>
+
             <label for="input-string">Input String:</label>
             <input type="text" id="input-string" placeholder="Enter string...">
             <br><br>
             <button id="simulate-button">Simulate</button>
             <button id="reset-button">Reset</button>
-             <p id="loading-indicator" class="hidden">Simulating...</p>
+            <p id="loading-indicator" class="hidden">Simulating...</p>
+            
+            <div class="view-mode-controls">
+                <label>View as:</label>
+                <input type="radio" id="view-dfa" name="view-mode" value="dfa" checked>
+                <label for="view-dfa">DFA</label>
+                <input type="radio" id="view-cfg" name="view-mode" value="cfg">
+                <label for="view-cfg">CFG</label>
+                <input type="radio" id="view-pda" name="view-mode" value="pda">
+                <label for="view-pda">PDA</label>
+            </div>
+             
         </div>
 
+
         <div class="results">
-            <h2>Simulation Status</h2>
+            
+            <h2>Console</h2>
             <p id="status-message">Enter a string and click Simulate.</p>
             <h3>Result: <span id="result-display">-</span></h3>
             <h3>State Sequence:</h3>
@@ -47,8 +62,46 @@
             </div>
 
         <div class="visualization">
-            <h2>DFA Structure</h2>
-            <svg id="dfa-visualization" width="100%" height="400" viewbox="0 0 600 400" preserveAspectRatio="xMidYMid meet"> </svg>
+
+            <div id="dfa-visualization-content">
+                <h2>Deterministic Finite Automaton</h2>
+                <svg id="dfa-visualization" width="100%" height="400" viewbox="0 0 700 400" preserveAspectRatio="xMidYMid meet"></svg>
+            </div>
+
+        <div id="cfg-visualization-content" class="hidden">
+            <h2>Context-Free Grammar</h2>
+            <div id="cfg-details-container"> <div class="cfg-rules-section">
+                    <h3>Grammar Rules</h3>
+                    <pre id="cfg-rules-display"></pre>
+                </div>
+                <div class="cfg-derivation-section">
+                    <h3>Derivation Steps</h3>
+                    <div id="cfg-derivation-sequence" class="sequence-display-area">
+                        </div>
+                    <h3>Current String (Sentential Form)</h3>
+                    <div id="cfg-current-string" class="current-string-display">
+                        </div>
+                </div>
+            </div>
+            <p id="cfg-status-message" class="status-message-area">Enter a string and simulate derivation (if enabled).</p>
+            <p id="cfg-result-display" class="result-display-area">Result: -</p>
+        </div>
+
+            <div id="pda-visualization-content" class="hidden">
+                <h2>Pushdown Automaton</h2>
+                <div class="pda-layout-container">
+                    <svg id="pda-visualization-svg" width="100%" height="400" viewBox="0 0 750 450" preserveAspectRatio="xMidYMid meet"></svg>
+                    <div id="pda-stack-visualization">
+                        <h3>Stack</h3>
+                        <div id="stack-display" class="stack-display-area">
+                            </div>
+                    </div>
+                </div>
+                <div id="pda-current-config-display" class="current-config-display">
+                    Current Configuration: (State, Remaining Input, Stack Top)
+                </div>
+            </div>
+
         </div>
    
          

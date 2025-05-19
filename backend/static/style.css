@@ -1,64 +1,151 @@
+:root {
+    /* Core Dark Theme - Deeper darks, brighter accents */
+    --primary-bg: #121212;
+    --primary-text: #E0E0E0;
+    --secondary-bg: #1E1E1E; 
+    --header-accent: #AE8FF7; 
+
+    /* Borders for Dark Mode - Light and subtle */
+    --border-strong: rgba(255, 255, 255, 0.2);
+    --border-medium: rgba(255, 255, 255, 0.15);
+    --border-light: rgba(255, 255, 255, 0.1);
+
+    /* Shadows for Dark Mode */
+    --shadow-strong: rgba(0,0,0,0.5);
+    --shadow-soft: rgba(0,0,0,0.3);
+
+    /* Accent Colors */
+    --accent-blue: #6699FF; 
+    --accent-blue-darker: #4A75D1;
+    --accent-gradient-start: #078EFB;
+    --accent-gradient-end: #AC87EB;
+
+    --accent-green: #81C784; 
+    --accent-green-dark: #2E7D32;
+
+    --accent-purple-dark: #3A2D5A; 
+    --accent-purple-light-text: #E1BEE7; 
+
+    --accent-yellow: #FFD54F; 
+    --accent-yellow-dark: #4D4530; 
+
+    /* Buttons - Modernized */
+    --button-primary-bg: linear-gradient(90deg, var(--accent-gradient-start), var(--accent-gradient-end));
+    --button-primary-text: #FFFFFF;
+    --button-primary-hover-bg: linear-gradient(90deg, #067DD9, #9A76D0); 
+    --button-primary-focus-shadow: rgba(174, 143, 247, 0.4); 
+
+    --button-secondary-bg: rgba(255, 255, 255, 0.1);
+    --button-secondary-text: var(--primary-text);
+    --button-secondary-hover-bg: rgba(255, 255, 255, 0.15);
+    --button-secondary-border: var(--border-medium);
+
+    --button-disabled-text: #757575;
+    --button-disabled-bg: rgba(255, 255, 255, 0.05);
+    --button-secondary-disabled-bg: rgba(255, 255, 255, 0.05);
+    --button-secondary-disabled-text: #757575;
+
+    --text-muted: #9E9E9E;
+
+    /* Highlights */
+    --highlight-bg: var(--accent-yellow);
+    --highlight-border: #FFB300; 
+    --highlight-text: #121212; 
+
+    /* Error States */
+    --error-text: #FF7675; 
+    --error-bg-soft: rgba(255, 118, 117, 0.1);
+    --error-bg-soft-stronger: rgba(255, 118, 117, 0.15);
+    --error-fill-dark: #7D2A29; 
+    --error-text-light: #FAB1A0; 
+
+    /* PDA Specific Colors */
+    --pda-start-bg: var(--accent-green-dark);
+    --pda-start-stroke: var(--accent-green);
+    --pda-start-text: var(--primary-text);
+
+    --pda-accept-bg: var(--accent-purple-dark);
+    --pda-accept-stroke: var(--header-accent);
+    --pda-accept-inner-stroke: #D1A0EA; 
+    --pda-accept-text: var(--accent-purple-light-text);
+
+    --pda-reject-bg: var(--error-fill-dark);
+    --pda-reject-stroke: var(--error-text);
+    --pda-reject-text: var(--error-text-light);
+
+    --pda-processing-bg: #333333; 
+    --pda-processing-stroke: var(--border-medium);
+
+    --pda-highlight-bg: var(--accent-yellow);
+    --pda-highlight-stroke: var(--highlight-border);
+    --pda-highlight-text: var(--highlight-text);
+
+
+    --pda-transition-path-stroke: var(--border-medium);
+    --pda-transition-path-label: var(--text-muted);
+    --pda-arrowhead-fill: var(--pda-transition-path-stroke);
+    
+    --transparent: transparent;
+}
 
 body {
-    font-family: Consolas, Monaco, 'Courier New', monospace;
+    font-family: 'Google Sans', Arial, sans-serif; 
     line-height: 1.6;
     margin: 20px;
-    background-color: #011627; 
-    color: #d6deeb;
+    background-color: var(--primary-bg);
+    color: var(--primary-text);
+    -webkit-font-smoothing: antialiased; 
+    -moz-osx-font-smoothing: grayscale;
 }
+
 
 h1, h2, h3 {
     margin-bottom: 0.5em;
-    color: #c792ea; 
-    font-weight: 500;
+    color: var(--header-accent);
+    font-weight: 500; 
     padding-bottom: 0.2em;
 }
 
 h1 {
-    border-bottom: 1px solid #5f7e97;
+    border-bottom: 1px solid var(--border-medium);
     text-align: center;
-    font-size: 1.8em;
+    font-size: 2em; 
     margin-bottom: 1em;
+    font-weight: 400; 
 }
 
 h2 {
-    border-bottom: 1px dashed #1d344f;
+    border-bottom: 1px dashed var(--border-light);
+    font-size: 1.6em;
+}
+
+h3 {
+    font-size: 1.3em;
 }
 
 /* --- Header Stuff --- */
 .header-container {
     display: flex;
-    flex-direction: space-between;
-    justify-content: center;
+    justify-content: center; 
     max-width: 100%;
     padding: 0 20px;
     gap: 1rem;
-  }
-  
-  .logo {
-    display: flex;
-    margin-top: auto;
-    margin-bottom: auto;
-    width: 5%;
-    max-width: 170px;
-    min-height: 30px;
-    height: auto;
-  }
+}
 
 /* --- Layout Container --- */
 .container {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 25px; 
+    gap: 25px;
     margin-top: 20px;
 }
 
 .controls, .results, .visualization {
-    background-color: #0b253a; 
-    border: 1px solid #1d344f; 
-    padding: 20px; 
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    background-color: var(--secondary-bg);
+    border: 1px solid var(--border-light);
+    padding: 20px;
+    border-radius: 8px; /* Modern rounded corners */
+    box-shadow: 0 4px 8px var(--shadow-soft); /* Softer shadow */
 }
 
 .visualization {
@@ -66,136 +153,179 @@ h2 {
      margin-top: 20px;
 }
 
-
 /* --- Controls Styling --- */
 label {
     display: inline-block;
-    margin-bottom: 5px;
-    font-weight: bold;
-    color: #617aec;
+    margin-bottom: 8px; /* Increased spacing */
+    font-weight: 500;
+    color: var(--accent-blue);
+    font-size: 0.9em;
 }
 
 input[type="text"], select {
-    padding: 10px; 
-    margin-bottom: 15px; 
-    border: 1px solid #637777; 
-    border-radius: 3px;
-    width: calc(100% - 22px); 
-    background-color: #011627; 
-    color: #d6deeb; 
-    font-family: inherit; 
+    padding: 12px 15px; /* More padding */
+    margin-bottom: 15px;
+    border: 1px solid var(--border-medium);
+    border-radius: 24px; /* Rounded to match buttons */
+    width: calc(100% - 32px); /* Adjusted for padding */
+    background-color: var(--primary-bg); /* Match overall background */
+    color: var(--primary-text);
+    font-family: inherit;
     font-size: 0.95em;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
+
 
 select {
      width: 100%;
      cursor: pointer;
+     appearance: none; /* For custom arrow if desired, but needs SVG bg */
+     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23E0E0E0'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+     background-repeat: no-repeat;
+     background-position: right 15px center;
+     padding-right: 40px; /* Space for arrow */
 }
 
 input[type="text"]::placeholder {
-    color: #637777;
+    color: var(--text-muted);
     font-style: italic;
 }
 
 input[type="text"]:focus, select:focus {
     outline: none;
-    border-color: #82aaff; 
-    box-shadow: 0 0 5px rgba(130, 170, 255, 0.3);
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 3px var(--button-primary-focus-shadow); /* Consistent focus shadow */
 }
 
-/* --- Button Styling --- */
+/* --- Button Styling (Modernized) --- */
+/* In static/style.css */
 button {
-    padding: 10px 18px;
+    padding: 12px 24px;
     margin-right: 10px;
     cursor: pointer;
     border: none;
-    border-radius: 3px;
-    background-color: #82aaff; 
-    color: #011627; 
+    border-radius: 24px;
+    background: var(--button-primary-bg);
+    color: var(--button-primary-text);
     font-family: inherit;
-    font-weight: bold;
-    transition: background-color 0.2s ease, transform 0.1s ease; 
+    font-weight: 500;
+    font-size: 0.95em;
+    /* ADD transition for smoother effect on multiple properties */
+    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
 button:hover {
-    background-color: #a2c1ff; 
-    transform: translateY(-1px); 
-}
-button:active {
-    transform: translateY(0px); 
+    background: var(--button-primary-hover-bg); /* Already transitions if background variable changes value smoothly or is a different gradient */
+    transform: translateY(-3px) scale(1.03); /* Enhanced: slightly more lift and a gentle scale */
+    box-shadow: 0 6px 12px rgba(0,0,0,0.35); /* Enhanced: more prominent shadow */
 }
 
+button:active {
+    transform: translateY(0px) scale(1); /* Reset scale and lift on active */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+
 button:disabled {
-    background-color: #5f7e97;
-    color: #2c3e50; 
+    background: var(--button-disabled-bg);
+    color: var(--button-disabled-text);
     cursor: not-allowed;
-    opacity: 0.6; 
-    transform: none; 
+    opacity: 0.6;
+    transform: none;
+    box-shadow: none;
 }
 
 #reset-button {
-    background-color: #5f7e97; 
-    color: #d6deeb; 
+    background: var(--button-secondary-bg);
+    color: var(--button-secondary-text);
+    border: 1px solid var(--button-secondary-border);
+    box-shadow: none;
+
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
 }
+
 #reset-button:hover {
-    background-color: #7a99b0; 
+    background: var(--button-secondary-hover-bg);
+    border-color: var(--accent-blue);
+    color: var(--primary-text);
+    transform: translateY(-3px) scale(1.03); /* Enhanced */
+    box-shadow: 0 4px 8px rgba(255,255,255,0.15); /* Enhanced */
+}
+#reset-button:active {
+    transform: translateY(0px);
+    box-shadow: none;
 }
 #reset-button:disabled {
-     background-color: #3a4e5e;
-     color: #637777;
+     background: var(--button-secondary-disabled-bg);
+     color: var(--button-secondary-disabled-text);
+     border-color: var(--button-disabled-bg);
+     box-shadow: none;
 }
 
 /* --- Results & Status Styling --- */
 #status-message {
-    color: #617aec; 
-    min-height: 1.6em; 
+    color: var(--accent-blue);
+    min-height: 1.6em;
     font-style: italic;
+    font-size: 0.9em;
 }
 
 #result-display {
     font-weight: bold;
     font-size: 1.1em;
-    color: #d6deeb;
+    color: var(--primary-text);
 }
 
 #state-sequence-display {
-    font-family: inherit; 
-    background-color: #011627; 
-    padding: 10px 15px;
-    border: 1px solid #1d344f;
+    font-family: inherit;
+    background-color: var(--primary-bg); /* Match overall page bg */
+    padding: 12px 15px;
+    border: 1px solid var(--border-light);
     min-height: 50px;
     max-height: 200px;
     overflow-y: auto;
     white-space: pre-wrap;
     word-wrap: break-word;
-    color: #ecc48d; 
-    border-radius: 3px;
+    color: var(--primary-text);
+    border-radius: 6px; /* Slightly rounded */
     margin-top: 5px;
 }
 
 .state-step {
     display: inline-block;
     margin: 2px 5px 2px 0;
-    padding: 2px 5px;
-    border: 1px solid transparent;
-    border-radius: 3px;
+    padding: 3px 6px;
+    border: 1px solid var(--transparent);
+    border-radius: 4px; /* Rounded step indicators */
     transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .state-step.highlight {
-    background-color: #ffeb95;
-    color: #011627;
-    border: 1px solid #ffcc45;
+    background: var(--button-primary-hover-bg);
+    color: var(--primary-text);
+    border: 1px solid var(--border-medium);
     font-weight: bold;
 }
 
-.error {
-    color: #ff5874;
+.state-step.error { 
+    color: var(--error-text);
     font-weight: bold;
-    background-color: rgba(255, 88, 116, 0.1);
-    padding: 8px;
-    border-radius: 3px;
+    background-color: var(--error-bg-soft-stronger);
+    padding: 3px 6px;
+    border-radius: 4px;
+}
+
+.error { /* General error message box */
+    color: var(--error-text);
+    font-weight: bold;
+    background-color: var(--error-bg-soft);
+    padding: 10px 15px; /* More padding */
+    border-radius: 6px;
     margin-top: 10px;
+    border-left: 4px solid var(--error-text); /* Accent border */
 }
 
 .hidden {
@@ -203,139 +333,489 @@ button:disabled {
 }
 
 #loading-indicator {
-    display: inline-block; 
+    display: inline-block;
     margin-left: 15px;
-    color: #617aec; 
+    color: var(--accent-blue);
     font-style: italic;
 }
-#loading-indicator.hidden {
-     display: none;
+#loading-indicator.hidden{
+    display: none;
 }
 
 /* --- SVG Styles --- */
-#dfa-visualization {
-    border: 1px solid #1d344f;
-    background-color: #011627;
+/* DFA Visualization */
+#dfa-visualization, #pda-visualization-svg { /* Apply to both SVGs */
+    border: 1px solid var(--border-light);
+    background-color: var(--primary-bg); /* Darker bg for SVGs too */
     display: block;
     margin: auto;
-    max-width: 700px; 
-    min-height: 500px;
+    border-radius: 8px; /* Rounded corners for SVG container */
 }
 
-/* States */
+#dfa-visualization {
+    max-width: 700px;
+    min-height: 500px; 
+}
+
+#pda-visualization-svg {
+    max-width: 700px; /* Maintain consistency */
+    min-height: 400px;
+}
+
+
 .state-circle {
-    stroke: #5f7e97; 
+    stroke: var(--border-medium);
     stroke-width: 1.5px;
-    fill: #0b253a; 
+    fill: var(--secondary-bg); /* Match container bg */
     cursor: default;
-    transition: fill 0.2s ease-in-out, stroke 0.2s ease-in-out;
+    transition: fill 0.2s ease-in-out, stroke 0.2s ease-in-out, transform 0.1s ease;
 }
 
 .state-circle.start-state {
-   stroke: #addb67;
+   stroke: var(--accent-green);
    stroke-width: 2.5px;
-   fill: #1a3d20; 
+   fill: var(--accent-green-dark);
 }
 
 .state-circle.final-state {
-    stroke: #c792ea;
-    stroke-width: 2px; 
-    stroke-dasharray: 3 2; 
-    fill: #2a1d4a;
+    stroke: var(--header-accent); 
+    stroke-width: 2px;
+    stroke-dasharray: 4 3; /* Slightly adjusted dasharray */
+    fill: var(--accent-purple-dark);
 }
 
 .state-circle.start-state.final-state {
-     stroke: #ecc48d; 
+     stroke: var(--accent-yellow);
      stroke-width: 2.5px;
-     stroke-dasharray: none; 
-     fill: #4d4530; 
+     stroke-dasharray: none;
+     fill: var(--accent-yellow-dark);
 }
 
 .state-circle.trap-state {
-    fill: #5c1f2b; 
-    stroke: #ff5874; 
+    fill: var(--error-fill-dark);
+    stroke: var(--error-text);
     stroke-width: 2px;
 }
 
-/* Highlight for SVG state */
 .state-circle.highlight {
-    fill: #ffeb95; 
-    stroke: #ffcc45; 
-    stroke-width: 3px; 
-    stroke-dasharray: none; 
+    fill: var(--highlight-bg);
+    stroke: var(--highlight-border);
+    stroke-width: 3px;
+    stroke-dasharray: none;
+    transform: scale(1.1); /* Slight scale on highlight */
 }
 
-/* State Labels */
 .state-label {
-    font-family: Consolas, Monaco, 'Courier New', monospace;
+    font-family: 'Google Sans', Arial, sans-serif;
     font-size: 10px;
-    font-weight: normal; 
-    fill: #d6deeb; 
+    font-weight: 500; /* Use medium weight for labels */
+    fill: var(--primary-text);
     text-anchor: middle;
     dominant-baseline: central;
     pointer-events: none;
     user-select: none;
 }
 .state-label.final-state-label {
-     fill: #f0caff;
+     fill: var(--accent-purple-light-text);
      font-weight: bold;
 }
  .state-label.trap-state-label {
-     fill: #ff94a5; 
+     fill: var(--error-text-light);
      font-weight: bold;
 }
 
-/* Transitions */
-.transition-path {
-    stroke: #637777;
+.transition-path { 
+    stroke: var(--border-dark); /* Kept original, but this is var(--border-dark) */
+    stroke: var(--border-medium); /* Overriding with new medium border for better visibility */
     stroke-width: 1.5px;
     fill: none;
 }
 
-/* Transition Labels */
-.transition-label {
-     font-family: Consolas, Monaco, 'Courier New', monospace; /* Match body font */
-     font-size: 9px;
-     fill: #637777; 
-     text-anchor: middle;
-     dominant-baseline: central;
-     pointer-events: none;
-     user-select: none;
-     stroke: #d6deeb; 
-     stroke-width: 0.25;
+.transition-label { 
+    font-family: 'Google Sans', Arial, sans-serif;
+    font-size: 9px;
+    fill: var(--text-muted);
+    text-anchor: middle;
+    dominant-baseline: central;
+    pointer-events: none;
+    user-select: none;
+    /* Removed stroke for cleaner look, relying on fill contrast */
 }
 
-/* Arrowhead Marker */
-#arrowhead {
-    fill: #637777;
+#arrowhead { 
+    fill: var(--border-medium); /* Use new medium border for arrowheads */
 }
 
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .container {
-        grid-template-columns: 1fr; /* Stack columns */
-    }
-    .visualization {
-         height: 350px; /* Slightly smaller default height */
-    }
-    h1 {
-        font-size: 1.5em;
-    }
-    button {
-        padding: 8px 12px;
-    }
-    input[type="text"], select {
-         padding: 8px;
-    }
+/* PDA Visualization Specifics */
+.pda-layout-container {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
 }
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-input:-webkit-autofill:active {
-    -webkit-box-shadow: 0 0 0 30px #011627 inset !important; 
-    box-shadow: 0 0 0 30px #011627 inset !important; 
-    -webkit-text-fill-color: #d6deeb !important; 
-    transition: background-color 5000s ease-in-out 0s;
-    font-family: Consolas, Monaco, 'Courier New', monospace;
+
+#pda-stack-visualization {
+    flex: 1;
+    background-color: var(--secondary-bg); /* Match controls/results bg */
+    border: 1px solid var(--border-light);
+    padding: 15px; /* Increased padding */
+    border-radius: 8px; /* Rounded */
+    min-width: 180px;
+    max-height: 400px;
+    display: flex;
+    flex-direction: column;
+}
+
+#pda-stack-visualization h3 {
+    margin-top: 0;
+    color: var(--header-accent);
+    text-align: center;
+    border-bottom: 1px dashed var(--border-light);
+    padding-bottom: 0.3em;
+    margin-bottom: 0.8em; /* More space */
+    font-size: 1.1em;
+}
+
+.stack-display-area {
+    flex-grow: 1;
+    background-color: var(--primary-bg); /* Darker inner area */
+    padding: 10px 8px;
+    border: 1px solid var(--border-light);
+    border-radius: 6px; /* Rounded inner area */
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    overflow-y: auto;
+    min-height: 250px;
+}
+
+.stack-item { 
+    background-color: var(--accent-blue-darker); /* Updated color */
+    color: var(--primary-text); /* Ensure good contrast */
+    padding: 8px 12px; 
+    margin-top: 5px; /* Slightly more margin */
+    border-radius: 6px; /* Rounded stack items */
+    width: 90%;
+    text-align: center;
+    font-weight: 500;
+    box-shadow: 0 1px 3px var(--shadow-soft);
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.stack-item.stack-top {
+    background: var(--button-primary-hover-bg); 
+    color: var(--primary-text); /* Dark text for yellow bg */
+    transform: scale(1.05);
+    font-weight: bold;
+}
+
+.stack-item.empty {
+    background-color: var(--transparent);
+    color: var(--text-muted);
+    font-style: italic;
+    box-shadow: none;
+    border: 1px dashed var(--border-medium); /* Use medium border for better visibility */
+}
+
+#pda-current-config-display {
+    margin-top: 15px;
+    padding: 12px 15px;
+    background-color: var(--secondary-bg); /* Match other info boxes */
+    border: 1px solid var(--border-light);
+    border-radius: 6px;
+    font-family: 'Google Sans', Arial, sans-serif; /* Keep monospace for config */
+    color: var(--accent-yellow); /* Consistent color for dynamic info */
+    min-height: 1.8em;
+    text-align: center;
+    font-size: 0.95em;
+}
+
+/* PDA Node Styling */
+#pda-visualization-svg .pda-node {
+    stroke-width: 1.5px;
+    cursor: default;
+    transition: fill 0.2s ease-in-out, stroke 0.2s ease-in-out, transform 0.1s ease;
+}
+
+#pda-visualization-svg .pda-node-label {
+    font-family: 'Google Sans', Arial, sans-serif;
+    font-size: 10px;
+    fill: var(--primary-text);
+    text-anchor: middle;
+    dominant-baseline: central;
+    pointer-events: none;
+    user-select: none;
+    font-weight: 500;
+}
+
+#pda-visualization-svg .pda-start-node {
+    fill: var(--pda-start-bg);
+    stroke: var(--pda-start-stroke);
+    stroke-width: 2.5px;
+}
+#pda-visualization-svg .pda-start-node-label {
+    fill: var(--pda-start-text);
+    font-weight: bold;
+}
+
+#pda-visualization-svg .pda-accept-node {
+    fill: var(--pda-accept-bg);
+    stroke: var(--pda-accept-stroke);
+    stroke-width: 2px; 
+}
+#pda-visualization-svg .pda-accept-node-label {
+    fill: var(--pda-accept-text);
+    font-weight: bold;
+}
+
+#pda-visualization-svg .pda-reject-node {
+    fill: var(--pda-reject-bg);
+    stroke: var(--pda-reject-stroke);
+    stroke-width: 2px;
+}
+#pda-visualization-svg .pda-reject-node-label {
+    fill: var(--pda-reject-text);
+    font-weight: bold;
+}
+
+#pda-visualization-svg .pda-processing-node {
+    fill: var(--pda-processing-bg);
+    stroke: var(--pda-processing-stroke);
+}
+#pda-visualization-svg .pda-processing-node-label {
+    fill: var(--primary-text); 
+}
+
+#pda-visualization-svg .pda-node.highlight {
+    fill: var(--pda-highlight-bg) !important;
+    stroke: var(--pda-highlight-stroke) !important;
+    stroke-width: 3px !important;
+    transform: scale(1.05); /* Scale effect for PDA nodes */
+}
+
+#pda-visualization-svg .pda-node.highlight + .pda-node-label,
+#pda-visualization-svg g:has(> .pda-node.highlight) .pda-node-label {
+    fill: var(--pda-highlight-text) !important;
+    font-weight: bold;
+}
+
+/* PDA Transition Paths and Labels */
+#pda-visualization-svg .transition-path {
+    stroke: var(--pda-transition-path-stroke);
+    stroke-width: 1.5px;
+    fill: none;
+}
+
+#pda-visualization-svg .transition-label {
+    font-family: 'Google Sans', Arial, sans-serif;
+    font-size: 9px;
+    fill: var(--pda-transition-path-label);
+    text-anchor: middle;
+    dominant-baseline: central;
+    pointer-events: none;
+    user-select: none;
+}
+
+#pda-visualization-svg #pda-arrowhead {
+    fill: var(--pda-arrowhead-fill);
+}
+
+
+/* --- CFG Specific Styling --- */
+#cfg-rules-display { 
+    font-family: 'Google Sans', Arial, sans-serif; 
+    background-color: var(--primary-bg); /* Darker background */
+    padding: 12px 15px;
+    border: 1px solid var(--border-light);
+    min-height: 100px;
+    max-height: 300px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    color: var(--primary-text); /* Keep accent for rules */
+    border-radius: 6px;
+    margin-top: 5px;
+    line-height: 1.5; /* Improved readability */
+}
+
+#cfg-details-container {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 15px;
+}
+
+.cfg-rules-section, .cfg-derivation-section {
+    flex: 1;
+    background-color: var(--secondary-bg); /* Match other sections */
+    border: 1px solid var(--border-light);
+    padding: 15px;
+    border-radius: 8px; /* Rounded */
+}
+
+.cfg-rules-section h3, .cfg-derivation-section h3 { 
+    margin-top: 0;
+    color: var(--header-accent);
+    border-bottom: 1px dashed var(--border-light);
+    padding-bottom: 0.3em;
+    margin-bottom: 0.8em; /* More space */
+}
+
+.sequence-display-area, .current-string-display { 
+    font-family: 'Google Sans', Arial, sans-serif; /* Monospace for derivations */
+    background-color: var(--primary-bg);
+    padding: 10px 15px;
+    border: 1px solid var(--border-light);
+    min-height: 40px;
+    max-height: 150px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    color: var(--accent-yellow);
+    border-radius: 6px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+#cfg-current-string { 
+    font-weight: bold;
+    font-size: 1.1em;
+    text-align: center;
+    padding: 12px 15px; /* More padding for emphasis */
+}
+
+.derivation-step { 
+    display: block;
+    margin-bottom: 4px; /* Slightly more space */
+    transition: background-color 0.2s ease, color 0.2s ease;
+    padding: 2px 0;
+}
+
+.derivation-step .rule-applied {
+    font-style: italic;
+    color: var(--accent-blue);
+    margin-left: 10px;
+    font-size: 0.9em;
+}
+
+.derivation-step.highlight, #cfg-current-string .highlight {
+    background-color: var(--highlight-bg);
+    color: var(--highlight-text) !important; /* Ensure override */
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-weight: bold;
+}
+
+.status-message-area, .result-display-area { 
+    margin-top: 10px;
+    color: var(--primary-text);
+    font-size: 0.9em;
+}
+#cfg-result-display { 
+    font-weight: bold;
+}
+
+.non-terminal { 
+    color: var(--header-accent); /* Consistent purple for non-terminals */
+    font-style: italic;
+    font-weight: 500;
+}
+.terminal { 
+    color: var(--accent-green); 
+    font-weight: bold;
+}
+
+/* In static/style.css */
+
+
+.view-mode-controls {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid var(--border-light);
+    display: flex; /* Use flexbox for better alignment */
+    align-items: center; /* Vertically align items */
+    gap: 10px; /* Space between the main label and the first radio option */
+}
+
+.view-mode-controls > label:first-of-type { /* Target the "View as:" label */
+    margin-right: 5px; /* Keep some space after "View as:" */
+    font-size: 0.9em;
+    color: var(--primary-text);
+    font-weight: 500; /* Make it slightly bolder */
+}
+
+/* Hide the default radio button */
+.view-mode-controls input[type="radio"] {
+    opacity: 0; /* Make it invisible but still focusable */
+    position: absolute; /* Take it out of layout flow */
+    width: 0;
+    height: 0;
+}
+
+/* Style for the labels associated with radio buttons */
+.view-mode-controls input[type="radio"] + label {
+    position: relative; /* For positioning pseudo-elements */
+    padding-left: 30px; /* Space for the custom radio button */
+    cursor: pointer;
+    font-weight: normal;
+    color: var(--primary-text);
+    font-size: 0.9em;
+    transition: color 0.2s ease-in-out;
+    margin-right: 15px; /* Space between radio options */
+}
+
+/* Create the custom radio button circle */
+.view-mode-controls input[type="radio"] + label::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%); /* Center vertically */
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--border-medium);
+    border-radius: 50%; /* Make it a circle */
+    background-color: var(--primary-bg); /* Match page background */
+    transition: border-color 0.2s ease-in-out, background-color 0.2s ease-in-out;
+}
+
+/* Create the inner dot for the selected state */
+.view-mode-controls input[type="radio"] + label::after {
+    content: '';
+    position: absolute;
+    left: 5px; /* Position inside the ::before circle */
+    top: 50%;
+    transform: translateY(-50%) scale(0); /* Initially hidden and scaled down */
+    width: 10px; /* Smaller dot */
+    height: 10px;
+    border-radius: 50%;
+    background-color: var(--accent-blue); /* Use your accent color */
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); /* Smooth spring-like animation */
+}
+
+/* Style for when the radio button is checked */
+.view-mode-controls input[type="radio"]:checked + label::before {
+    border-color: var(--accent-blue); /* Highlight border */
+}
+
+.view-mode-controls input[type="radio"]:checked + label::after {
+    transform: translateY(-50%) scale(1); /* Show the inner dot */
+}
+
+/* Hover effect */
+.view-mode-controls input[type="radio"]:not(:checked) + label:hover::before {
+    border-color: var(--accent-blue-darker); /* Slightly darker accent on hover */
+}
+.view-mode-controls input[type="radio"] + label:hover {
+    color: var(--accent-blue); /* Change label text color on hover */
+}
+
+/* Focus effect (for accessibility) */
+.view-mode-controls input[type="radio"]:focus + label::before {
+    box-shadow: 0 0 0 3px var(--button-primary-focus-shadow); /* Consistent focus shadow */
+}
+
+/* Optional: Style the label text when checked */
+.view-mode-controls input[type="radio"]:checked + label {
+    color: var(--accent-blue); /* Make label text more prominent when selected */
+    font-weight: 500;
 }

@@ -21,7 +21,7 @@
             "class": "logging.handlers.RotatingFileHandler",
             "level": "DEBUG",
             "formatter": "detailed",
-            "filename": "logs/app.log", 
+            "filename": "backend/logs/app.log", 
             "maxBytes": 100000,
             "backupCount": 10
         }
