@@ -18,10 +18,9 @@ This is the backend service for **[DFA Visualizer](https://nr2s.pythonanywhere.c
 
 ### Installation
 
-1. **Clone the repository:**
+1. **Clone the repository:** (*make sure you are at the root folder when you proceed with the rest of the steps*)
    ```
    git clone https://github.com/NeilR2s/DFA-Visualizer.git
-   cd DFA-Visualizer/backend
    ```
 2. **Install the required packages:**
    ```
@@ -29,13 +28,15 @@ This is the backend service for **[DFA Visualizer](https://nr2s.pythonanywhere.c
    ```
 ## Running the app
 
-1. **Running Locally**
+1. **Run it Locally**
    ```
-   python app.py (python3 app.py on Linux) 
+   python app.py (python3 app.py on Linux)
    ```
-2. **or visit the website**
-  ```
-  https://nr2s.pythonanywhere.com/
-  ```
+   *if you encounter any issues running from the terminal, open your text editor of choice (e.g. VS Code)
+     then run  `app.py` from the text editor. Then, visit localhost:5000 on your browser. If there are issues, you can troubleshoot by viewing the logs at `backend/logs/app.log`* :)
+2. **Visit the Website**
+   ```
+   https://nr2s.pythonanywhere.com/
+   ```
 
    
