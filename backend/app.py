@@ -16,9 +16,7 @@ def logger_setup():
     It first checks for 'backend/logs/config.json' and falls back to
     'logs/config.json' if the first path does not exist.
     """
-    config_file = pathlib.Path('backend/logs/config.json')
-    if not config_file.exists():
-        config_file = pathlib.Path('logs/config.json')
+    config_file = pathlib.Path('logs/config.json')
     with open(config_file) as config_write:
         config = json.load(config_write)
     logging.config.dictConfig(config)

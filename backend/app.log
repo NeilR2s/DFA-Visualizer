@@ -1,0 +1,23 @@
+[INFO | _internal | line 97] 2025-05-19T20:26:07+0800: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5500
+[INFO | _internal | line 97] 2025-05-19T20:26:07+0800: [33mPress CTRL+C to quit[0m
+[INFO | _internal | line 97] 2025-05-19T20:26:07+0800:  * Restarting with stat
+[WARNING | _internal | line 97] 2025-05-19T20:26:07+0800:  * Debugger is active!
+[INFO | _internal | line 97] 2025-05-19T20:26:07+0800:  * Debugger PIN: 928-822-166
+[INFO | _internal | line 97] 2025-05-19T20:26:19+0800: 127.0.0.1 - - [19/May/2025 20:26:19] "GET / HTTP/1.1" 200 -
+[INFO | _internal | line 97] 2025-05-19T20:26:20+0800: 127.0.0.1 - - [19/May/2025 20:26:20] "GET /css.css HTTP/1.1" 200 -
+[INFO | _internal | line 97] 2025-05-19T20:26:20+0800: 127.0.0.1 - - [19/May/2025 20:26:20] "GET /style.css HTTP/1.1" 200 -
+[INFO | _internal | line 97] 2025-05-19T20:26:20+0800: 127.0.0.1 - - [19/May/2025 20:26:20] "GET /script.js HTTP/1.1" 200 -
+[INFO | _internal | line 97] 2025-05-19T20:26:20+0800: 127.0.0.1 - - [19/May/2025 20:26:20] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+[INFO | app | line 132] 2025-05-19T20:26:22+0800: Recieved dfa input type bets_dfa
+[INFO | app | line 133] 2025-05-19T20:26:22+0800: Recieved dfa input type 1110100011100011100011100011100001
+[INFO | app | line 144] 2025-05-19T20:26:22+0800: Response data for bets_dfa: {'input': '1110100011100011100011100011100001', 'final_state': 0, 'accepted': False, 'state_sequence': [0, 'REJECT_STATE_INVALID_SYMBOL'], 'error': 'Simulation Error: Symbol "1" not in alphabet {\'b\', \'a\'}.'}
+[INFO | _internal | line 97] 2025-05-19T20:26:22+0800: 127.0.0.1 - - [19/May/2025 20:26:22] "POST /simulate-dfa HTTP/1.1" 200 -
+[INFO | app | line 132] 2025-05-19T20:26:27+0800: Recieved dfa input type stars_dfa
+[INFO | app | line 133] 2025-05-19T20:26:27+0800: Recieved dfa input type 1110100011100011100011100011100001
+[INFO | app | line 144] 2025-05-19T20:26:27+0800: Response data for stars_dfa: {'input': '1110100011100011100011100011100001', 'final_state': 11, 'accepted': True, 'state_sequence': [0, 2, 5, 6, 7, 8, 9, 12, 9, 8, 12, 17, 20, 18, 15, 16, 12, 17, 20, 18, 15, 16, 12, 17, 20, 18, 15, 16, 12, 17, 20, 18, 15, 14, 11], 'error': None}
+[INFO | _internal | line 97] 2025-05-19T20:26:27+0800: 127.0.0.1 - - [19/May/2025 20:26:27] "POST /simulate-dfa HTTP/1.1" 200 -
+[INFO | app | line 132] 2025-05-19T20:26:52+0800: Recieved dfa input type stars_dfa
+[INFO | app | line 133] 2025-05-19T20:26:52+0800: Recieved dfa input type 1110100011100011100011100011100001
+[INFO | app | line 144] 2025-05-19T20:26:52+0800: Response data for stars_dfa: {'input': '1110100011100011100011100011100001', 'final_state': 11, 'accepted': True, 'state_sequence': [0, 2, 5, 6, 7, 8, 9, 12, 9, 8, 12, 17, 20, 18, 15, 16, 12, 17, 20, 18, 15, 16, 12, 17, 20, 18, 15, 16, 12, 17, 20, 18, 15, 14, 11], 'error': None}
+[INFO | _internal | line 97] 2025-05-19T20:26:52+0800: 127.0.0.1 - - [19/May/2025 20:26:52] "POST /simulate-dfa HTTP/1.1" 200 -

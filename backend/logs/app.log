@@ -1,93 +1,18 @@
-[INFO | _internal | line 97] 2025-05-19T17:34:03+0800: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+[INFO | _internal | line 97] 2025-05-19T20:27:25+0800: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
  * Running on http://127.0.0.1:5500
-[INFO | _internal | line 97] 2025-05-19T17:34:03+0800: [33mPress CTRL+C to quit[0m
-[INFO | _internal | line 97] 2025-05-19T17:34:03+0800:  * Restarting with stat
-[WARNING | _internal | line 97] 2025-05-19T17:34:04+0800:  * Debugger is active!
-[INFO | _internal | line 97] 2025-05-19T17:34:04+0800:  * Debugger PIN: 928-822-166
-[INFO | _internal | line 97] 2025-05-19T17:34:06+0800: 127.0.0.1 - - [19/May/2025 17:34:06] "[36mGET / HTTP/1.1[0m" 304 -
-[INFO | _internal | line 97] 2025-05-19T17:34:06+0800: 127.0.0.1 - - [19/May/2025 17:34:06] "[36mGET /css.css HTTP/1.1[0m" 304 -
-[INFO | _internal | line 97] 2025-05-19T17:34:06+0800: 127.0.0.1 - - [19/May/2025 17:34:06] "[33mGET /style.css HTTP/1.1[0m" 404 -
-[INFO | _internal | line 97] 2025-05-19T17:34:06+0800: 127.0.0.1 - - [19/May/2025 17:34:06] "[36mGET /script.js HTTP/1.1[0m" 304 -
-[INFO | _internal | line 97] 2025-05-19T17:34:12+0800: 127.0.0.1 - - [19/May/2025 17:34:12] "[36mGET / HTTP/1.1[0m" 304 -
-[INFO | _internal | line 97] 2025-05-19T17:34:12+0800: 127.0.0.1 - - [19/May/2025 17:34:12] "[36mGET /css.css HTTP/1.1[0m" 304 -
-[INFO | _internal | line 97] 2025-05-19T17:34:12+0800: 127.0.0.1 - - [19/May/2025 17:34:12] "[33mGET /style.css HTTP/1.1[0m" 404 -
-[INFO | _internal | line 97] 2025-05-19T17:34:12+0800: 127.0.0.1 - - [19/May/2025 17:34:12] "[36mGET /script.js HTTP/1.1[0m" 304 -
-[INFO | _internal | line 97] 2025-05-19T17:34:15+0800:  * Detected change in 'c:\\Users\\Neil\\Documents\\artus\\dlsud\\dfa-website\\backend\\app.py', reloading
-[INFO | _internal | line 97] 2025-05-19T17:34:15+0800:  * Restarting with stat
-[WARNING | _internal | line 97] 2025-05-19T17:34:15+0800:  * Debugger is active!
-[INFO | _internal | line 97] 2025-05-19T17:34:15+0800:  * Debugger PIN: 928-822-166
-[INFO | _internal | line 97] 2025-05-19T17:34:21+0800: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
- * Running on http://127.0.0.1:5500
-[INFO | _internal | line 97] 2025-05-19T17:34:21+0800: [33mPress CTRL+C to quit[0m
-[INFO | _internal | line 97] 2025-05-19T17:34:21+0800:  * Restarting with stat
-[WARNING | _internal | line 97] 2025-05-19T17:34:21+0800:  * Debugger is active!
-[INFO | _internal | line 97] 2025-05-19T17:34:21+0800:  * Debugger PIN: 928-822-166
-[INFO | _internal | line 97] 2025-05-19T17:34:22+0800: 127.0.0.1 - - [19/May/2025 17:34:22] "[36mGET / HTTP/1.1[0m" 304 -
-[INFO | _internal | line 97] 2025-05-19T17:34:22+0800: 127.0.0.1 - - [19/May/2025 17:34:22] "[36mGET /css.css HTTP/1.1[0m" 304 -
-[INFO | _internal | line 97] 2025-05-19T17:34:22+0800: 127.0.0.1 - - [19/May/2025 17:34:22] "[33mGET /style.css HTTP/1.1[0m" 404 -
-[INFO | _internal | line 97] 2025-05-19T17:34:22+0800: 127.0.0.1 - - [19/May/2025 17:34:22] "[36mGET /script.js HTTP/1.1[0m" 304 -
-[INFO | _internal | line 97] 2025-05-19T17:34:35+0800: 127.0.0.1 - - [19/May/2025 17:34:35] "[36mGET / HTTP/1.1[0m" 304 -
-[INFO | _internal | line 97] 2025-05-19T17:34:35+0800: 127.0.0.1 - - [19/May/2025 17:34:35] "[36mGET /css.css HTTP/1.1[0m" 304 -
-[INFO | _internal | line 97] 2025-05-19T17:34:35+0800: 127.0.0.1 - - [19/May/2025 17:34:35] "GET /style.css HTTP/1.1" 200 -
-[INFO | _internal | line 97] 2025-05-19T17:34:35+0800: 127.0.0.1 - - [19/May/2025 17:34:35] "[36mGET /script.js HTTP/1.1[0m" 304 -
-[INFO | _internal | line 97] 2025-05-19T17:34:40+0800:  * Detected change in 'c:\\Users\\Neil\\Documents\\artus\\dlsud\\dfa-website\\backend\\app.py', reloading
-[INFO | _internal | line 97] 2025-05-19T17:34:40+0800:  * Restarting with stat
-[WARNING | _internal | line 97] 2025-05-19T17:34:40+0800:  * Debugger is active!
-[INFO | _internal | line 97] 2025-05-19T17:34:40+0800:  * Debugger PIN: 928-822-166
-[INFO | _internal | line 97] 2025-05-19T17:35:22+0800: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
- * Running on http://127.0.0.1:5500
-[INFO | _internal | line 97] 2025-05-19T17:35:22+0800: [33mPress CTRL+C to quit[0m
-[INFO | _internal | line 97] 2025-05-19T17:35:22+0800:  * Restarting with stat
-[WARNING | _internal | line 97] 2025-05-19T17:35:22+0800:  * Debugger is active!
-[INFO | _internal | line 97] 2025-05-19T17:35:22+0800:  * Debugger PIN: 928-822-166
-[INFO | _internal | line 97] 2025-05-19T17:35:25+0800: 127.0.0.1 - - [19/May/2025 17:35:25] "[36mGET / HTTP/1.1[0m" 304 -
-[INFO | _internal | line 97] 2025-05-19T17:35:25+0800: 127.0.0.1 - - [19/May/2025 17:35:25] "[36mGET /css.css HTTP/1.1[0m" 304 -
-[INFO | _internal | line 97] 2025-05-19T17:35:25+0800: 127.0.0.1 - - [19/May/2025 17:35:25] "[36mGET /style.css HTTP/1.1[0m" 304 -
-[INFO | _internal | line 97] 2025-05-19T17:35:25+0800: 127.0.0.1 - - [19/May/2025 17:35:25] "[36mGET /script.js HTTP/1.1[0m" 304 -
-[INFO | _internal | line 97] 2025-05-19T17:43:39+0800: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
- * Running on http://127.0.0.1:5500
-[INFO | _internal | line 97] 2025-05-19T17:43:39+0800: [33mPress CTRL+C to quit[0m
-[INFO | _internal | line 97] 2025-05-19T17:43:39+0800:  * Restarting with stat
-[WARNING | _internal | line 97] 2025-05-19T17:43:39+0800:  * Debugger is active!
-[INFO | _internal | line 97] 2025-05-19T17:43:39+0800:  * Debugger PIN: 928-822-166
-[INFO | _internal | line 97] 2025-05-19T17:43:42+0800: 127.0.0.1 - - [19/May/2025 17:43:42] "[36mGET / HTTP/1.1[0m" 304 -
-[INFO | _internal | line 97] 2025-05-19T17:43:42+0800: 127.0.0.1 - - [19/May/2025 17:43:42] "[36mGET /css.css HTTP/1.1[0m" 304 -
-[INFO | _internal | line 97] 2025-05-19T17:43:42+0800: 127.0.0.1 - - [19/May/2025 17:43:42] "[36mGET /style.css HTTP/1.1[0m" 304 -
-[INFO | _internal | line 97] 2025-05-19T17:43:42+0800: 127.0.0.1 - - [19/May/2025 17:43:42] "GET /script.js HTTP/1.1" 200 -
-[INFO | app | line 134] 2025-05-19T17:43:48+0800: Recieved dfa input type bets_dfa
-[INFO | app | line 135] 2025-05-19T17:43:48+0800: Recieved dfa input type aabbbaa
-[INFO | app | line 146] 2025-05-19T17:43:48+0800: Response data for bets_dfa: {'input': 'aabbbaa', 'final_state': 12, 'accepted': True, 'state_sequence': [0, 2, 3, 6, 10, 11, 12, 12], 'error': None}
-[INFO | _internal | line 97] 2025-05-19T17:43:48+0800: 127.0.0.1 - - [19/May/2025 17:43:48] "POST /simulate-dfa HTTP/1.1" 200 -
-[INFO | app | line 134] 2025-05-19T17:43:57+0800: Recieved dfa input type bets_dfa
-[INFO | app | line 135] 2025-05-19T17:43:57+0800: Recieved dfa input type aabbbaaba
-[INFO | app | line 146] 2025-05-19T17:43:57+0800: Response data for bets_dfa: {'input': 'aabbbaaba', 'final_state': 12, 'accepted': True, 'state_sequence': [0, 2, 3, 6, 10, 11, 12, 12, 12, 12], 'error': None}
-[INFO | _internal | line 97] 2025-05-19T17:43:57+0800: 127.0.0.1 - - [19/May/2025 17:43:57] "POST /simulate-dfa HTTP/1.1" 200 -
-[INFO | app | line 134] 2025-05-19T17:44:11+0800: Recieved dfa input type bets_dfa
-[INFO | app | line 135] 2025-05-19T17:44:11+0800: Recieved dfa input type aaabaab
-[INFO | app | line 146] 2025-05-19T17:44:11+0800: Response data for bets_dfa: {'input': 'aaabaab', 'final_state': 12, 'accepted': True, 'state_sequence': [0, 2, 3, 5, 9, 11, 12, 12], 'error': None}
-[INFO | _internal | line 97] 2025-05-19T17:44:11+0800: 127.0.0.1 - - [19/May/2025 17:44:11] "POST /simulate-dfa HTTP/1.1" 200 -
-[INFO | app | line 134] 2025-05-19T17:44:15+0800: Recieved dfa input type bets_dfa
-[INFO | app | line 135] 2025-05-19T17:44:15+0800: Recieved dfa input type aaabaabbbbb
-[INFO | app | line 146] 2025-05-19T17:44:15+0800: Response data for bets_dfa: {'input': 'aaabaabbbbb', 'final_state': 12, 'accepted': True, 'state_sequence': [0, 2, 3, 5, 9, 11, 12, 12, 12, 12, 12, 12], 'error': None}
-[INFO | _internal | line 97] 2025-05-19T17:44:15+0800: 127.0.0.1 - - [19/May/2025 17:44:15] "POST /simulate-dfa HTTP/1.1" 200 -
-[INFO | app | line 134] 2025-05-19T17:44:20+0800: Recieved dfa input type bets_dfa
-[INFO | app | line 135] 2025-05-19T17:44:20+0800: Recieved dfa input type aaabaabbbbbaaaaa
-[INFO | app | line 146] 2025-05-19T17:44:20+0800: Response data for bets_dfa: {'input': 'aaabaabbbbbaaaaa', 'final_state': 12, 'accepted': True, 'state_sequence': [0, 2, 3, 5, 9, 11, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12], 'error': None}
-[INFO | _internal | line 97] 2025-05-19T17:44:20+0800: 127.0.0.1 - - [19/May/2025 17:44:20] "POST /simulate-dfa HTTP/1.1" 200 -
-[INFO | app | line 134] 2025-05-19T17:44:26+0800: Recieved dfa input type bets_dfa
-[INFO | app | line 135] 2025-05-19T17:44:26+0800: Recieved dfa input type aaabaabbbbbaaaaaa
-[INFO | app | line 146] 2025-05-19T17:44:26+0800: Response data for bets_dfa: {'input': 'aaabaabbbbbaaaaaa', 'final_state': 12, 'accepted': True, 'state_sequence': [0, 2, 3, 5, 9, 11, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12], 'error': None}
-[INFO | _internal | line 97] 2025-05-19T17:44:26+0800: 127.0.0.1 - - [19/May/2025 17:44:26] "POST /simulate-dfa HTTP/1.1" 200 -
-[INFO | app | line 134] 2025-05-19T17:44:39+0800: Recieved dfa input type stars_dfa
-[INFO | app | line 135] 2025-05-19T17:44:39+0800: Recieved dfa input type 11101000111000111000111000111000011
-[INFO | app | line 146] 2025-05-19T17:44:39+0800: Response data for stars_dfa: {'input': '11101000111000111000111000111000011', 'final_state': 12, 'accepted': False, 'state_sequence': [0, 2, 5, 6, 7, 8, 9, 12, 9, 8, 12, 17, 20, 18, 15, 16, 12, 17, 20, 18, 15, 16, 12, 17, 20, 18, 15, 16, 12, 17, 20, 18, 15, 14, 11, 12], 'error': None}
-[INFO | _internal | line 97] 2025-05-19T17:44:39+0800: 127.0.0.1 - - [19/May/2025 17:44:39] "POST /simulate-dfa HTTP/1.1" 200 -
-[INFO | _internal | line 97] 2025-05-19T17:45:01+0800: 127.0.0.1 - - [19/May/2025 17:45:01] "[36mGET /css.css HTTP/1.1[0m" 304 -
-[INFO | _internal | line 97] 2025-05-19T17:45:01+0800: 127.0.0.1 - - [19/May/2025 17:45:01] "[36mGET /style.css HTTP/1.1[0m" 304 -
-[INFO | _internal | line 97] 2025-05-19T17:45:01+0800: 127.0.0.1 - - [19/May/2025 17:45:01] "[33mGET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1[0m" 404 -
-[INFO | app | line 134] 2025-05-19T17:45:12+0800: Recieved dfa input type stars_dfa
-[INFO | app | line 135] 2025-05-19T17:45:12+0800: Recieved dfa input type 1110100011100011100011100011100001
-[INFO | app | line 146] 2025-05-19T17:45:12+0800: Response data for stars_dfa: {'input': '1110100011100011100011100011100001', 'final_state': 11, 'accepted': True, 'state_sequence': [0, 2, 5, 6, 7, 8, 9, 12, 9, 8, 12, 17, 20, 18, 15, 16, 12, 17, 20, 18, 15, 16, 12, 17, 20, 18, 15, 16, 12, 17, 20, 18, 15, 14, 11], 'error': None}
-[INFO | _internal | line 97] 2025-05-19T17:45:12+0800: 127.0.0.1 - - [19/May/2025 17:45:12] "POST /simulate-dfa HTTP/1.1" 200 -
-[INFO | _internal | line 97] 2025-05-19T17:45:48+0800: 127.0.0.1 - - [19/May/2025 17:45:48] "[33mGET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1[0m" 404 -
-[INFO | _internal | line 97] 2025-05-19T17:46:58+0800: 127.0.0.1 - - [19/May/2025 17:46:58] "[33mGET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1[0m" 404 -
+[INFO | _internal | line 97] 2025-05-19T20:27:25+0800: [33mPress CTRL+C to quit[0m
+[INFO | _internal | line 97] 2025-05-19T20:27:25+0800:  * Restarting with stat
+[WARNING | _internal | line 97] 2025-05-19T20:27:25+0800:  * Debugger is active!
+[INFO | _internal | line 97] 2025-05-19T20:27:25+0800:  * Debugger PIN: 928-822-166
+[INFO | app | line 132] 2025-05-19T20:27:30+0800: Recieved dfa input type stars_dfa
+[INFO | app | line 133] 2025-05-19T20:27:30+0800: Recieved dfa input type 1110100011100011100011100011100001
+[INFO | app | line 144] 2025-05-19T20:27:30+0800: Response data for stars_dfa: {'input': '1110100011100011100011100011100001', 'final_state': 11, 'accepted': True, 'state_sequence': [0, 2, 5, 6, 7, 8, 9, 12, 9, 8, 12, 17, 20, 18, 15, 16, 12, 17, 20, 18, 15, 16, 12, 17, 20, 18, 15, 16, 12, 17, 20, 18, 15, 14, 11], 'error': None}
+[INFO | _internal | line 97] 2025-05-19T20:27:30+0800: 127.0.0.1 - - [19/May/2025 20:27:30] "POST /simulate-dfa HTTP/1.1" 200 -
+    [INFO | _internal | line 97] 2025-05-19T20:27:45+0800: 127.0.0.1 - - [19/May/2025 20:27:45] "[36mGET / HTTP/1.1[0m" 304 -
+[INFO | _internal | line 97] 2025-05-19T20:27:45+0800: 127.0.0.1 - - [19/May/2025 20:27:45] "[36mGET /css.css HTTP/1.1[0m" 304 -
+[INFO | _internal | line 97] 2025-05-19T20:27:45+0800: 127.0.0.1 - - [19/May/2025 20:27:45] "[36mGET /style.css HTTP/1.1[0m" 304 -
+[INFO | _internal | line 97] 2025-05-19T20:27:45+0800: 127.0.0.1 - - [19/May/2025 20:27:45] "[36mGET /script.js HTTP/1.1[0m" 304 -
+[INFO | app | line 132] 2025-05-19T20:27:53+0800: Recieved dfa input type stars_dfa
+[INFO | app | line 133] 2025-05-19T20:27:53+0800: Recieved dfa input type 1110100011100011100011100011100001
+[INFO | app | line 144] 2025-05-19T20:27:53+0800: Response data for stars_dfa: {'input': '1110100011100011100011100011100001', 'final_state': 11, 'accepted': True, 'state_sequence': [0, 2, 5, 6, 7, 8, 9, 12, 9, 8, 12, 17, 20, 18, 15, 16, 12, 17, 20, 18, 15, 16, 12, 17, 20, 18, 15, 16, 12, 17, 20, 18, 15, 14, 11], 'error': None}
+[INFO | _internal | line 97] 2025-05-19T20:27:53+0800: 127.0.0.1 - - [19/May/2025 20:27:53] "POST /simulate-dfa HTTP/1.1" 200 -
