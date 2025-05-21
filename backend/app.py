@@ -112,6 +112,8 @@ def simulate_dfa():
         - 200: Simulation successful.
         - 400: Bad request (e.g., missing parameters, invalid DFA type).
         - 415: Unsupported media type (request not JSON).
+    
+    Exceptions:
         - 500: Internal server error.
     """
     if not request.is_json:
