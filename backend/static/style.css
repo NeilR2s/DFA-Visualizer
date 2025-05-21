@@ -26,9 +26,6 @@
     --accent-purple-dark: #3A2D5A; 
     --accent-purple-light-text: #E1BEE7; 
 
-    --accent-yellow: #FFD54F; 
-    --accent-yellow-dark: #4D4530; 
-
     /* Buttons - Modernized */
     --button-primary-bg: linear-gradient(90deg, var(--accent-gradient-start), var(--accent-gradient-end));
     --button-primary-text: #FFFFFF;
@@ -48,9 +45,9 @@
     --text-muted: #9E9E9E;
 
     /* Highlights */
-    --highlight-bg: var(--accent-yellow);
-    --highlight-border: #FFB300; 
-    --highlight-text: #121212; 
+    --highlight-bg: rgba(7,142,251,0.5);
+    --highlight-border: rgba(172,135,235,0.5); 
+    --highlight-text: #FFFFFF; 
 
     /* Error States */
     --error-text: #FF7675; 
@@ -76,7 +73,7 @@
     --pda-processing-bg: #333333; 
     --pda-processing-stroke: var(--border-medium);
 
-    --pda-highlight-bg: var(--accent-yellow);
+    --pda-highlight-bg: var( --highlight-bg);
     --pda-highlight-stroke: var(--highlight-border);
     --pda-highlight-text: var(--highlight-text);
 
@@ -84,8 +81,20 @@
     --pda-transition-path-stroke: var(--border-medium);
     --pda-transition-path-label: var(--text-muted);
     --pda-arrowhead-fill: var(--pda-transition-path-stroke);
+
     
     --transparent: transparent;
+}
+.circle {
+  height: 24px;
+  width: 24px;
+  border-radius: 24px;
+  background-color: black;
+  position: fixed; 
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 99999999; 
 }
 
 body {
@@ -96,6 +105,7 @@ body {
     color: var(--primary-text);
     -webkit-font-smoothing: antialiased; 
     -moz-osx-font-smoothing: grayscale;
+    cursor: none;
 }
 
 
@@ -104,14 +114,16 @@ h1, h2, h3 {
     color: var(--header-accent);
     font-weight: 500; 
     padding-bottom: 0.2em;
+    cursor: none;
 }
 
 h1 {
     border-bottom: 1px solid var(--border-medium);
     text-align: center;
-    font-size: 2em; 
+    font-size: 2.5em; 
     margin-bottom: 1em;
-    font-weight: 400; 
+    font-weight: 800; 
+    /* color: var(--primary-text); */
 }
 
 h2 {
@@ -144,8 +156,8 @@ h3 {
     background-color: var(--secondary-bg);
     border: 1px solid var(--border-light);
     padding: 20px;
-    border-radius: 8px; /* Modern rounded corners */
-    box-shadow: 0 4px 8px var(--shadow-soft); /* Softer shadow */
+    border-radius: 8px; 
+    box-shadow: 0 4px 8px var(--shadow-soft);
 }
 
 .visualization {
@@ -156,19 +168,19 @@ h3 {
 /* --- Controls Styling --- */
 label {
     display: inline-block;
-    margin-bottom: 8px; /* Increased spacing */
+    margin-bottom: 8px;
     font-weight: 500;
-    color: var(--accent-blue);
+    color: var(--primary-text);
     font-size: 0.9em;
 }
 
 input[type="text"], select {
-    padding: 12px 15px; /* More padding */
+    padding: 12px 15px; 
     margin-bottom: 15px;
     border: 1px solid var(--border-medium);
-    border-radius: 24px; /* Rounded to match buttons */
-    width: calc(100% - 32px); /* Adjusted for padding */
-    background-color: var(--primary-bg); /* Match overall background */
+    border-radius: 24px; 
+    width: calc(100% - 32px); 
+    background-color: var(--primary-bg); 
     color: var(--primary-text);
     font-family: inherit;
     font-size: 0.95em;
@@ -178,12 +190,12 @@ input[type="text"], select {
 
 select {
      width: 100%;
-     cursor: pointer;
-     appearance: none; /* For custom arrow if desired, but needs SVG bg */
+     cursor: none;
+     appearance: none; 
      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23E0E0E0'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
      background-repeat: no-repeat;
      background-position: right 15px center;
-     padding-right: 40px; /* Space for arrow */
+     padding-right: 40px; 
 }
 
 input[type="text"]::placeholder {
@@ -198,11 +210,10 @@ input[type="text"]:focus, select:focus {
 }
 
 /* --- Button Styling (Modernized) --- */
-/* In static/style.css */
 button {
     padding: 12px 24px;
     margin-right: 10px;
-    cursor: pointer;
+    cursor: none;
     border: none;
     border-radius: 24px;
     background: var(--button-primary-bg);
@@ -210,7 +221,6 @@ button {
     font-family: inherit;
     font-weight: 500;
     font-size: 0.95em;
-    /* ADD transition for smoother effect on multiple properties */
     transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -218,13 +228,13 @@ button {
 }
 
 button:hover {
-    background: var(--button-primary-hover-bg); /* Already transitions if background variable changes value smoothly or is a different gradient */
-    transform: translateY(-3px) scale(1.03); /* Enhanced: slightly more lift and a gentle scale */
-    box-shadow: 0 6px 12px rgba(0,0,0,0.35); /* Enhanced: more prominent shadow */
+    background: var(--button-primary-hover-bg);
+    transform: translateY(-3px) scale(1.03); 
+    box-shadow: 0 6px 12px rgba(0,0,0,0.35);
 }
 
 button:active {
-    transform: translateY(0px) scale(1); /* Reset scale and lift on active */
+    transform: translateY(0px) scale(1); 
     box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
@@ -236,6 +246,10 @@ button:disabled {
     opacity: 0.6;
     transform: none;
     box-shadow: none;
+}
+
+#input-string{
+    background-color: var(--primary-bg);
 }
 
 #reset-button {
@@ -251,31 +265,31 @@ button:disabled {
     background: var(--button-secondary-hover-bg);
     border-color: var(--accent-blue);
     color: var(--primary-text);
-    transform: translateY(-3px) scale(1.03); /* Enhanced */
-    box-shadow: 0 4px 8px rgba(255,255,255,0.15); /* Enhanced */
+    transform: translateY(-3px) scale(1.03); 
+    box-shadow: 0 4px 8px rgba(255,255,255,0.15); 
 }
 #reset-button:active {
     transform: translateY(0px);
     box-shadow: none;
 }
 #reset-button:disabled {
-     background: var(--button-secondary-disabled-bg);
-     color: var(--button-secondary-disabled-text);
-     border-color: var(--button-disabled-bg);
-     box-shadow: none;
+    background: var(--button-secondary-disabled-bg);
+    color: var(--button-secondary-disabled-text);
+    border-color: var(--button-disabled-bg);
+    box-shadow: none;
 }
 
 /* --- Results & Status Styling --- */
 #status-message {
-    color: var(--accent-blue);
+    color: var(--primary-text);
     min-height: 1.6em;
     font-style: italic;
     font-size: 0.9em;
 }
 
 #result-display {
-    font-weight: bold;
-    font-size: 1.1em;
+    font-weight: 400;
+    font-size: 1em;
     color: var(--primary-text);
 }
 
@@ -322,10 +336,10 @@ button:disabled {
     color: var(--error-text);
     font-weight: bold;
     background-color: var(--error-bg-soft);
-    padding: 10px 15px; /* More padding */
+    padding: 10px 15px; 
     border-radius: 6px;
     margin-top: 10px;
-    border-left: 4px solid var(--error-text); /* Accent border */
+    border-left: 4px solid var(--error-text); 
 }
 
 .hidden {
@@ -342,26 +356,37 @@ button:disabled {
     display: none;
 }
 
-/* --- SVG Styles --- */
+
 /* DFA Visualization */
-#dfa-visualization, #pda-visualization-svg { /* Apply to both SVGs */
+#dfa-visualization, #pda-visualization-svg { 
     border: 1px solid var(--border-light);
-    background-color: var(--primary-bg); /* Darker bg for SVGs too */
+    background-color: var(--primary-bg); 
     display: block;
     margin: auto;
-    border-radius: 8px; /* Rounded corners for SVG container */
+    border-radius: 8px;
 }
 
 #dfa-visualization {
-    max-width: 700px;
-    min-height: 500px; 
+    max-width: 850px;
+    min-height: 525px; 
 }
 
-#pda-visualization-svg {
-    max-width: 700px; /* Maintain consistency */
-    min-height: 400px;
+
+/* MODIFY DFA SCALE HEREEE */
+
+#dfa-visualization .state-circle.highlight-style {
+    fill: var(--highlight-bg);
+    stroke: var(--highlight-border);
+    stroke-width: 3px; 
+    stroke-dasharray: none;
+    transform: scale(1.3);
 }
 
+#dfa-visualization .state-label.highlight-style {
+    fill: var(--highlight-text);
+    font-weight: bold;
+    transform: scale(1.3);
+}
 
 .state-circle {
     stroke: var(--border-medium);
@@ -397,18 +422,10 @@ button:disabled {
     stroke-width: 2px;
 }
 
-.state-circle.highlight {
-    fill: var(--highlight-bg);
-    stroke: var(--highlight-border);
-    stroke-width: 3px;
-    stroke-dasharray: none;
-    transform: scale(1.1); /* Slight scale on highlight */
-}
-
 .state-label {
     font-family: 'Google Sans', Arial, sans-serif;
     font-size: 10px;
-    font-weight: 500; /* Use medium weight for labels */
+    font-weight: 500; 
     fill: var(--primary-text);
     text-anchor: middle;
     dominant-baseline: central;
@@ -425,8 +442,8 @@ button:disabled {
 }
 
 .transition-path { 
-    stroke: var(--border-dark); /* Kept original, but this is var(--border-dark) */
-    stroke: var(--border-medium); /* Overriding with new medium border for better visibility */
+    stroke: var(--border-dark); 
+    stroke: var(--border-medium); 
     stroke-width: 1.5px;
     fill: none;
 }
@@ -439,32 +456,49 @@ button:disabled {
     dominant-baseline: central;
     pointer-events: none;
     user-select: none;
-    /* Removed stroke for cleaner look, relying on fill contrast */
+
 }
 
 #arrowhead { 
-    fill: var(--border-medium); /* Use new medium border for arrowheads */
+    fill: var(--border-medium); 
 }
 
 
 /* PDA Visualization Specifics */
 .pda-layout-container {
     display: flex;
-    gap: 20px;
+    gap: 10px;
     align-items: flex-start;
+}
+#pda-visualization-svg {
+
+    flex-grow: 2.5;  
+    flex-shrink: 1;  
+    flex-basis: 0;    
+    max-width: 1000px;
+    width: auto;     
+    min-height: 630px;
+    border: 1px solid var(--border-light);
+    background-color: var(--primary-bg);
+    display: block;   
+    border-radius: 8px;
 }
 
 #pda-stack-visualization {
-    flex: 1;
-    background-color: var(--secondary-bg); /* Match controls/results bg */
+
+    flex-grow: 1;   
+    flex-shrink: 1;
+    flex-basis: 0;
+    max-width: 800px; 
+    min-height: 600px;
+    background-color: var(--secondary-bg);
     border: 1px solid var(--border-light);
-    padding: 15px; /* Increased padding */
-    border-radius: 8px; /* Rounded */
-    min-width: 180px;
-    max-height: 400px;
+    padding: 15px;
+    border-radius: 8px;
     display: flex;
     flex-direction: column;
 }
+
 
 #pda-stack-visualization h3 {
     margin-top: 0;
@@ -472,16 +506,16 @@ button:disabled {
     text-align: center;
     border-bottom: 1px dashed var(--border-light);
     padding-bottom: 0.3em;
-    margin-bottom: 0.8em; /* More space */
+    margin-bottom: 0.8em; 
     font-size: 1.1em;
 }
 
 .stack-display-area {
     flex-grow: 1;
-    background-color: var(--primary-bg); /* Darker inner area */
+    background-color: var(--primary-bg); 
     padding: 10px 8px;
     border: 1px solid var(--border-light);
-    border-radius: 6px; /* Rounded inner area */
+    border-radius: 6px; 
     display: flex;
     flex-direction: column-reverse;
     align-items: center;
@@ -490,11 +524,11 @@ button:disabled {
 }
 
 .stack-item { 
-    background-color: var(--accent-blue-darker); /* Updated color */
-    color: var(--primary-text); /* Ensure good contrast */
+    background: var(--button-primary-hover-bg); 
+    color: var(--primary-text); 
     padding: 8px 12px; 
-    margin-top: 5px; /* Slightly more margin */
-    border-radius: 6px; /* Rounded stack items */
+    margin-top: 5px; 
+    border-radius: 6px; 
     width: 90%;
     text-align: center;
     font-weight: 500;
@@ -503,8 +537,8 @@ button:disabled {
 }
 
 .stack-item.stack-top {
-    background: var(--button-primary-hover-bg); 
-    color: var(--primary-text); /* Dark text for yellow bg */
+    background: var(--button-primary-bg); 
+    color: var(--primary-text); 
     transform: scale(1.05);
     font-weight: bold;
 }
@@ -514,17 +548,16 @@ button:disabled {
     color: var(--text-muted);
     font-style: italic;
     box-shadow: none;
-    border: 1px dashed var(--border-medium); /* Use medium border for better visibility */
+    border: 1px dashed var(--border-medium);
 }
 
 #pda-current-config-display {
     margin-top: 15px;
     padding: 12px 15px;
-    background-color: var(--secondary-bg); /* Match other info boxes */
+    background-color: var(--secondary-bg); 
     border: 1px solid var(--border-light);
     border-radius: 6px;
-    font-family: 'Google Sans', Arial, sans-serif; /* Keep monospace for config */
-    color: var(--accent-yellow); /* Consistent color for dynamic info */
+    font-family: 'Google Sans', Arial, sans-serif; 
     min-height: 1.8em;
     text-align: center;
     font-size: 0.95em;
@@ -590,7 +623,7 @@ button:disabled {
     fill: var(--pda-highlight-bg) !important;
     stroke: var(--pda-highlight-stroke) !important;
     stroke-width: 3px !important;
-    transform: scale(1.05); /* Scale effect for PDA nodes */
+    
 }
 
 #pda-visualization-svg .pda-node.highlight + .pda-node-label,
@@ -646,10 +679,10 @@ button:disabled {
 
 .cfg-rules-section, .cfg-derivation-section {
     flex: 1;
-    background-color: var(--secondary-bg); /* Match other sections */
+    background-color: var(--secondary-bg); 
     border: 1px solid var(--border-light);
     padding: 15px;
-    border-radius: 8px; /* Rounded */
+    border-radius: 8px; 
 }
 
 .cfg-rules-section h3, .cfg-derivation-section h3 { 
@@ -720,7 +753,7 @@ button:disabled {
     font-weight: 500;
 }
 .terminal { 
-    color: var(--accent-green); 
+    color: var(--primary-text); 
     font-weight: bold;
 }
 
@@ -731,31 +764,31 @@ button:disabled {
     margin-top: 20px;
     padding-top: 15px;
     border-top: 1px solid var(--border-light);
-    display: flex; /* Use flexbox for better alignment */
-    align-items: center; /* Vertically align items */
-    gap: 10px; /* Space between the main label and the first radio option */
+    display: flex; 
+    align-items: center; 
+    gap: 10px; 
 }
 
-.view-mode-controls > label:first-of-type { /* Target the "View as:" label */
-    margin-right: 5px; /* Keep some space after "View as:" */
+.view-mode-controls > label:first-of-type { 
+    margin-right: 5px; 
     font-size: 0.9em;
     color: var(--primary-text);
-    font-weight: 500; /* Make it slightly bolder */
+    font-weight: 500; 
 }
 
 /* Hide the default radio button */
 .view-mode-controls input[type="radio"] {
-    opacity: 0; /* Make it invisible but still focusable */
-    position: absolute; /* Take it out of layout flow */
+    opacity: 0; 
+    position: absolute; 
     width: 0;
     height: 0;
 }
 
 /* Style for the labels associated with radio buttons */
 .view-mode-controls input[type="radio"] + label {
-    position: relative; /* For positioning pseudo-elements */
-    padding-left: 30px; /* Space for the custom radio button */
-    cursor: pointer;
+    position: relative; 
+    padding-left: 30px; 
+    cursor: none;
     font-weight: normal;
     color: var(--primary-text);
     font-size: 0.9em;
@@ -769,12 +802,12 @@ button:disabled {
     position: absolute;
     left: 0;
     top: 50%;
-    transform: translateY(-50%); /* Center vertically */
+    transform: translateY(-50%); 
     width: 18px;
     height: 18px;
     border: 2px solid var(--border-medium);
-    border-radius: 50%; /* Make it a circle */
-    background-color: var(--primary-bg); /* Match page background */
+    border-radius: 50%; 
+    background-color: var(--primary-bg); 
     transition: border-color 0.2s ease-in-out, background-color 0.2s ease-in-out;
 }
 
@@ -782,40 +815,40 @@ button:disabled {
 .view-mode-controls input[type="radio"] + label::after {
     content: '';
     position: absolute;
-    left: 5px; /* Position inside the ::before circle */
+    left: 5px; 
     top: 50%;
-    transform: translateY(-50%) scale(0); /* Initially hidden and scaled down */
+    transform: translateY(-50%) scale(0); 
     width: 10px; /* Smaller dot */
     height: 10px;
     border-radius: 50%;
-    background-color: var(--accent-blue); /* Use your accent color */
+    background-color: var(--accent-blue); 
     transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); /* Smooth spring-like animation */
 }
 
 /* Style for when the radio button is checked */
 .view-mode-controls input[type="radio"]:checked + label::before {
-    border-color: var(--accent-blue); /* Highlight border */
+    border-color: var(--accent-blue); 
 }
 
 .view-mode-controls input[type="radio"]:checked + label::after {
-    transform: translateY(-50%) scale(1); /* Show the inner dot */
+    transform: translateY(-50%) scale(1); 
 }
 
 /* Hover effect */
 .view-mode-controls input[type="radio"]:not(:checked) + label:hover::before {
-    border-color: var(--accent-blue-darker); /* Slightly darker accent on hover */
+    border-color: var(--accent-blue-darker); 
 }
 .view-mode-controls input[type="radio"] + label:hover {
-    color: var(--accent-blue); /* Change label text color on hover */
+    color: var(--accent-blue); 
 }
 
 /* Focus effect (for accessibility) */
 .view-mode-controls input[type="radio"]:focus + label::before {
-    box-shadow: 0 0 0 3px var(--button-primary-focus-shadow); /* Consistent focus shadow */
+    box-shadow: 0 0 0 3px var(--button-primary-focus-shadow); 
 }
 
 /* Optional: Style the label text when checked */
 .view-mode-controls input[type="radio"]:checked + label {
-    color: var(--accent-blue); /* Make label text more prominent when selected */
+    color: var(--accent-blue);
     font-weight: 500;
 }

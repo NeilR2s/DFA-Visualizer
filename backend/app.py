@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from dfa_logic import DFA as LocalDFA
 import pathlib
 import logging.config
@@ -10,13 +11,15 @@ logger = logging.getLogger('app')
 app = Flask(__name__, static_folder='static', static_url_path='')
 
 def logger_setup():
-    """Sets up the logger configuration.
+    """Sets up the logger configuration for LOCAL testing.
 
     Reads logger configuration from a JSON file and applies it.
     It first checks for 'backend/logs/config.json' and falls back to
     'logs/config.json' if the first path does not exist.
+
+    Do not call this function in PRODUCTION, we have our own logger.
     """
-    config_file = pathlib.Path('logs/config.json')
+    config_file = pathlib.Path('backend/logs/config.json')
     with open(config_file) as config_write:
         config = json.load(config_write)
     logging.config.dictConfig(config)
@@ -62,7 +65,7 @@ stars_alphabet = {'0','1'}
 stars_transitions = {
     0:{'0': 1, '1':2}, 1:{'0': 5, '1':3}, 2:{'0': 5, '1':5}, 3:{'0': 6, '1':4},
     4:{'0': 4, '1':4}, 5:{'0': 4, '1':6}, 6:{'0': 7, '1':7}, 7:{'0': 9, '1':8},
-    8:{'0': 9, '1':12}, 9:{'0': 12, '1':8}, 10:{'0': 10, '1':11}, 11:{'0': 22, '1':12},
+    8:{'0': 9, '1':12}, 9:{'0': 13, '1':8}, 10:{'0': 10, '1':11}, 11:{'0': 22, '1':12},
     12:{'0': 9, '1':17}, 13:{'0': 15, '1':8}, 14:{'0': 10, '1':11}, 15:{'0': 14, '1':16},
     16:{'0': 22, '1':12}, 17:{'0': 20, '1':19}, 18:{'0': 15, '1':8}, 19:{'0': 23, '1':19},
     20:{'0': 18, '1':21}, 21:{'0': 9, '1':12}, 22:{'0': 13, '1':8}, 23:{'0': 18, '1':21},
@@ -90,7 +93,7 @@ except Exception as e:
 def index():
     """Serves the main HTML page.
 
-    Returns:
+    Returns:    
         The static 'index.html' file.
     """
     return app.send_static_file('index.html')
@@ -149,5 +152,5 @@ def simulate_dfa():
 
 
 if __name__ == '__main__':
-    logger_setup()
-    app.run(debug=True, port=5500)
+    # logger_setup()
+    app.run(host='0.0.0.0', port=8000)

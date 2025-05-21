@@ -1,5 +1,6 @@
 '''
 Kindly follow the Google format for docstrings on this module.
+This module can also serve as a standalone CLI app for manual testing.
 Reference: S.P Eugene Xavier, "Theory of Automata, Formal Languages, and Computation"
 '''
 
@@ -91,8 +92,6 @@ class DFA:
         state_sequence.append(current_state)
         error_message = None
         is_accepted = False
-
-        # unsure if this covers all cases and edge cases, need more testing 
 
         for symbol in input_string:
 
@@ -204,7 +203,7 @@ if __name__ == '__main__':
         6:{'0': 7, '1':7},
         7:{'0': 9, '1':8},
         8:{'0': 9, '1':12},
-        9:{'0': 12, '1':8},
+        9:{'0': 13, '1':8},
         10:{'0': 10, '1':11},
         11:{'0': 22, '1':12},
         12:{'0': 9, '1':17},

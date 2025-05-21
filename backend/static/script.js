@@ -26,13 +26,14 @@ const cfgStatusMessage = document.getElementById('cfg-status-message');
 const cfgResultDisplay = document.getElementById('cfg-result-display');
 const viewModeRadios = document.querySelectorAll('input[name="view-mode"]');
 
-const BACKEND_URL = 'http://localhost:5500';
+// const BACKEND_URL = 'https://mediseen.site';
+const BACKEND_URL = 'http://127.0.0.1:8000';
 const SVG_NS = "http://www.w3.org/2000/svg";
 
-const dfaAnimationDelay = 275;
+const dfaAnimationDelay = 350;
 const CFG_ANIMATION_DELAY = 250;
-const PDA_ANIMATION_DELAY = 500;
-const traceCfgMaxSteps = 100;
+const PDA_ANIMATION_DELAY = 700;
+const traceCfgMaxSteps = 150;
 const STATE_RADIUS = 15;
 const PDA_NODE_WIDTH = 60;
 const PDA_NODE_HEIGHT = 30;
@@ -43,16 +44,25 @@ let currentPdaStack = [];
 let currentPdaInput = [];
 let currentPdaPath = [];
 
+
+// resize factors for eazy layout :)
+
+const bets_dfa_cx = 1.15
+const bets_dfa_cy =  1.125
+
+const stars_dfa_cx = 1.35
+const stars_dfa_cy = 1.1
+
 const dfaLayouts = {
     bets_dfa: {
         states: [
-            { id: 0, cx: 50, cy: 200, isStart: true }, { id: 1, cx: 150, cy: 100 },
-            { id: 2, cx: 150, cy: 300 }, { id: 3, cx: 250, cy: 100 },
-            { id: 4, cx: 250, cy: 300 }, { id: 5, cx: 350, cy: 50 },
-            { id: 6, cx: 350, cy: 150 }, { id: 7, cx: 350, cy: 350, isTrap: true },
-            { id: 8, cx: 450, cy: 50, isTrap: true },  { id: 9, cx: 450, cy: 150 },
-            { id: 10, cx: 450, cy: 250 }, { id: 11, cx: 550, cy: 200 },
-            { id: 12, cx: 550, cy: 300, isFinal: true },
+            { id: 0, cx: 50 * bets_dfa_cx, cy: 200 * bets_dfa_cy, isStart: true }, { id: 1, cx: 150 * bets_dfa_cx, cy: 100 * bets_dfa_cy },
+            { id: 2, cx: 150 * bets_dfa_cx, cy: 300 * bets_dfa_cy }, { id: 3, cx: 250 * bets_dfa_cx, cy: 100 * bets_dfa_cy },
+            { id: 4, cx: 250 * bets_dfa_cx, cy: 300 * bets_dfa_cy }, { id: 5, cx: 350 * bets_dfa_cx, cy: 50 * bets_dfa_cy },
+            { id: 6, cx: 350 * bets_dfa_cx, cy: 150 * bets_dfa_cy }, { id: 7, cx: 350 * bets_dfa_cx, cy: 350 * bets_dfa_cy, isTrap: true },
+            { id: 8, cx: 450 * bets_dfa_cx, cy: 50 * bets_dfa_cy, isTrap: true },  { id: 9, cx: 450 * bets_dfa_cx, cy: 150 * bets_dfa_cy },
+            { id: 10, cx: 450 * bets_dfa_cx, cy: 250 * bets_dfa_cy }, { id: 11, cx: 550 * bets_dfa_cx, cy: 200 * bets_dfa_cy },
+            { id: 12, cx: 550 * bets_dfa_cx, cy: 300 * bets_dfa_cy, isFinal: true },
         ],
         transitions: [
             { from: 0, to: 1, label: 'b' }, { from: 0, to: 2, label: 'a' },
@@ -69,21 +79,30 @@ const dfaLayouts = {
     },
     stars_dfa: {
         states: [
-             { id: 0, cx: 50,  cy: 50, isStart: true }, { id: 1, cx: 150, cy: 50 },
-             { id: 2, cx: 250, cy: 50 }, { id: 3, cx: 350, cy: 50 },
-             { id: 10, cx: 450, cy: 50, isFinal: true },
-             { id: 5, cx: 100, cy: 125 }, { id: 6, cx: 200, cy: 125 },
-             { id: 7, cx: 300, cy: 125 }, { id: 8, cx: 400, cy: 125 },
-             { id: 11, cx: 500, cy: 125, isFinal: true },
-             { id: 9,  cx: 50,  cy: 200 }, { id: 12, cx: 150, cy: 200 },
-             { id: 13, cx: 250, cy: 200 }, { id: 14, cx: 350, cy: 200 },
-             { id: 18, cx: 450, cy: 200, isFinal: true },
-             { id: 15, cx: 100, cy: 275 }, { id: 16, cx: 200, cy: 275 },
-             { id: 17, cx: 300, cy: 275 }, { id: 19, cx: 400, cy: 275 },
-             { id: 21, cx: 500, cy: 275, isFinal: true },
-             { id: 20, cx: 50,  cy: 350 }, { id: 4,  cx: 150, cy: 350, isTrap: true },
-             { id: 22, cx: 250, cy: 350, isFinal: true },
-             { id: 23, cx: 350, cy: 350, isFinal: true },
+             { id: 0, cx: 50 * stars_dfa_cx,  cy: 50 * stars_dfa_cy, isStart: true }, 
+             { id: 1, cx: 150 * stars_dfa_cx, cy: 50 * stars_dfa_cy }, 
+             { id: 2, cx: 250 * stars_dfa_cx, cy: 50 * stars_dfa_cy }, 
+             { id: 3, cx: 350 * stars_dfa_cx, cy: 50 * stars_dfa_cy }, 
+             { id: 10, cx: 450 * stars_dfa_cx, cy: 50 * stars_dfa_cy, isFinal: true },
+             { id: 5, cx: 100 * stars_dfa_cx, cy: 125 * stars_dfa_cy }, 
+             { id: 6, cx: 200 * stars_dfa_cx, cy: 125 * stars_dfa_cy }, 
+             { id: 7, cx: 300 * stars_dfa_cx, cy: 125 * stars_dfa_cy },
+             { id: 8, cx: 400 * stars_dfa_cx, cy: 125 * stars_dfa_cy },
+             { id: 11, cx: 500 * stars_dfa_cx, cy: 125 * stars_dfa_cy, isFinal: true },
+             { id: 9,  cx: 50 * stars_dfa_cx,  cy: 200 * stars_dfa_cy }, 
+             { id: 12, cx: 150 * stars_dfa_cx, cy: 200 * stars_dfa_cy }, 
+             { id: 13, cx: 250 * stars_dfa_cx, cy: 200 * stars_dfa_cy }, 
+             { id: 14, cx: 350 * stars_dfa_cx, cy: 200 * stars_dfa_cy },
+             { id: 18, cx: 450 * stars_dfa_cx, cy: 200 * stars_dfa_cy, isFinal: true }, 
+             { id: 15, cx: 100 * stars_dfa_cx, cy: 275 * stars_dfa_cy }, 
+             { id: 16, cx: 200 * stars_dfa_cx, cy: 275 * stars_dfa_cy }, 
+             { id: 17, cx: 300 * stars_dfa_cx, cy: 275 * stars_dfa_cy }, 
+             { id: 19, cx: 400 * stars_dfa_cx, cy: 275 * stars_dfa_cy }, 
+             { id: 21, cx: 500 * stars_dfa_cx, cy: 275 * stars_dfa_cy, isFinal: true }, 
+             { id: 20, cx: 50 * stars_dfa_cx,  cy: 350 * stars_dfa_cy }, 
+             { id: 4,  cx: 150 * stars_dfa_cx, cy: 350 * stars_dfa_cy, isTrap: true }, 
+             { id: 22, cx: 250 * stars_dfa_cx, cy: 350 * stars_dfa_cy, isFinal: true },
+             { id: 23, cx: 350 * stars_dfa_cx, cy: 350 * stars_dfa_cy, isFinal: true },
         ],
         transitions: [
             { from: 0, to: 1, label: '0' }, { from: 0, to: 2, label: '1' },
@@ -93,7 +112,7 @@ const dfaLayouts = {
             { from: 5, to: 4, label: '0' }, { from: 5, to: 6, label: '1' },
             { from: 6, to: 7, label: '0,1' }, { from: 7, to: 9, label: '0' },
             { from: 7, to: 8, label: '1' },   { from: 8, to: 9, label: '0' },
-            { from: 8, to: 12, label: '1' },  { from: 9, to: 12, label: '0' },
+            { from: 8, to: 12, label: '1' },  { from: 9, to: 13, label: '0' },
             { from: 9, to: 8, label: '1' },   { from: 10, to: 10, label: '0' },
             { from: 10, to: 11, label: '1' }, { from: 11, to: 22, label: '0' },
             { from: 11, to: 12, label: '1' }, { from: 12, to: 9, label: '0' },
@@ -150,7 +169,7 @@ const cfgRepresentations = {
             { from: 'Q6', to: ['0', 'Q7'] }, { from: 'Q6', to: ['1', 'Q7'] },
             { from: 'Q7', to: ['0', 'Q9'] }, { from: 'Q7', to: ['1', 'Q8'] },
             { from: 'Q8', to: ['0', 'Q9'] }, { from: 'Q8', to: ['1', 'Q12'] },
-            { from: 'Q9', to: ['0', 'Q12'] }, { from: 'Q9', to: ['1', 'Q8'] },
+            { from: 'Q9', to: ['0', 'Q13'] }, { from: 'Q9', to: ['1', 'Q8'] },
             { from: 'Q10', to: ['0', 'Q10'] }, { from: 'Q10', to: ['1', 'Q11'] },
             { from: 'Q11', to: ['0', 'Q22'] }, { from: 'Q11', to: ['1', 'Q12'] },
             { from: 'Q12', to: ['0', 'Q9'] }, { from: 'Q12', to: ['1', 'Q17'] },
@@ -217,10 +236,11 @@ viewModeRadios.forEach(radio => {
  * error messages, and loading indicators. It also re-enables controls
  * and updates the active visualization.
  */
+
 function mainHandleReset() {
     inputString.value = '';
     statusMessage.textContent = 'Select an automaton and view mode. For DFA, enter a string and simulate.';
-    resultDisplay.textContent = '-';
+    resultDisplay.textContent = '';
     sequenceDisplay.innerHTML = '';
     errorMessage.textContent = '';
     errorMessage.classList.add('hidden');
@@ -537,7 +557,7 @@ function displayPDA(dfaIdentifier) {
 
 /**
  * Draws the DFA visualization in the SVG container.
- * It renders states as circles and transitions as paths with arrowheads.
+ * States are circles, transitions are paths. States and their labels are grouped.
  *
  * @param {string} dfaType - The type of DFA to draw (e.g., 'bets_dfa', 'stars_dfa').
  */
@@ -549,27 +569,30 @@ function drawDFAVisualization(dfaType) {
         return;
     }
 
-    svgDfaVisualization.innerHTML = '';
+    svgDfaVisualization.innerHTML = ''; // Clear previous drawing
 
+    // Define arrowhead marker
     const defs = document.createElementNS(SVG_NS, 'defs');
     const marker = document.createElementNS(SVG_NS, 'marker');
     marker.setAttribute('id', 'arrowhead');
     marker.setAttribute('viewBox', '0 -5 10 10');
-    marker.setAttribute('refX', 8);
+    marker.setAttribute('refX', 8); // Adjusted for circle radius offset
     marker.setAttribute('refY', 0);
     marker.setAttribute('orient', 'auto');
     marker.setAttribute('markerWidth', 4);
     marker.setAttribute('markerHeight', 4);
     const poly = document.createElementNS(SVG_NS, 'polyline');
     poly.setAttribute('points', '0,-5 10,0 0,5');
-    poly.setAttribute('fill', '#5f7e97');
+    poly.setAttribute('fill', '#5f7e97'); // Consistent with path stroke
     marker.appendChild(poly);
     defs.appendChild(marker);
     svgDfaVisualization.appendChild(defs);
 
+    // Create a map of state coordinates for easy lookup
     const stateCoords = {};
     layout.states.forEach(s => { stateCoords[s.id] = { cx: s.cx, cy: s.cy }; });
 
+    // Draw transitions first (so they are layered below states)
     layout.transitions.forEach(t => {
         const fromStatePos = stateCoords[t.from];
         const toStatePos = stateCoords[t.to];
@@ -585,17 +608,20 @@ function drawDFAVisualization(dfaType) {
         let pathD, labelX, labelY;
         const angle = Math.atan2(toStatePos.cy - fromStatePos.cy, toStatePos.cx - fromStatePos.cx);
 
-        if (t.from === t.to) {
+        if (t.from === t.to) { // Self-loop
             const loopRadius = 18;
+            // Position loop slightly above the state
             const loopCenterX = fromStatePos.cx;
-            const loopCenterY = fromStatePos.cy - STATE_RADIUS - loopRadius + 5;
+            const loopCenterY = fromStatePos.cy - STATE_RADIUS - loopRadius + 5; // Adjusted to be clear of state
 
+            // Path for a C-shaped loop starting and ending near the top of the state circle
             pathD = `M ${fromStatePos.cx - loopRadius * 0.5}, ${fromStatePos.cy - STATE_RADIUS + 3}
-                       A ${loopRadius},${loopRadius} 0 1,1 ${fromStatePos.cx + loopRadius * 0.5}, ${fromStatePos.cy - STATE_RADIUS +3}`;
+                       A ${loopRadius},${loopRadius} 0 1,1 ${fromStatePos.cx + loopRadius * 0.5}, ${fromStatePos.cy - STATE_RADIUS + 3}`;
 
             labelX = loopCenterX;
-            labelY = loopCenterY - loopRadius - 5;
-        } else {
+            labelY = loopCenterY - loopRadius - 5; // Label above the loop
+        } else { // Transition between different states
+            // Adjust start/end points to touch the edge of the state circles
             const startX = fromStatePos.cx + STATE_RADIUS * Math.cos(angle);
             const startY = fromStatePos.cy + STATE_RADIUS * Math.sin(angle);
             const endX = toStatePos.cx - STATE_RADIUS * Math.cos(angle);
@@ -603,25 +629,28 @@ function drawDFAVisualization(dfaType) {
 
             pathD = `M ${startX},${startY} L ${endX},${endY}`;
 
+            // Check for reverse path to curve paths if they overlap
             const hasReverse = layout.transitions.some(rev => rev.from === t.to && rev.to === t.from);
-            if (hasReverse && t.from < t.to) {
-                const controlOffsetY = 30;
+            if (hasReverse && t.from < t.to) { // Only apply curve for one direction to avoid double curving
+                const controlOffsetY = 30; // How much to curve
                 const midX = (startX + endX) / 2;
                 const midY = (startY + endY) / 2;
-                const controlX = midX - controlOffsetY * Math.sin(angle);
+                const controlX = midX - controlOffsetY * Math.sin(angle); // Perpendicular offset
                 const controlY = midY + controlOffsetY * Math.cos(angle);
                 pathD = `M ${startX},${startY} Q ${controlX},${controlY} ${endX},${endY}`;
-                labelX = controlX;
+                labelX = controlX; // Position label near control point
                 labelY = controlY - 5;
             } else {
+                // Position label slightly offset from the midpoint of the line
                 const labelOffset = 10;
-                labelX = (startX + endX) / 2 + labelOffset * Math.sin(angle + Math.PI / 2);
+                labelX = (startX + endX) / 2 + labelOffset * Math.sin(angle + Math.PI / 2); // Offset perpendicular to path
                 labelY = (startY + endY) / 2 - labelOffset * Math.cos(angle + Math.PI / 2);
             }
         }
         path.setAttribute('d', pathD);
         svgDfaVisualization.appendChild(path);
 
+        // Add transition label
         const transitionLabel = document.createElementNS(SVG_NS, 'text');
         transitionLabel.setAttribute('x', labelX);
         transitionLabel.setAttribute('y', labelY);
@@ -630,28 +659,36 @@ function drawDFAVisualization(dfaType) {
         svgDfaVisualization.appendChild(transitionLabel);
     });
 
+    // Draw states (groups of circle and label)
     layout.states.forEach(state => {
+        const group = document.createElementNS(SVG_NS, 'g');
+        group.setAttribute('id', `dfa-group-${state.id}`);
+        const originalTransformValue = `translate(${state.cx}, ${state.cy})`;
+        group.setAttribute('transform', originalTransformValue);
+        group.dataset.originalTransform = originalTransformValue; // Store for resetting highlight
+
         const circle = document.createElementNS(SVG_NS, 'circle');
-        circle.setAttribute('id', `state-${state.id}`);
-        circle.setAttribute('cx', state.cx);
-        circle.setAttribute('cy', state.cy);
+        circle.setAttribute('cx', 0);
+        circle.setAttribute('cy', 0); 
         circle.setAttribute('r', STATE_RADIUS);
         circle.classList.add('state-circle');
         if (state.isStart) circle.classList.add('start-state');
         if (state.isFinal) circle.classList.add('final-state');
         if (state.isTrap) circle.classList.add('trap-state');
-        svgDfaVisualization.appendChild(circle);
+        group.appendChild(circle);
 
         const stateLabel = document.createElementNS(SVG_NS, 'text');
-        stateLabel.setAttribute('x', state.cx);
-        stateLabel.setAttribute('y', state.cy);
+        stateLabel.setAttribute('x', 0);
+        stateLabel.setAttribute('y', 0); 
         stateLabel.classList.add('state-label');
         if (state.isFinal) stateLabel.classList.add('final-state-label');
         if (state.isTrap) stateLabel.classList.add('trap-state-label');
         stateLabel.textContent = `q${state.id}`;
-        svgDfaVisualization.appendChild(stateLabel);
+        group.appendChild(stateLabel);
+
+        svgDfaVisualization.appendChild(group);
     });
-    console.log("DFA Visualization Updated:", dfaType);
+    console.log("DFA Visualization Updated (with groups):", dfaType);
 }
 
 /**
@@ -959,6 +996,7 @@ function updatePdaStackDisplay(stackArray) {
 /**
  * Highlights a specific state in an SVG visualization (DFA or PDA).
  * Removes highlighting from any previously highlighted state.
+ * Applies scaling transforms to the group element for proper visual effect.
  *
  * @param {string|number|null} stateId - The ID of the state to highlight.
  * If null or undefined, clears current highlighting.
@@ -972,21 +1010,82 @@ function highlightStateSVG(stateId, svgElementId = 'dfa-visualization') {
         return;
     }
 
-    const currentHighlighted = svgElement.querySelector('.state-circle.highlight, .pda-node.highlight');
-    if (currentHighlighted) {
-        currentHighlighted.classList.remove('highlight');
-    }
+    if (svgElementId === 'dfa-visualization') {
+        // Clear previous DFA transform and style
+        const currentTransformedGroupDFA = svgElement.querySelector('g.dfa-group-transformed');
+        if (currentTransformedGroupDFA) {
+            const originalTransform = currentTransformedGroupDFA.dataset.originalTransform || '';
+            currentTransformedGroupDFA.setAttribute('transform', originalTransform);
+            currentTransformedGroupDFA.classList.remove('dfa-group-transformed');
+            const circle = currentTransformedGroupDFA.querySelector('.state-circle');
+            if (circle) circle.classList.remove('highlight-style');
+            const label = currentTransformedGroupDFA.querySelector('.state-label');
+            if (label) label.classList.remove('highlight-style');
+        }
 
-    if (stateId !== null && stateId !== undefined &&
-        (typeof stateId === 'number' || (typeof stateId === 'string' && !stateId.startsWith('REJECT_STATE')))) {
-        const idPrefix = svgElementId === 'pda-visualization-svg' ? 'pda-state-' : 'state-';
-        const elementId = `${idPrefix}${stateId}`;
-        const stateElement = svgElement.querySelector(`#${elementId}`);
+        if (stateId !== null && typeof stateId === 'number' && !isNaN(stateId)) {
+            const groupElement = svgElement.querySelector(`#dfa-group-${stateId}`);
+            if (groupElement) {
+                if (!groupElement.dataset.originalTransform) { // Ensure original transform is stored
+                    groupElement.dataset.originalTransform = groupElement.getAttribute('transform') || '';
+                }
+                const baseTransform = groupElement.dataset.originalTransform;
+                // Apply scale on top of the base translation
+                groupElement.setAttribute('transform', `${baseTransform} scale(1.1)`);
+                groupElement.classList.add('dfa-group-transformed');
 
-        if (stateElement) {
-            stateElement.classList.add('highlight');
-        } else {
-            console.warn(`SVG element for state ID '${elementId}' not found in '${svgElementId}'.`)
+                const circle = groupElement.querySelector('.state-circle');
+                if (circle) circle.classList.add('highlight-style');
+                const label = groupElement.querySelector('.state-label');
+                if (label) label.classList.add('highlight-style');
+            } else {
+                // console.warn(`DFA group element for state ID 'dfa-group-${stateId}' not found.`);
+            }
+        }
+    } else if (svgElementId === 'pda-visualization-svg') {
+        // Clear previous PDA transform
+        const currentTransformedGroupPDA = svgElement.querySelector('g.pda-group-transformed');
+        if (currentTransformedGroupPDA) {
+            currentTransformedGroupPDA.removeAttribute('transform'); 
+            currentTransformedGroupPDA.classList.remove('pda-group-transformed');
+        }
+        // Clear previous PDA style (highlight class from the node itself)
+        const currentStyledNodePDA = svgElement.querySelector('.pda-node.highlight');
+        if (currentStyledNodePDA) {
+            currentStyledNodePDA.classList.remove('highlight');
+        }
+
+        if (stateId !== null && (typeof stateId === 'number' || (typeof stateId === 'string' && !stateId.startsWith('REJECT_STATE')))) {
+            const groupElement = svgElement.querySelector(`#pda-group-${stateId}`);
+            if (groupElement) {
+                const nodeElement = groupElement.querySelector('.pda-node');
+                if (nodeElement) {
+                    let centerX, centerY;
+                    //PDA nodes are drawn with their main point at (cx,cy) for ellipses/circles, or x,y for rects, *within* the group.
+                    //The group itself is not translated by default in drawPDAVisualization.
+                    //So, to scale around the node's drawn center *within the group's coordinate system*:
+                    if (nodeElement.tagName.toLowerCase() === 'ellipse' || nodeElement.tagName.toLowerCase() === 'circle') {
+                        centerX = parseFloat(nodeElement.getAttribute('cx'));
+                        centerY = parseFloat(nodeElement.getAttribute('cy'));
+                    } else if (nodeElement.tagName.toLowerCase() === 'rect') {
+                        centerX = parseFloat(nodeElement.getAttribute('x')) + parseFloat(nodeElement.getAttribute('width')) / 2;
+                        centerY = parseFloat(nodeElement.getAttribute('y')) + parseFloat(nodeElement.getAttribute('height')) / 2;
+                    } else { // Fallback for other shapes, though not expected here
+                        const bbox = nodeElement.getBBox(); // getBBox is relative to current element's coordinate system
+                        centerX = bbox.x + bbox.width / 2;
+                        centerY = bbox.y + bbox.height / 2;
+                    }
+                    
+                    // Apply scaling transform around this calculated center
+                    groupElement.setAttribute('transform', `translate(${centerX}, ${centerY}) scale(1.05) translate(${-centerX}, ${-centerY})`);
+                    groupElement.classList.add('pda-group-transformed');
+                    
+                    // Add .highlight class to the node for fill/stroke styling via CSS
+                    nodeElement.classList.add('highlight');
+                }
+            } else {
+                 // console.warn(`PDA group element for state ID 'pda-group-${stateId}' not found.`);
+            }
         }
     }
 }
@@ -1433,5 +1532,45 @@ function canDeriveEpsilon(cfg, variable, visited = new Set()) {
     }
     return false;
 }
+const circles = document.querySelectorAll(".circle");
+const colors = [
 
+  "linear-gradient(90deg, #067DD9, #9A76D0)"
+];
+const coords = { x: 0, y: 0 };
+circles.forEach(function (circle, index) {
+  circle.x = 0;
+  circle.y = 0;
+  circle.style.background = colors[index % colors.length];
+});
+
+window.addEventListener("mousemove", function(e){
+  coords.x = e.clientX;
+  coords.y = e.clientY;
+  
+});
+
+function animateCircles() {
+  
+  let x = coords.x;
+  let y = coords.y;
+  
+  circles.forEach(function (circle, index) {
+    circle.style.left = x - 12 + "px";
+    circle.style.top = y - 12 + "px";
+    
+    circle.style.scale = (circles.length - index) / circles.length;
+    
+    circle.x = x;
+    circle.y = y;
+
+    const nextCircle = circles[index + 1] || circles[0];
+    x += (nextCircle.x - x) * 0.3;
+    y += (nextCircle.y - y) * 0.3;
+  });
+ 
+  requestAnimationFrame(animateCircles);
+}
+
+animateCircles();
 mainHandleReset();

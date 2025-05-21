@@ -1,18 +1,113 @@
-[INFO | _internal | line 97] 2025-05-19T20:27:25+0800: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
- * Running on http://127.0.0.1:5500
-[INFO | _internal | line 97] 2025-05-19T20:27:25+0800: [33mPress CTRL+C to quit[0m
-[INFO | _internal | line 97] 2025-05-19T20:27:25+0800:  * Restarting with stat
-[WARNING | _internal | line 97] 2025-05-19T20:27:25+0800:  * Debugger is active!
-[INFO | _internal | line 97] 2025-05-19T20:27:25+0800:  * Debugger PIN: 928-822-166
-[INFO | app | line 132] 2025-05-19T20:27:30+0800: Recieved dfa input type stars_dfa
-[INFO | app | line 133] 2025-05-19T20:27:30+0800: Recieved dfa input type 1110100011100011100011100011100001
-[INFO | app | line 144] 2025-05-19T20:27:30+0800: Response data for stars_dfa: {'input': '1110100011100011100011100011100001', 'final_state': 11, 'accepted': True, 'state_sequence': [0, 2, 5, 6, 7, 8, 9, 12, 9, 8, 12, 17, 20, 18, 15, 16, 12, 17, 20, 18, 15, 16, 12, 17, 20, 18, 15, 16, 12, 17, 20, 18, 15, 14, 11], 'error': None}
-[INFO | _internal | line 97] 2025-05-19T20:27:30+0800: 127.0.0.1 - - [19/May/2025 20:27:30] "POST /simulate-dfa HTTP/1.1" 200 -
-    [INFO | _internal | line 97] 2025-05-19T20:27:45+0800: 127.0.0.1 - - [19/May/2025 20:27:45] "[36mGET / HTTP/1.1[0m" 304 -
-[INFO | _internal | line 97] 2025-05-19T20:27:45+0800: 127.0.0.1 - - [19/May/2025 20:27:45] "[36mGET /css.css HTTP/1.1[0m" 304 -
-[INFO | _internal | line 97] 2025-05-19T20:27:45+0800: 127.0.0.1 - - [19/May/2025 20:27:45] "[36mGET /style.css HTTP/1.1[0m" 304 -
-[INFO | _internal | line 97] 2025-05-19T20:27:45+0800: 127.0.0.1 - - [19/May/2025 20:27:45] "[36mGET /script.js HTTP/1.1[0m" 304 -
-[INFO | app | line 132] 2025-05-19T20:27:53+0800: Recieved dfa input type stars_dfa
-[INFO | app | line 133] 2025-05-19T20:27:53+0800: Recieved dfa input type 1110100011100011100011100011100001
-[INFO | app | line 144] 2025-05-19T20:27:53+0800: Response data for stars_dfa: {'input': '1110100011100011100011100011100001', 'final_state': 11, 'accepted': True, 'state_sequence': [0, 2, 5, 6, 7, 8, 9, 12, 9, 8, 12, 17, 20, 18, 15, 16, 12, 17, 20, 18, 15, 16, 12, 17, 20, 18, 15, 16, 12, 17, 20, 18, 15, 14, 11], 'error': None}
-[INFO | _internal | line 97] 2025-05-19T20:27:53+0800: 127.0.0.1 - - [19/May/2025 20:27:53] "POST /simulate-dfa HTTP/1.1" 200 -
+[INFO | _internal | line 97] 2025-05-19T22:57:35+0800: 127.0.0.1 - - [19/May/2025 22:57:35] "[33mGET /wp-admin/setup-config.php HTTP/1.0[0m" 404 -
+[INFO | _internal | line 97] 2025-05-19T22:57:40+0800: 127.0.0.1 - - [19/May/2025 22:57:40] "[33mGET /wordpress/wp-admin/setup-config.php HTTP/1.0[0m" 404 -
+[INFO | _internal | line 97] 2025-05-19T22:57:50+0800: 127.0.0.1 - - [19/May/2025 22:57:50] "GET / HTTP/1.1" 200 -
+[INFO | _internal | line 97] 2025-05-19T22:57:50+0800: 127.0.0.1 - - [19/May/2025 22:57:50] "GET /css.css HTTP/1.1" 200 -
+[INFO | _internal | line 97] 2025-05-19T22:57:50+0800: 127.0.0.1 - - [19/May/2025 22:57:50] "GET /style.css HTTP/1.1" 200 -
+[INFO | _internal | line 97] 2025-05-19T22:57:50+0800: 127.0.0.1 - - [19/May/2025 22:57:50] "GET /script.js HTTP/1.1" 200 -
+[INFO | _internal | line 97] 2025-05-19T22:57:50+0800: 127.0.0.1 - - [19/May/2025 22:57:50] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+[INFO | _internal | line 97] 2025-05-19T23:01:14+0800: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:8000
+[INFO | _internal | line 97] 2025-05-19T23:01:14+0800: [33mPress CTRL+C to quit[0m
+[INFO | _internal | line 97] 2025-05-19T23:01:14+0800:  * Restarting with stat
+[WARNING | _internal | line 97] 2025-05-19T23:01:14+0800:  * Debugger is active!
+[INFO | _internal | line 97] 2025-05-19T23:01:14+0800:  * Debugger PIN: 928-822-166
+[INFO | _internal | line 97] 2025-05-19T23:01:21+0800: 127.0.0.1 - - [19/May/2025 23:01:21] "GET / HTTP/1.0" 200 -
+[INFO | _internal | line 97] 2025-05-19T23:01:37+0800: 127.0.0.1 - - [19/May/2025 23:01:37] "[33mGET /wordpress/wp-admin/setup-config.php HTTP/1.0[0m" 404 -
+[INFO | _internal | line 97] 2025-05-19T23:01:39+0800: 127.0.0.1 - - [19/May/2025 23:01:39] "GET / HTTP/1.0" 200 -
+[INFO | _internal | line 97] 2025-05-19T23:01:40+0800: 127.0.0.1 - - [19/May/2025 23:01:40] "GET /script.js HTTP/1.0" 200 -
+[INFO | _internal | line 97] 2025-05-19T23:01:40+0800: 127.0.0.1 - - [19/May/2025 23:01:40] "GET /css.css HTTP/1.0" 200 -
+[INFO | _internal | line 97] 2025-05-19T23:01:40+0800: 127.0.0.1 - - [19/May/2025 23:01:40] "GET /style.css HTTP/1.0" 200 -
+[INFO | _internal | line 97] 2025-05-19T23:01:41+0800: 127.0.0.1 - - [19/May/2025 23:01:41] "[33mGET /favicon.ico HTTP/1.0[0m" 404 -
+[INFO | _internal | line 97] 2025-05-19T23:02:36+0800: 127.0.0.1 - - [19/May/2025 23:02:36] "[36mGET / HTTP/1.0[0m" 304 -
+[INFO | _internal | line 97] 2025-05-19T23:02:38+0800: 127.0.0.1 - - [19/May/2025 23:02:38] "[36mGET / HTTP/1.0[0m" 304 -
+[INFO | _internal | line 97] 2025-05-19T23:06:49+0800: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.242:8000
+[INFO | _internal | line 97] 2025-05-19T23:06:49+0800: [33mPress CTRL+C to quit[0m
+[INFO | _internal | line 97] 2025-05-19T23:07:01+0800: 127.0.0.1 - - [19/May/2025 23:07:01] "[36mGET / HTTP/1.0[0m" 304 -
+[INFO | _internal | line 97] 2025-05-19T23:07:43+0800: 127.0.0.1 - - [19/May/2025 23:07:43] "[33mGET /robots.txt HTTP/1.0[0m" 404 -
+[INFO | _internal | line 97] 2025-05-19T23:07:44+0800: 127.0.0.1 - - [19/May/2025 23:07:44] "[33mGET /api/api/v1/openapi.json HTTP/1.0[0m" 404 -
+[INFO | _internal | line 97] 2025-05-19T23:08:22+0800: 127.0.0.1 - - [19/May/2025 23:08:22] "[33mGET /wp-admin/setup-config.php HTTP/1.1[0m" 404 -
+[INFO | _internal | line 97] 2025-05-19T23:08:22+0800: 127.0.0.1 - - [19/May/2025 23:08:22] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+[INFO | _internal | line 97] 2025-05-19T23:10:25+0800: 127.0.0.1 - - [19/May/2025 23:10:25] "GET / HTTP/1.0" 200 -
+[INFO | _internal | line 97] 2025-05-19T23:12:36+0800: 127.0.0.1 - - [19/May/2025 23:12:36] "[36mGET / HTTP/1.0[0m" 304 -
+[INFO | _internal | line 97] 2025-05-19T23:12:41+0800: 127.0.0.1 - - [19/May/2025 23:12:41] "[36mGET / HTTP/1.0[0m" 304 -
+[INFO | _internal | line 97] 2025-05-19T23:12:44+0800: 127.0.0.1 - - [19/May/2025 23:12:44] "[36mGET / HTTP/1.0[0m" 304 -
+[INFO | _internal | line 97] 2025-05-19T23:13:10+0800: 127.0.0.1 - - [19/May/2025 23:13:10] "[36mGET / HTTP/1.0[0m" 304 -
+[INFO | _internal | line 97] 2025-05-19T23:15:31+0800: 127.0.0.1 - - [19/May/2025 23:15:31] "[36mGET / HTTP/1.0[0m" 304 -
+[INFO | _internal | line 97] 2025-05-19T23:16:03+0800: 127.0.0.1 - - [19/May/2025 23:16:03] "[33mGET /wp-admin/setup-config.php HTTP/1.0[0m" 404 -
+[INFO | _internal | line 97] 2025-05-19T23:16:32+0800: 127.0.0.1 - - [19/May/2025 23:16:32] "[33mGET /wp-admin/setup-config.php HTTP/1.0[0m" 404 -
+[INFO | _internal | line 97] 2025-05-19T23:16:36+0800: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.242:8000
+[INFO | _internal | line 97] 2025-05-19T23:16:36+0800: [33mPress CTRL+C to quit[0m
+[INFO | _internal | line 97] 2025-05-19T23:16:41+0800: 127.0.0.1 - - [19/May/2025 23:16:41] "[36mGET / HTTP/1.0[0m" 304 -
+[INFO | _internal | line 97] 2025-05-19T23:16:59+0800: 127.0.0.1 - - [19/May/2025 23:16:59] "[36mGET / HTTP/1.0[0m" 304 -
+[INFO | _internal | line 97] 2025-05-19T23:16:59+0800: 127.0.0.1 - - [19/May/2025 23:16:59] "[33mGET /wordpress/wp-admin/setup-config.php HTTP/1.0[0m" 404 -
+[INFO | _internal | line 97] 2025-05-19T23:17:00+0800: 127.0.0.1 - - [19/May/2025 23:17:00] "[33mGET /wordpress/wp-admin/setup-config.php HTTP/1.0[0m" 404 -
+[INFO | _internal | line 97] 2025-05-19T23:18:50+0800: 127.0.0.1 - - [19/May/2025 23:18:50] "[36mGET / HTTP/1.0[0m" 304 -
+[INFO | _internal | line 97] 2025-05-19T23:19:39+0800: 127.0.0.1 - - [19/May/2025 23:19:39] "GET / HTTP/1.0" 200 -
+[INFO | _internal | line 97] 2025-05-19T23:19:39+0800: 127.0.0.1 - - [19/May/2025 23:19:39] "GET /style.css HTTP/1.0" 200 -
+[INFO | _internal | line 97] 2025-05-19T23:19:39+0800: 127.0.0.1 - - [19/May/2025 23:19:39] "GET /css.css HTTP/1.0" 200 -
+[INFO | _internal | line 97] 2025-05-19T23:19:39+0800: 127.0.0.1 - - [19/May/2025 23:19:39] "GET /script.js HTTP/1.0" 200 -
+[INFO | _internal | line 97] 2025-05-19T23:20:29+0800: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.242:8000
+[INFO | _internal | line 97] 2025-05-19T23:20:29+0800: [33mPress CTRL+C to quit[0m
+[INFO | _internal | line 97] 2025-05-19T23:20:31+0800: 127.0.0.1 - - [19/May/2025 23:20:31] "GET / HTTP/1.0" 200 -
+[INFO | _internal | line 97] 2025-05-19T23:21:17+0800: 127.0.0.1 - - [19/May/2025 23:21:17] "[36mGET / HTTP/1.0[0m" 304 -
+[INFO | _internal | line 97] 2025-05-19T23:21:34+0800: 127.0.0.1 - - [19/May/2025 23:21:34] "GET / HTTP/1.0" 200 -
+[INFO | _internal | line 97] 2025-05-19T23:21:35+0800: 127.0.0.1 - - [19/May/2025 23:21:35] "GET /css.css HTTP/1.0" 200 -
+[INFO | _internal | line 97] 2025-05-19T23:21:35+0800: 127.0.0.1 - - [19/May/2025 23:21:35] "GET /style.css HTTP/1.0" 200 -
+[INFO | _internal | line 97] 2025-05-19T23:21:35+0800: 127.0.0.1 - - [19/May/2025 23:21:35] "GET /script.js HTTP/1.0" 200 -
+[INFO | _internal | line 97] 2025-05-19T23:21:37+0800: 127.0.0.1 - - [19/May/2025 23:21:37] "[33mGET /favicon.ico HTTP/1.0[0m" 404 -
+[INFO | app | line 134] 2025-05-19T23:21:38+0800: Recieved dfa input type bets_dfa
+[INFO | app | line 135] 2025-05-19T23:21:38+0800: Recieved dfa input type 1110100011100011100011100011100001
+[INFO | app | line 146] 2025-05-19T23:21:38+0800: Response data for bets_dfa: {'input': '1110100011100011100011100011100001', 'final_state': 0, 'accepted': False, 'state_sequence': [0, 'REJECT_STATE_INVALID_SYMBOL'], 'error': 'Simulation Error: Symbol "1" not in alphabet {\'b\', \'a\'}.'}
+[INFO | _internal | line 97] 2025-05-19T23:21:38+0800: 127.0.0.1 - - [19/May/2025 23:21:38] "POST /simulate-dfa HTTP/1.0" 200 -
+[INFO | app | line 134] 2025-05-19T23:21:45+0800: Recieved dfa input type bets_dfa
+[INFO | app | line 135] 2025-05-19T23:21:45+0800: Recieved dfa input type aabbbaa
+[INFO | app | line 146] 2025-05-19T23:21:45+0800: Response data for bets_dfa: {'input': 'aabbbaa', 'final_state': 12, 'accepted': True, 'state_sequence': [0, 2, 3, 6, 10, 11, 12, 12], 'error': None}
+[INFO | _internal | line 97] 2025-05-19T23:21:45+0800: 127.0.0.1 - - [19/May/2025 23:21:45] "POST /simulate-dfa HTTP/1.0" 200 -
+[INFO | _internal | line 97] 2025-05-19T23:21:50+0800: 127.0.0.1 - - [19/May/2025 23:21:50] "[36mGET / HTTP/1.0[0m" 304 -
+[INFO | _internal | line 97] 2025-05-19T23:21:59+0800: 127.0.0.1 - - [19/May/2025 23:21:59] "[36mGET / HTTP/1.0[0m" 304 -
+[INFO | _internal | line 97] 2025-05-19T23:22:02+0800: 127.0.0.1 - - [19/May/2025 23:22:02] "[36mGET / HTTP/1.0[0m" 304 -
+[INFO | _internal | line 97] 2025-05-19T23:23:33+0800: 127.0.0.1 - - [19/May/2025 23:23:33] "GET / HTTP/1.0" 200 -
+[INFO | _internal | line 97] 2025-05-19T23:23:33+0800: 127.0.0.1 - - [19/May/2025 23:23:33] "GET /style.css HTTP/1.0" 200 -
+[INFO | _internal | line 97] 2025-05-19T23:23:33+0800: 127.0.0.1 - - [19/May/2025 23:23:33] "GET /script.js HTTP/1.0" 200 -
+[INFO | _internal | line 97] 2025-05-19T23:23:34+0800: 127.0.0.1 - - [19/May/2025 23:23:34] "GET /css.css HTTP/1.0" 200 -
+[INFO | app | line 134] 2025-05-19T23:23:49+0800: Recieved dfa input type bets_dfa
+[INFO | app | line 135] 2025-05-19T23:23:49+0800: Recieved dfa input type aabbbaa
+[INFO | app | line 146] 2025-05-19T23:23:49+0800: Response data for bets_dfa: {'input': 'aabbbaa', 'final_state': 12, 'accepted': True, 'state_sequence': [0, 2, 3, 6, 10, 11, 12, 12], 'error': None}
+[INFO | _internal | line 97] 2025-05-19T23:23:49+0800: 127.0.0.1 - - [19/May/2025 23:23:49] "POST /simulate-dfa HTTP/1.0" 200 -
+[INFO | _internal | line 97] 2025-05-19T23:23:53+0800: 127.0.0.1 - - [19/May/2025 23:23:53] "[36mGET / HTTP/1.0[0m" 304 -
+[INFO | _internal | line 97] 2025-05-19T23:34:10+0800: 127.0.0.1 - - [19/May/2025 23:34:10] "[33mGET /wordpress/wp-admin/setup-config.php HTTP/1.0[0m" 404 -
+[INFO | _internal | line 97] 2025-05-19T23:34:58+0800: 127.0.0.1 - - [19/May/2025 23:34:58] "[33mGET /wp-admin/setup-config.php HTTP/1.0[0m" 404 -
+[INFO | _internal | line 97] 2025-05-19T23:36:10+0800: 127.0.0.1 - - [19/May/2025 23:36:10] "[33mGET /wp-admin/setup-config.php HTTP/1.0[0m" 404 -
+[INFO | _internal | line 97] 2025-05-19T23:36:36+0800: 127.0.0.1 - - [19/May/2025 23:36:36] "[33mGET /favicon.ico HTTP/1.0[0m" 404 -
+[INFO | _internal | line 97] 2025-05-19T23:36:53+0800: 127.0.0.1 - - [19/May/2025 23:36:53] "[33mGET /wordpress/wp-admin/setup-config.php HTTP/1.0[0m" 404 -
+[INFO | _internal | line 97] 2025-05-19T23:49:30+0800: 127.0.0.1 - - [19/May/2025 23:49:30] "[33mGET /wordpress/wp-admin/setup-config.php HTTP/1.0[0m" 404 -
+[INFO | _internal | line 97] 2025-05-19T23:50:25+0800: 127.0.0.1 - - [19/May/2025 23:50:25] "[33mGET /wp-admin/setup-config.php HTTP/1.0[0m" 404 -
+[INFO | _internal | line 97] 2025-05-19T23:50:40+0800: 127.0.0.1 - - [19/May/2025 23:50:40] "[33mGET /wp-admin/setup-config.php HTTP/1.0[0m" 404 -
+[INFO | _internal | line 97] 2025-05-19T23:51:09+0800: 127.0.0.1 - - [19/May/2025 23:51:09] "[33mGET /robots.txt HTTP/1.0[0m" 404 -
+[INFO | _internal | line 97] 2025-05-19T23:51:09+0800: 127.0.0.1 - - [19/May/2025 23:51:09] "GET / HTTP/1.0" 200 -
+[INFO | _internal | line 97] 2025-05-19T23:51:10+0800: 127.0.0.1 - - [19/May/2025 23:51:10] "GET / HTTP/1.0" 200 -
+[INFO | _internal | line 97] 2025-05-19T23:51:13+0800: 127.0.0.1 - - [19/May/2025 23:51:13] "GET /style.css HTTP/1.0" 200 -
+[INFO | _internal | line 97] 2025-05-19T23:51:14+0800: 127.0.0.1 - - [19/May/2025 23:51:14] "GET /script.js HTTP/1.0" 200 -
+[INFO | _internal | line 97] 2025-05-19T23:51:15+0800: 127.0.0.1 - - [19/May/2025 23:51:15] "[36mGET /script.js HTTP/1.0[0m" 304 -
+[INFO | _internal | line 97] 2025-05-19T23:51:16+0800: 127.0.0.1 - - [19/May/2025 23:51:16] "GET /css.css HTTP/1.0" 200 -
+[INFO | _internal | line 97] 2025-05-19T23:51:17+0800: 127.0.0.1 - - [19/May/2025 23:51:17] "[36mGET /style.css HTTP/1.0[0m" 304 -
+[INFO | _internal | line 97] 2025-05-19T23:51:18+0800: 127.0.0.1 - - [19/May/2025 23:51:18] "[33mGET /favicon.ico HTTP/1.0[0m" 404 -
+[INFO | _internal | line 97] 2025-05-19T23:51:30+0800: 127.0.0.1 - - [19/May/2025 23:51:30] "[33mGET /wordpress/wp-admin/setup-config.php HTTP/1.0[0m" 404 -
+[INFO | _internal | line 97] 2025-05-19T23:57:12+0800: 127.0.0.1 - - [19/May/2025 23:57:12] "GET / HTTP/1.0" 200 -
+[INFO | _internal | line 97] 2025-05-20T00:06:07+0800: 127.0.0.1 - - [20/May/2025 00:06:07] "[33mGET /wordpress/wp-admin/setup-config.php HTTP/1.0[0m" 404 -
+[INFO | _internal | line 97] 2025-05-20T00:06:42+0800: 127.0.0.1 - - [20/May/2025 00:06:42] "GET / HTTP/1.0" 200 -
+[INFO | _internal | line 97] 2025-05-20T00:07:48+0800: 127.0.0.1 - - [20/May/2025 00:07:48] "[33mGET /wp-admin/setup-config.php HTTP/1.0[0m" 404 -
+[INFO | _internal | line 97] 2025-05-20T00:08:03+0800: 127.0.0.1 - - [20/May/2025 00:08:03] "[33mGET /wordpress/wp-admin/setup-config.php HTTP/1.0[0m" 404 -
+[INFO | _internal | line 97] 2025-05-20T00:09:59+0800: 127.0.0.1 - - [20/May/2025 00:09:59] "[33mGET /wp-admin/setup-config.php HTTP/1.0[0m" 404 -
+[INFO | _internal | line 97] 2025-05-20T00:25:20+0800: 127.0.0.1 - - [20/May/2025 00:25:20] "[33mGET /wp-admin/setup-config.php HTTP/1.0[0m" 404 -
+[INFO | _internal | line 97] 2025-05-20T00:26:18+0800: 127.0.0.1 - - [20/May/2025 00:26:18] "[33mGET /wordpress/wp-admin/setup-config.php HTTP/1.0[0m" 404 -
+[INFO | _internal | line 97] 2025-05-20T00:26:37+0800: 127.0.0.1 - - [20/May/2025 00:26:37] "[33mGET /wordpress/wp-admin/setup-config.php HTTP/1.0[0m" 404 -
