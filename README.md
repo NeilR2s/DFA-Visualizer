@@ -30,11 +30,12 @@ This is the backend service for **[DFA Visualizer](https://nr2s.pythonanywhere.c
 
 1. **Run it Locally**
    ```
+   cd backend (assuming you are still on the root directory)
    python app.py (python3 app.py on Linux)
    ```
    *if you encounter any issues running from the terminal, open your text editor of choice (e.g. VS Code)
-     then run  `app.py` from the text editor. Then, visit localhost:5500 on your browser. If there are issues, you can troubleshoot by viewing the logs at `backend/logs/app.log`* :)
-2. **Visit the Website**
+     then run  `app.py` from the text editor. Then, visit localhost:8000 on your browser. If there are issues, you can troubleshoot by viewing the logs at `backend/logs/app.log`* :)
+2. **[Easy way, no install needed] Visit the Website**
    ```
    https://nr2s.pythonanywhere.com/
    ```

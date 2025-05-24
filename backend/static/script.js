@@ -41,11 +41,11 @@ const cfgResultDisplay = document.getElementById('cfg-result-display');
 const viewModeRadios = document.querySelectorAll('input[name="view-mode"]');
 
 // Backend URL Configuration - Comment out unused URLs.
-const BACKEND_URL = 'https://mediseen.site'; 
+// const BACKEND_URL = 'https://mediseen.site'; 
 // const BACKEND_URL = 'https://nr2s.pythonanywhere.com';
 
 // for Localhost :))
-// const BACKEND_URL = 'http://127.0.0.1:8000'; 
+const BACKEND_URL = 'http://localhost:8000'; 
 
 // SVG Namespace: Required for creating SVG elements dynamically.
 const SVG_NS = "http://www.w3.org/2000/svg";
@@ -59,13 +59,14 @@ const PDA_NODE_WIDTH = 70; // Default width for PDA nodes
 const PDA_NODE_HEIGHT = 35; // Default height for PDA nodes
 const PDA_INITIAL_STACK_SYMBOL = 'Z₀'; // Standard initial symbol for PDA stack
 
-// Factors for scaling DFA state coordinates (cx, cy) for different DFA layouts.
-// These allow fine-tuning the visual spacing of states.
+// Factors for scaling DFA/PDA state coordinates (cx, cy) for different layouts.
+// These allow fine-tuning the visual spacing of states (too lazy for all that, just space by 50 then rescale it).
 const bets_dfa_cx_factor = 1.15;
 const bets_dfa_cy_factor = 1.125;
 
 const stars_dfa_cx_factor = 1.35;
 const stars_dfa_cy_factor = 1.1;
+
 
 /**
  * @typedef {Object} StateLayout
@@ -105,7 +106,7 @@ const dfaLayouts = {
             { id: 6, cx: 350 * bets_dfa_cx_factor, cy: 150 * bets_dfa_cy_factor }, { id: 7, cx: 350 * bets_dfa_cx_factor, cy: 350 * bets_dfa_cy_factor, isTrap: true },
             { id: 8, cx: 450 * bets_dfa_cx_factor, cy: 50 * bets_dfa_cy_factor, isTrap: true }, { id: 9, cx: 450 * bets_dfa_cx_factor, cy: 150 * bets_dfa_cy_factor },
             { id: 10, cx: 450 * bets_dfa_cx_factor, cy: 250 * bets_dfa_cy_factor }, { id: 11, cx: 550 * bets_dfa_cx_factor, cy: 200 * bets_dfa_cy_factor },
-            { id: 12, cx: 550 * bets_dfa_cx_factor, cy: 300 * bets_dfa_cy_factor, isFinal: true },
+            { id: 12, cx: 550 * bets_dfa_cx_factor, cy: 300 * bets_dfa_cy_factor, isFinal: true }
         ],
         transitions: [
             { from: 0, to: 1, label: 'b' }, { from: 0, to: 2, label: 'a' },
@@ -173,6 +174,7 @@ const dfaLayouts = {
         ]
     }
 };
+
 
 /**
  * @typedef {Object} CFGRule
@@ -269,6 +271,7 @@ const cfgRepresentations = {
  * @property {string} type - The type of PDA node (e.g., 'start', 'accept', 'reject', 'read').
  * @property {string} label - The label for the PDA node.
  */
+
 function transformDfaStatesToPdaStates(dfaStates) {
     return dfaStates.map(state => {
         const pdaState = { id: state.id, cx: state.cx, cy: state.cy };
@@ -291,24 +294,99 @@ function transformDfaStatesToPdaStates(dfaStates) {
 }
 
 /**
- * @const {Object.<string, PDALayout>} pdaLayouts
- * Predefined layouts for Pushdown Automata (PDAs), derived from DFA layouts.
- * The PDA visualization reuses the DFA's state structure and transitions,
- * but state objects are transformed by `transformDfaStatesToPdaStates` to assign PDA-specific types and labels.
+ * @typedef {Object} PdaNodeLayout
+ * @property {number | string} id - The unique identifier for the node.
+ * @property {number} cx - The x-coordinate of the node's center.
+ * @property {number} cy - The y-coordinate of the node's center.
+ * @property {string} type - The type of PDA node (e.g., 'start', 'accept', 'reject', 'read').
+ * @property {string} label - The label for the PDA node.
+ */
+
+/**
  * @typedef {Object} PDALayout
  * @property {PdaNodeLayout[]} states - An array of PDA node layout objects.
- * @property {TransitionLayout[]} transitions - An array of transition layout objects (same as DFA).
+ * @property {TransitionLayout[]} transitions - An array of transition layout objects.
  */
-const pdaLayouts = {
-    bets_dfa: {
-        states: transformDfaStatesToPdaStates(dfaLayouts.bets_dfa.states),
-        transitions: dfaLayouts.bets_dfa.transitions
-    },
-    stars_dfa: {
-        states: transformDfaStatesToPdaStates(dfaLayouts.stars_dfa.states),
-        transitions: dfaLayouts.stars_dfa.transitions
+
+/**
+ * Helper function to create a dedicated PDA start node and its initial transition.
+ * @param {StateLayout} originalDfaStartNode - The original start state from the DFA layout.
+ * @param {string | number} pdaStartNodeId - A unique ID for the new PDA start node.
+ * @returns {{pdaDedicatedStartNode: PdaNodeLayout, initialTransition: TransitionLayout}}
+ */
+function createPdaStartElements(originalDfaStartNode, pdaStartNodeId) {
+
+    const newStartCx = originalDfaStartNode.cx; 
+    const newStartCy = originalDfaStartNode.cy+100; // draw below lmao
+
+    const pdaDedicatedStartNode = {
+        id: pdaStartNodeId,
+        cx: newStartCx,
+        cy: newStartCy,
+        type: 'start', // This will be drawn as an ellipse
+        label: 'START'
+    };
+
+    const initialTransition = {
+        from: pdaStartNodeId,
+        to: originalDfaStartNode.id, // Transition to the ID of the original DFA start state
+        label: "" // none according to Ma'am Jen :)
+    };
+    return { pdaDedicatedStartNode, initialTransition };
+}
+
+/**
+ * @const {Object.<string, PDALayout>} pdaLayouts
+ * Predefined layouts for Pushdown Automata (PDAs), derived from DFA layouts.
+ * Each PDA has a dedicated start state, and DFA states are transformed into PDA processing nodes.
+ */
+const pdaLayouts = {};
+
+for (const dfaKey in dfaLayouts) {
+    if (dfaLayouts.hasOwnProperty(dfaKey)) {
+        const currentDfaLayout = dfaLayouts[dfaKey];
+        const originalDfaStartState = currentDfaLayout.states.find(s => s.isStart);
+
+        if (!originalDfaStartState) {
+            console.error(`Original DFA start state not found for ${dfaKey} when creating PDA layout.`);
+            continue;
+        }
+
+        // Create the dedicated PDA start node and its initial transition
+        const pdaStartId = `${dfaKey}_pda_true_start`; // Ensure unique ID for new start node
+        const { pdaDedicatedStartNode, initialTransition } = createPdaStartElements(originalDfaStartState, pdaStartId);
+
+        // Transform original DFA states into PDA processing nodes
+        const pdaProcessingNodes = currentDfaLayout.states.map(state => {
+            const pdaNode = {
+                id: state.id, // Keep original DFA state IDs for these nodes
+                cx: state.cx,
+                cy: state.cy
+            };
+            if (state.isFinal) {
+                pdaNode.type = 'accept'; 
+                pdaNode.label = 'ACCEPT';
+            } else if (state.isTrap) {
+                pdaNode.type = 'reject'; 
+                pdaNode.label = 'REJECT';
+            } else {
+
+                pdaNode.type = 'read'; // This will be drawn as a diamond
+                pdaNode.label = `q${state.id}`;
+            }
+            return pdaNode;
+        });
+
+        pdaLayouts[dfaKey] = {
+            states: [pdaDedicatedStartNode, ...pdaProcessingNodes],
+            transitions: [
+                initialTransition,
+                ...currentDfaLayout.transitions.map(t => ({ ...t }))
+            ]
+        };
     }
-};
+}
+
 
 
 // Press enter to simulate :)
