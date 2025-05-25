@@ -67,7 +67,6 @@ const bets_dfa_cy_factor = 1.125;
 const stars_dfa_cx_factor = 1.35;
 const stars_dfa_cy_factor = 1.1;
 
-
 /**
  * @typedef {Object} StateLayout
  * @property {number} id - The unique identifier for the state.
@@ -724,7 +723,9 @@ function drawDFAVisualization(dfaKey) {
 
     if (!layout) {
         console.error("Invalid DFA key for layout:", dfaKey);
-        svgDfaVisualization.innerHTML = `<text x="10" y="20" fill="red">Error: DFA layout for ${dfaKey} not found.</text>`;
+        const escapedDfakey = document.createElement('div')
+        escapedDfakey.textContent(dfaKey); 
+        svgDfaVisualization.innerHTML = `<text x="10" y="20" fill="red">Error: DFA layout for ${escapedDfakey.text} not found.</text>`;
         return;
     }
 
@@ -871,7 +872,9 @@ function drawPDAVisualization(pdaKey) {
 
     if (!layout) {
         console.error("Invalid PDA key for layout:", pdaKey);
-        svgPdaVisualization.innerHTML = `<text x="10" y="20" fill="red">Error: PDA layout for ${pdaKey} not found.</text>`;
+        const escapedPdakey = document.createElement('div')
+        escapedPdakey.textContent(pdaKey);
+        svgPdaVisualization.innerHTML = `<text x="10" y="20" fill="red">Error: PDA layout for ${escapedPdakey.textContent} not found.</text>`;
         return;
     }
 
