@@ -44,8 +44,7 @@ const viewModeRadios = document.querySelectorAll('input[name="view-mode"]');
 // const BACKEND_URL = 'https://mediseen.site'; 
 // const BACKEND_URL = 'https://nr2s.pythonanywhere.com';
 
-// for Localhost :))
-const BACKEND_URL = 'http://localhost:8000'; 
+const BACKEND_URL = window.location.origin;
 
 // SVG Namespace: Required for creating SVG elements dynamically.
 const SVG_NS = "http://www.w3.org/2000/svg";
