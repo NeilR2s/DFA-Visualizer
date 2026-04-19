@@ -1,6 +1,8 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from dfa_logic import DFA as LocalDFA
+from cfg_logic import CFG
+from pda_logic import PDA
 import pathlib
 import logging.config
 import json
@@ -60,6 +62,29 @@ try:
 except Exception as e:
     logger.error(f'Error Compiling Bets DFA. Please adhere to the formatting specified by the docstrings: {e}')
 
+bets_cfg = CFG(
+    variables={f"Q{s}" for s in bets_states},
+    terminals=bets_alphabet,
+    rules=[{'from': f'Q{s}', 'to': [char, f'Q{ns}']} for s, d in bets_transitions.items() for char, ns in d.items()] + [{'from': f'Q{s}', 'to': ['ε']} for s in bets_final],
+    start_symbol="Q0"
+)
+
+bets_pda_transitions = {}
+for s, d in bets_transitions.items():
+    bets_pda_transitions[s] = {}
+    for char, ns in d.items():
+        bets_pda_transitions[s][char] = {'ε': [(ns, [char])]}
+
+bets_pda = PDA(
+    states=bets_states,
+    input_alphabet=bets_alphabet,
+    stack_alphabet=bets_alphabet | {'Z0'},
+    transitions=bets_pda_transitions,
+    start_state=bets_start,
+    initial_stack='Z0',
+    final_states=bets_final
+)
+
 stars_states = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23}
 stars_alphabet = {'0','1'}
 stars_transitions = {
@@ -86,6 +111,29 @@ try :
     logger.info('Stars DFA compiled successfully.')
 except Exception as e:
     logger.error(f'Error Compiling Stars DFA. Please adhere to the formatting specified by the docstrings: {e}')
+
+stars_cfg = CFG(
+    variables={f"Q{s}" for s in stars_states},
+    terminals=stars_alphabet,
+    rules=[{'from': f'Q{s}', 'to': [char, f'Q{ns}']} for s, d in stars_transitions.items() for char, ns in d.items()] + [{'from': f'Q{s}', 'to': ['ε']} for s in stars_final],
+    start_symbol="Q0"
+)
+
+stars_pda_transitions = {}
+for s, d in stars_transitions.items():
+    stars_pda_transitions[s] = {}
+    for char, ns in d.items():
+        stars_pda_transitions[s][char] = {'ε': [(ns, [char])]}
+
+stars_pda = PDA(
+    states=stars_states,
+    input_alphabet=stars_alphabet,
+    stack_alphabet=stars_alphabet | {'Z0'},
+    transitions=stars_pda_transitions,
+    start_state=stars_start,
+    initial_stack='Z0',
+    final_states=stars_final
+)
 
 
 
@@ -151,6 +199,48 @@ def simulate_dfa():
     except Exception as e:
         logger.error(f'An unexpected error occured during simulation: {e}', exc_info=True)
         return jsonify({'error': f'Internal Server Error: An unexpected error occured during simulation: '}),500
+
+@app.route('/simulate-cfg', methods=['POST'])
+def simulate_cfg():
+    if not request.is_json:
+        return jsonify({'error': 'Invalid request format: must be a JSON object.'}), 415
+    try:
+        data = request.get_json()
+        dfa_type = data.get('dfa_type')
+        input_str = data.get('dfa_input', '')
+        
+        if dfa_type == 'bets_dfa':
+            response_data = bets_cfg.simulate(input_str)
+        elif dfa_type == 'stars_dfa':
+            response_data = stars_cfg.simulate(input_str)
+        else:
+            return jsonify({'error': 'Invalid type'}), 400
+            
+        return jsonify(response_data), 200
+    except Exception as e:
+        logger.error(f'CFG Error: {e}', exc_info=True)
+        return jsonify({'error': 'Internal Server Error'}), 500
+
+@app.route('/simulate-pda', methods=['POST'])
+def simulate_pda():
+    if not request.is_json:
+        return jsonify({'error': 'Invalid request format: must be a JSON object.'}), 415
+    try:
+        data = request.get_json()
+        dfa_type = data.get('dfa_type')
+        input_str = data.get('dfa_input', '')
+        
+        if dfa_type == 'bets_dfa':
+            response_data = bets_pda.simulate(input_str)
+        elif dfa_type == 'stars_dfa':
+            response_data = stars_pda.simulate(input_str)
+        else:
+            return jsonify({'error': 'Invalid type'}), 400
+            
+        return jsonify(response_data), 200
+    except Exception as e:
+        logger.error(f'PDA Error: {e}', exc_info=True)
+        return jsonify({'error': 'Internal Server Error'}), 500
 
 
 if __name__ == '__main__':

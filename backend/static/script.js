@@ -525,85 +525,69 @@ async function handleSimulate() {
         }
     // --- PDA Simulation ---
     } else if (currentViewMode === 'pda') {
-        statusMessage.textContent = `Simulating PDA (based on DFA: ${selectedAutomatonKey}) for '${input}'...`;
-        pdaCurrentConfigDisplay.textContent = 'Fetching DFA results to drive PDA...';
-        if (pdaStackDisplay) pdaStackDisplay.innerHTML = ''; // Clear previous stack display
+        statusMessage.textContent = `Simulating PDA for '${input}'...`;
+        pdaCurrentConfigDisplay.textContent = 'Fetching PDA results...';
+        if (pdaStackDisplay) pdaStackDisplay.innerHTML = ''; 
 
         try {
-            // PDA simulation is driven by the corresponding DFA's behavior.
-            // First, fetch the DFA simulation results.
-            const dfaResponse = await fetch(`${BACKEND_URL}/simulate-dfa`, {
+            const pdaResponse = await fetch(`${BACKEND_URL}/simulate-pda`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ dfa_type: selectedAutomatonKey, dfa_input: input }),
             });
-            let dfaData;
+            let pdaData;
             try {
-                dfaData = await dfaResponse.json();
+                pdaData = await pdaResponse.json();
             } catch (jsonError) {
-                const textResponse = await dfaResponse.text();
-                throw new Error(`Received non-JSON response for DFA data (status: ${dfaResponse.status}). Raw: ${textResponse}`);
+                const textResponse = await pdaResponse.text();
+                throw new Error(`Received non-JSON response for PDA data.`);
             }
             loadingIndicator.classList.add('hidden');
-            if (!dfaResponse.ok) throw new Error(dfaData?.error || `DFA simulation HTTP error ${dfaResponse.status}`);
+            if (!pdaResponse.ok) throw new Error(pdaData?.error || `PDA simulation HTTP error ${pdaResponse.status}`);
 
-            if (dfaData.error) { // If DFA simulation had an error, PDA cannot proceed meaningfully
-                showError(`DFA simulation error for PDA: ${dfaData.error}`);
-                statusMessage.textContent = `PDA animation cannot proceed due to DFA error.`;
-                resultDisplay.textContent = 'Error (from DFA)';
-                pdaCurrentConfigDisplay.textContent = `Error: ${dfaData.error}`;
-            } else if (!dfaData.state_sequence || dfaData.state_sequence.length === 0) {
-                // Handle cases with no state sequence (e.g., empty string processing)
-                resultDisplay.textContent = dfaData.accepted ? 'Accepted' : 'Rejected';
-                statusMessage.textContent = `PDA animation: DFA had no steps. Result: ${resultDisplay.textContent}`;
-                pdaCurrentConfigDisplay.textContent = `Configuration: No steps from DFA. Result: ${resultDisplay.textContent}`;
-                const pdaLayout = pdaLayouts[selectedAutomatonKey];
-                if (pdaLayout) { // Highlight start state and initialize stack
-                    const startState = pdaLayout.states.find(s => s.type === 'start');
-                    if (startState) highlightStateSVG(startState.id, 'pda-visualization-svg');
-                    initializePdaStack(selectedAutomatonKey);
-                }
-            } else { // If DFA simulation was successful, animate PDA flow
-                statusMessage.textContent = `DFA results received. Animating PDA...`;
-                await animatePdaAsDfaFlow(selectedAutomatonKey, dfaData.state_sequence, dfaData.accepted, input);
+            if (pdaData.error && (!pdaData.sequence || pdaData.sequence.length === 0)) { 
+                showError(`PDA simulation error: ${pdaData.error}`);
+                resultDisplay.textContent = 'Error';
+            } else { 
+                statusMessage.textContent = `PDA results received. Animating PDA...`;
+                await animatePDA(selectedAutomatonKey, pdaData.sequence, pdaData.accepted, input);
             }
         } catch (error) {
             statusMessage.textContent = 'An error occurred during PDA simulation.';
             showError(String(error.message));
             resultDisplay.textContent = 'Error';
-            pdaCurrentConfigDisplay.textContent = `Error: ${error.message}`;
             loadingIndicator.classList.add('hidden');
         } finally {
             enableControls(true);
         }
     // --- CFG Derivation ---
     } else if (currentViewMode === 'cfg') {
-        statusMessage.textContent = `Preparing CFG derivation ...`;
-        if (cfgStatusMessage) cfgStatusMessage.textContent = `Preparing CFG derivation...`;
+        statusMessage.textContent = `Fetching CFG derivation ...`;
+        if (cfgStatusMessage) cfgStatusMessage.textContent = `Fetching CFG derivation...`;
         if (cfgResultDisplay) cfgResultDisplay.textContent = "Result: -";
 
-        const cfgData = cfgRepresentations[selectedAutomatonKey]; // Get CFG rules for selected automaton 
-        if (!cfgData) { // Should not happen if dfaSelect values match cfgRepresentations keys (cant be too sure :))
-            showError(`CFG data for ${selectedAutomatonKey} not found.`);
+        let targetString = input.trim();
+        if (targetString === "") {
+            targetString = selectedAutomatonKey === 'bets_dfa' ? 'ab' : (selectedAutomatonKey === 'stars_dfa' ? '01' : null);
+        }
+
+        try {
+            const cfgResponse = await fetch(`${BACKEND_URL}/simulate-cfg`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ dfa_type: selectedAutomatonKey, dfa_input: targetString }),
+            });
+            const cfgData = await cfgResponse.json();
             loadingIndicator.classList.add('hidden');
+            if (!cfgResponse.ok) throw new Error(cfgData?.error || `CFG simulation HTTP error`);
+
+            await traceCfgDerivation(cfgData.sequence, cfgData.accepted, targetString); 
+        } catch (error) {
+            showError(String(error.message));
+            loadingIndicator.classList.add('hidden');
+        } finally {
             enableControls(true);
-            return;
         }
-        let targetString = "";
-        // If input is empty, use a default short string for demonstration
-        if (input.trim() === "") {
-            if (selectedAutomatonKey === 'bets_dfa') targetString = "ab";
-            else if (selectedAutomatonKey === 'stars_dfa') targetString = "01";
-            else targetString = null; // No default for other potential DFAs
-            if (cfgStatusMessage && targetString) cfgStatusMessage.textContent = `Showing derivation for default string "${targetString}"...`;
-            else if (cfgStatusMessage) cfgStatusMessage.textContent = `Showing a few derivation steps...`;
-        } else {
-            targetString = input.trim();
-            if (cfgStatusMessage) cfgStatusMessage.textContent = `Attempting to derive "${targetString}"...`;
-        }
-        await traceCfgDerivation(cfgData, targetString); // Perform client-side derivation tracing
-        loadingIndicator.classList.add('hidden');
-        enableControls(true);
     }
 }
 
@@ -787,24 +771,22 @@ function drawDFAVisualization(dfaKey) {
             pathD = `M ${startX},${startY} L ${endX},${endY}`; // Default to a straight line
 
             // Check for bidirectional transitions to draw a curved path to avoid overlap
-            if (layout.transitions.some(rev => rev.from === t.to && rev.to === t.from) && t.from < t.to) {
-                const controlOffsetY = 30; // How much the curve bows out
+            const isBidirectional = layout.transitions.some(rev => rev.from === t.to && rev.to === t.from);
+            if (isBidirectional) {
+                const controlOffsetY = 35; // How much the curve bows out
                 // Midpoint of the straight line segment
                 const midX = (startX + endX) / 2;
                 const midY = (startY + endY) / 2;
                 // Calculate control point for Quadratic Bezier curve (Q command)
                 // The control point is offset perpendicularly from the midpoint.
-                // Perpendicular vector components: (-sin(angle), cos(angle)) or (sin(angle), -cos(angle))
                 const controlX = midX - controlOffsetY * Math.sin(angle);
                 const controlY = midY + controlOffsetY * Math.cos(angle);
                 pathD = `M ${startX},${startY} Q ${controlX},${controlY} ${endX},${endY}`; // Quadratic Bezier path
                 labelX = controlX; // Position label near control point
-                labelY = controlY - 5;
+                labelY = controlY - 8;
             } else { // For single straight lines
-                const labelOffset = 10; // Offset label from the line
+                const labelOffset = 12; // Offset label from the line
                 // Position label at midpoint, offset perpendicularly
-                // Angle for perpendicular offset: angle + PI/2 (90 degrees)
-                // x_offset = offset * sin(perp_angle), y_offset = offset * -cos(perp_angle)
                 labelX = (startX + endX) / 2 + labelOffset * Math.sin(angle + Math.PI / 2);
                 labelY = (startY + endY) / 2 - labelOffset * Math.cos(angle + Math.PI / 2);
             }
@@ -967,17 +949,18 @@ function drawPDAVisualization(pdaKey) {
             pathD = `M ${startX},${startY} L ${endX},${endY}`; // Default to straight line
 
             // Curve for bidirectional transitions (similar to DFA)
-            if (layout.transitions.some(rev => rev.from === t.to && rev.to === t.from) && t.from < t.to) {
-                const controlOffsetY = 35;
+            const isBidirectional = layout.transitions.some(rev => rev.from === t.to && rev.to === t.from);
+            if (isBidirectional) {
+                const controlOffsetY = 40;
                 const midX = (startX + endX) / 2;
                 const midY = (startY + endY) / 2;
                 const controlX = midX - controlOffsetY * Math.sin(angle);
                 const controlY = midY + controlOffsetY * Math.cos(angle);
                 pathD = `M ${startX},${startY} Q ${controlX},${controlY} ${endX},${endY}`;
                 labelX = controlX;
-                labelY = controlY - 9; // Adjusted offset for PDA labels
+                labelY = controlY - 12; // Adjusted offset for PDA labels
             } else { // Label for straight line
-                const labelOffset = 12;
+                const labelOffset = 15;
                 labelX = (startX + endX) / 2 + labelOffset * Math.sin(angle + Math.PI / 2);
                 labelY = (startY + endY) / 2 - labelOffset * Math.cos(angle + Math.PI / 2);
             }
@@ -1276,123 +1259,50 @@ async function animateDfaSequence(sequence /*, dfaKey */) {
  * @param {string} inputString - The original input string.
  * @async
  */
-async function animatePdaAsDfaFlow(pdaKey, dfaStateSequence, dfaAccepted, inputString) {
+async function animatePDA(pdaKey, pdaSequence, pdaAccepted, inputString) {
     if (statusMessage) statusMessage.textContent = `Animating PDA for input "${inputString}"...`;
-    if (sequenceDisplay) sequenceDisplay.innerHTML = ''; // Clear previous sequence text
+    if (sequenceDisplay) sequenceDisplay.innerHTML = ''; 
 
-    let currentPdaStack = initializePdaStack(pdaKey); // Initialize stack with Z₀
-    let remainingInput = inputString;
     const pdaLayoutToUse = pdaLayouts[pdaKey];
     if (!pdaLayoutToUse) { showError(`PDA layout for ${pdaKey} not found.`); enableControls(true); return; }
 
-    for (let i = 0; i < dfaStateSequence.length; i++) {
-        const currentStateId = dfaStateSequence[i]; // Current DFA state ID
-        const pdaStateToHighlight = currentStateId; // Use same ID for corresponding PDA node
+    for (let i = 0; i < pdaSequence.length; i++) {
+        const step = pdaSequence[i];
+        const pdaStateToHighlight = step.state; 
 
-        if (typeof pdaStateToHighlight === 'string' && pdaStateToHighlight.startsWith('REJECT_STATE')) {
-            if (pdaCurrentConfigDisplay) pdaCurrentConfigDisplay.textContent = `REJECTED: ${pdaStateToHighlight}`;
-            const lastValidStateId = i > 0 ? dfaStateSequence[i - 1] : (pdaLayoutToUse.states.find(s => s.type === 'start')?.id);
-            highlightStateSVG(lastValidStateId, 'pda-visualization-svg'); // Highlight last valid PDA node
-            if (resultDisplay) resultDisplay.textContent = 'Rejected';
-            const errorStepSpan = document.createElement('span');
-            errorStepSpan.classList.add('state-step', 'error'); errorStepSpan.textContent = pdaStateToHighlight;
-            if (sequenceDisplay) sequenceDisplay.appendChild(errorStepSpan);
-            enableControls(true); return; // Stop on error
-        }
+        highlightStateSVG(pdaStateToHighlight, 'pda-visualization-svg'); 
+        updatePdaStackDisplay(step.stack);
 
-        highlightStateSVG(pdaStateToHighlight, 'pda-visualization-svg'); // Highlight current PDA node
-
-        // Logic for temporarily changing node label to show operation
-        const currentPdaNodeGroup = svgPdaVisualization.querySelector(`#pda-group-${pdaStateToHighlight}`);
-        const currentPdaNodeLabelElement = currentPdaNodeGroup ? currentPdaNodeGroup.querySelector('.pda-node-label') : null;
-        let originalLabelOfCurrentNode = currentPdaNodeGroup ? currentPdaNodeGroup.dataset.originalLabel : `q${pdaStateToHighlight}`;
-
-        // Reset dynamic labels on other nodes
-        svgPdaVisualization.querySelectorAll('g[id^="pda-group-"]').forEach(group => {
-            if (group.id !== `pda-group-${pdaStateToHighlight}` && group.dataset.dynamicLabel === 'true') {
-                const labelEl = group.querySelector('.pda-node-label');
-                const originalLabel = group.dataset.originalLabel;
-                if (labelEl && originalLabel) setSvgText(labelEl, originalLabel); // Restore original label
-                group.dataset.dynamicLabel = 'false';
-            }
-        });
-
-        let operationCue = "", dynamicNodeLabelText = originalLabelOfCurrentNode;
-        // Simulate read and push operation if input character is available
-        if (i < inputString.length) {
-            const consumedChar = inputString[i];
-            operationCue = `Read '${consumedChar}'`;
-            currentPdaStack.push(consumedChar); // Push consumed char onto stack (simplified PDA logic)
-            updatePdaStackDisplay(currentPdaStack);
-            operationCue += `, Push '${consumedChar}'`;
-            // Update node label to show Read/Push, unless it's a special START/ACCEPT/REJECT node
-            if (currentPdaNodeLabelElement && !['START', 'ACCEPT', 'REJECT'].includes(originalLabelOfCurrentNode)) {
-                dynamicNodeLabelText = `${originalLabelOfCurrentNode}\n(R:${consumedChar}, P:${consumedChar})`;
-                if (currentPdaNodeGroup) currentPdaNodeGroup.dataset.dynamicLabel = 'true'; // Mark as dynamically labeled
-            }
-        } else if (i === 0 && dfaStateSequence.length === 1 && inputString === "") { // Empty string on start state
-            operationCue = "Initial state, empty input";
-        } else if (i >= inputString.length && i > 0) { // No more input, can be considered epsilon transition
-            operationCue = "ε transition (simulated)";
-        } else { // Initial state with non-empty input, before first char consumed
-            operationCue = "Initial state";
-        }
-
-        if (currentPdaNodeLabelElement) setSvgText(currentPdaNodeLabelElement, dynamicNodeLabelText); // Update visual label
-
-        remainingInput = inputString.substring(i + 1); // Update remaining input string
-        const stackTop = currentPdaStack.length > 0 ? currentPdaStack[currentPdaStack.length - 1] : 'ε';
         const pdaStateLabel = pdaLayoutToUse.states.find(s => s.id === pdaStateToHighlight)?.label || `q${pdaStateToHighlight}`;
+        const stackTop = step.stack.length > 0 ? step.stack[step.stack.length - 1] : 'ε';
+        const operationCue = i === 0 ? "Initial state" : "Processed step";
 
-        // Update configuration display: (State, RemainingInput, StackTop) - Operation
-        if (pdaCurrentConfigDisplay) pdaCurrentConfigDisplay.textContent = `(${pdaStateLabel}, ${remainingInput || 'ε'}, ${stackTop}) - ${operationCue}`;
-        if (statusMessage) statusMessage.textContent = `PDA at ${pdaStateLabel}. ${operationCue}. Stack top: ${stackTop}`;
+        if (pdaCurrentConfigDisplay) pdaCurrentConfigDisplay.textContent = `(${pdaStateLabel}, ${step.remaining || 'ε'}, ${stackTop})`;
+        if (statusMessage) statusMessage.textContent = `PDA at ${pdaStateLabel}. Stack top: ${stackTop}`;
 
-        // Update textual sequence display
         const stepSpan = document.createElement('span');
         stepSpan.classList.add('state-step'); stepSpan.textContent = pdaStateLabel;
         if (sequenceDisplay) {
             sequenceDisplay.appendChild(stepSpan);
-            if (i < dfaStateSequence.length - 1 && !(typeof dfaStateSequence[i + 1] === 'string' && dfaStateSequence[i + 1].startsWith('REJECT_STATE'))) {
+            if (i < pdaSequence.length - 1) {
                 sequenceDisplay.appendChild(document.createTextNode(' → '));
             }
             sequenceDisplay.querySelectorAll('.state-step.highlight').forEach(s => s.classList.remove('highlight'));
             stepSpan.classList.add('highlight');
         }
-
-        await sleep(PDA_ANIMATION_DELAY); // Pause for animation
-
-        // Restore original label if it was dynamically changed
-        if (currentPdaNodeGroup && currentPdaNodeGroup.dataset.dynamicLabel === 'true') {
-            if (currentPdaNodeLabelElement && originalLabelOfCurrentNode) setSvgText(currentPdaNodeLabelElement, originalLabelOfCurrentNode);
-            currentPdaNodeGroup.dataset.dynamicLabel = 'false';
-        }
+        await sleep(PDA_ANIMATION_DELAY); 
     }
 
-    // Post-animation: Highlight final PDA node and set final configuration text
-    const finalDfaStateId = dfaStateSequence[dfaStateSequence.length - 1];
-    if (finalDfaStateId !== undefined && !(typeof finalDfaStateId === 'string' && finalDfaStateId.startsWith('REJECT_STATE'))) {
-        highlightStateSVG(finalDfaStateId, 'pda-visualization-svg');
-        // Ensure final node label is restored if it was dynamic
-        const finalNodeGroup = svgPdaVisualization.querySelector(`#pda-group-${finalDfaStateId}`);
-        if (finalNodeGroup) {
-            const finalNodeLabelElement = finalNodeGroup.querySelector('.pda-node-label');
-            const originalLabel = finalNodeGroup.dataset.originalLabel;
-            if (finalNodeLabelElement && originalLabel) setSvgText(finalNodeLabelElement, originalLabel);
-        }
-        const stackTopFinal = currentPdaStack.length > 0 ? currentPdaStack[currentPdaStack.length - 1] : 'ε';
-        const finalPdaStateLabel = pdaLayoutToUse.states.find(s => s.id === finalDfaStateId)?.label || `q${finalDfaStateId}`;
-        if (pdaCurrentConfigDisplay) pdaCurrentConfigDisplay.textContent = `Final: (${finalPdaStateLabel}, ε, ${stackTopFinal}). Result: ${dfaAccepted ? 'Accepted' : 'Rejected'}`;
-    } else if (dfaStateSequence.length === 0 && inputString === "") { // Handle empty string on start state for PDA
-        const startState = pdaLayoutToUse.states.find(s => s.type === 'start');
-        if (startState) {
-            highlightStateSVG(startState.id, 'pda-visualization-svg');
-            const stackTopFinal = currentPdaStack.length > 0 ? currentPdaStack[currentPdaStack.length - 1] : 'ε';
-            if (pdaCurrentConfigDisplay) pdaCurrentConfigDisplay.textContent = `Final: (${startState.label}, ε, ${stackTopFinal}). Result: ${dfaAccepted ? 'Accepted' : 'Rejected'}`;
-        }
+    if (pdaSequence.length > 0) {
+        const finalStep = pdaSequence[pdaSequence.length - 1];
+        highlightStateSVG(finalStep.state, 'pda-visualization-svg');
+        const finalPdaStateLabel = pdaLayoutToUse.states.find(s => s.id === finalStep.state)?.label || `q${finalStep.state}`;
+        const stackTopFinal = finalStep.stack.length > 0 ? finalStep.stack[finalStep.stack.length - 1] : 'ε';
+        if (pdaCurrentConfigDisplay) pdaCurrentConfigDisplay.textContent = `Final: (${finalPdaStateLabel}, ε, ${stackTopFinal}). Result: ${pdaAccepted ? 'Accepted' : 'Rejected'}`;
     }
-    if (statusMessage) statusMessage.textContent = `PDA animation complete. Result: ${dfaAccepted ? 'Accepted' : 'Rejected'}.`;
-    if (resultDisplay) resultDisplay.textContent = dfaAccepted ? 'Accepted' : 'Rejected';
+
+    if (statusMessage) statusMessage.textContent = `PDA animation complete. Result: ${pdaAccepted ? 'Accepted' : 'Rejected'}.`;
+    if (resultDisplay) resultDisplay.textContent = pdaAccepted ? 'Accepted' : 'Rejected';
     enableControls(true);
 }
 
@@ -1435,143 +1345,28 @@ function setSvgText(textElement, content) {
  * @param {number} [maxSteps=traceCfgMaxSteps] - Maximum number of derivation steps to perform.
  * @async
  */
-async function traceCfgDerivation(cfg, targetString = null, maxSteps = traceCfgMaxSteps) {
+async function traceCfgDerivation(sequence, accepted, targetString) {
     if (!cfgDerivationSequenceDisplay || !cfgCurrentStringDisplay || !cfgStatusMessage || !cfgResultDisplay) return;
 
-    cfgDerivationSequenceDisplay.innerHTML = ''; // Clear previous derivation
-    let currentSententialForm = [cfg.startSymbol]; // Start with the grammar's start symbol
-    cfgCurrentStringDisplay.innerHTML = formatSententialForm(currentSententialForm); // Display initial form
-    cfgStatusMessage.textContent = `Starting derivation with: ${cfg.startSymbol}`;
-    let stepCount = 0, derivedSuccessfully = false;
+    cfgDerivationSequenceDisplay.innerHTML = ''; 
+    cfgStatusMessage.textContent = `Deriving...`;
 
-    // Derivation loop
-    for (stepCount = 0; stepCount < maxSteps; stepCount++) {
-        // Find the index of the leftmost non-terminal symbol in the current form
-        const leftmostNonTerminalIndex = currentSententialForm.findIndex(symbol => cfg.variables.includes(symbol));
+    for (let i = 0; i < sequence.length; i++) {
+        const currentSententialForm = sequence[i];
+        
+        cfgCurrentStringDisplay.innerHTML = formatSententialForm(currentSententialForm); 
+        addDerivationStep(currentSententialForm, i === 0 ? "Start" : "Applied Rule"); 
 
-        // If no non-terminals are left, derivation is complete (or stuck if target not matched)
-        if (leftmostNonTerminalIndex === -1) {
-            const currentString = currentSententialForm.join('');
-            if (targetString && currentString === targetString) { // Successfully derived target
+        if (i === sequence.length - 1) {
+            if (accepted) {
                 cfgResultDisplay.textContent = "Result: Successfully derived target string!";
-                cfgStatusMessage.textContent = `Derived: "${currentString}"`;
-                derivedSuccessfully = true;
-            } else if (targetString) { // Halted, but target not matched
-                cfgResultDisplay.textContent = "Result: Derivation halted, target not matched.";
-                cfgStatusMessage.textContent = `Halted. Derived: "${currentString}" (Target: "${targetString}")`;
-            } else { // Halted, no target string was specified
-                cfgResultDisplay.textContent = "Result: Derivation halted (no non-terminals).";
-                cfgStatusMessage.textContent = `Derived: "${currentString}"`;
-            }
-            addDerivationStep(currentSententialForm, "Derivation complete.");
-            break; // Exit loop
-        }
-
-        const nonTerminalToReplace = currentSententialForm[leftmostNonTerminalIndex];
-        // Find all rules applicable to the leftmost non-terminal
-        const applicableRules = cfg.rules.filter(rule => rule.from === nonTerminalToReplace);
-
-        if (applicableRules.length === 0) { // No rules for the current non-terminal
-            cfgResultDisplay.textContent = "Result: Stuck! No rule for non-terminal.";
-            cfgStatusMessage.textContent = `Stuck at: ${nonTerminalToReplace}. No applicable rules.`;
-            addDerivationStep(currentSententialForm, `No rule for ${nonTerminalToReplace}`);
-            break; // Exit loop
-        }
-
-        // --- Rule Selection Heuristic ---
-        let chosenRule = null;
-        if (targetString) { // If deriving a specific target string, try to choose rules intelligently
-            const prefixOfCurrentForm = currentSententialForm.slice(0, leftmostNonTerminalIndex).join('');
-            // The part of the target string we still need to match after the current prefix
-            const remainingTarget = targetString.substring(prefixOfCurrentForm.length);
-            let bestRule = null;
-            let canMatchExactlyAndTerminate = false; // Flag if a rule perfectly matches rest of target and ends derivation
-
-            for (const rule of applicableRules) {
-                // Terminals produced directly by this rule
-                const ruleProducesTerminals = rule.to.filter(s => cfg.terminals.includes(s) && s !== 'ε').join('');
-                // Non-terminals produced by this rule
-                const ruleProducesNonTerminals = rule.to.filter(s => cfg.variables.includes(s));
-
-                // If the terminals produced by the rule match the start of the remaining target
-                if (remainingTarget.startsWith(ruleProducesTerminals)) {
-                    const afterRuleTarget = remainingTarget.substring(ruleProducesTerminals.length);
-                    // If rule matches perfectly and remaining non-terminals can all derive epsilon
-                    if (afterRuleTarget.length === 0 && ruleProducesNonTerminals.every(nt => canDeriveEpsilon(cfg, nt, new Set()))) {
-                        bestRule = rule;
-                        canMatchExactlyAndTerminate = true;
-                        break; // Found a perfect rule
-                    }
-                    // Prefer rules that don't reintroduce the same non-terminal (avoid immediate left-recursion loops if possible)
-                    // and match more terminals, or are shorter. This is a basic heuristic.
-                    if (!rule.to.includes(nonTerminalToReplace) && (!bestRule || bestRule.to.includes(nonTerminalToReplace))) {
-                        if (!bestRule || ruleProducesTerminals.length > bestRule.to.filter(s => cfg.terminals.includes(s) && s !== 'ε').join('').length) {
-                            bestRule = rule;
-                        }
-                    }
-                    // Fallback: if a recursive rule matches some terminals, consider it.
-                    if (rule.to.includes(nonTerminalToReplace) && !bestRule && ruleProducesTerminals.length > 0) {
-                        bestRule = rule;
-                    }
-                }
-            }
-
-            if (canMatchExactlyAndTerminate) {
-                chosenRule = bestRule;
+                cfgStatusMessage.textContent = `Derived: "${targetString}"`;
             } else {
-                // If remaining target is empty, prefer an epsilon rule if available for the non-terminal
-                if (remainingTarget.length === 0) {
-                    const epsilonRule = applicableRules.find(r => r.to.length === 1 && r.to[0] === 'ε');
-                    if (epsilonRule) chosenRule = epsilonRule;
-                }
-                if (!chosenRule && bestRule) chosenRule = bestRule; // Use the best heuristic match
-                // Fallback rule selection if no clear "best" rule
-                if (!chosenRule) {
-                    chosenRule = applicableRules.find(r => !r.to.includes(nonTerminalToReplace) && !r.to.includes('ε')) || // Non-recursive, non-epsilon
-                        applicableRules.find(r => !r.to.includes('ε')) || // Any non-epsilon
-                        applicableRules.find(r => r.to.includes('ε') && r.to.length === 1) || // Epsilon rule
-                        applicableRules[0]; // Absolute fallback: first applicable rule
-                }
+                cfgResultDisplay.textContent = "Result: Derivation halted, target not matched.";
+                cfgStatusMessage.textContent = `Halted or max steps reached.`;
             }
-        } else { // If no target string, choose simpler rules (non-epsilon first)
-            chosenRule = applicableRules.find(r => !r.to.includes('ε')) || applicableRules[0];
         }
-        if (!chosenRule && applicableRules.length > 0) chosenRule = applicableRules[0]; // Final fallback
-
-        // Apply the chosen rule
-        const ruleDisplay = `${chosenRule.from} → ${chosenRule.to.join(' ') || 'ε'}`;
-        addDerivationStep(currentSententialForm, `Applying: ${ruleDisplay}`); // Log step
-
-        // Construct the new sentential form
-        const before = currentSententialForm.slice(0, leftmostNonTerminalIndex);
-        const after = currentSententialForm.slice(leftmostNonTerminalIndex + 1);
-        const replacement = (chosenRule.to.length === 1 && chosenRule.to[0] === 'ε') ? [] : chosenRule.to; // Handle epsilon
-        currentSententialForm = [...before, ...replacement, ...after];
-
-        // Update UI
-        cfgCurrentStringDisplay.innerHTML = formatSententialForm(currentSententialForm, leftmostNonTerminalIndex, replacement.length);
-        cfgStatusMessage.textContent = `Applied: ${ruleDisplay}. Current: ${currentSententialForm.join(' ')}`;
-
-        // Check if target string is fully derived (all terminals)
-        if (targetString && currentSententialForm.join('') === targetString && !currentSententialForm.some(s => cfg.variables.includes(s))) {
-            cfgResultDisplay.textContent = "Result: Successfully derived target string!";
-            cfgStatusMessage.textContent = `Derived: "${targetString}"`;
-            addDerivationStep(currentSententialForm, "Target derived!");
-            derivedSuccessfully = true;
-            break;
-        }
-        await sleep(CFG_ANIMATION_DELAY); // Pause for animation
-    }
-
-    // After loop, check for max steps reached or other conditions
-    if (stepCount >= maxSteps && !derivedSuccessfully) {
-        cfgResultDisplay.textContent = "Result: Max steps reached.";
-        cfgStatusMessage.textContent = `Max steps (${maxSteps}) reached. Current: ${currentSententialForm.join(' ')}`;
-        addDerivationStep(currentSententialForm, "Max steps.");
-    }
-    // If no target and derivation finished before max steps
-    if (!derivedSuccessfully && !targetString && stepCount < maxSteps && currentSententialForm.findIndex(symbol => cfg.variables.includes(symbol)) === -1) {
-        cfgResultDisplay.textContent = "Result: Derivation shown.";
+        await sleep(CFG_ANIMATION_DELAY); 
     }
 }
 
