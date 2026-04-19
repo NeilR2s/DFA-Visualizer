@@ -3,11 +3,11 @@
   "rewrites": [
     {
       "source": "/(.*)",
-      "destination": "/app.py"
+      "destination": "/api/index"
     }
   ],
   "functions": {
-    "app.py": {
+    "api/**/*.py": {
       "excludeFiles": "{venv/**,__pycache__/**,logs/**,tests.py}"
     }
   }
