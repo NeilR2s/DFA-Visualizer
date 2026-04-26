@@ -6,9 +6,13 @@ This app is a TypeScript-only frontend for three related views of the same machi
 - CFG derivation derived from the DFA
 - PDA simulation derived from the DFA
 
-**NOTE: the old version is at `backend`, but this version is no longer maintained and remanins for archive and reference purposes only. Refer to the files at `/dfa-tscompiler` for the new version. You can delete the files at `backend` if you do not plan to use the old version.**
-
 The project keeps the runtime simple. There is no Flask dependency in the frontend. Python is only used as a parity check during development.
+
+## Notes
+
+**NOTE: the old version is at `backend`, but this version is no longer maintained and remanins for archive and reference purposes only. Refer to the files at `/dfa-tscompiler` for the new version. You can delete the files at `backend` if you do not plan to use the old version.**
+New website: https://dfa-visualizer-nr2s.vercel.app/
+Old website: https://dfa-nr2s.vercel.app/
 
 ## setup
 
