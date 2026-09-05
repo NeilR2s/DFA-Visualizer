@@ -1,22 +1,24 @@
-# DFA TypeScript workbench
+# DFA TypeScript Workbench
 
-This app is a TypeScript-only frontend for three related views of the same machine set:
+This application is a TypeScript frontend for three views of the same machine:
 
 - DFA simulation
-- CFG derivation derived from the DFA
-- PDA simulation derived from the DFA
+- CFG derivation from the DFA
+- PDA simulation from the DFA
 
-**NOTE: the old version is at `backend`, but this version is no longer maintained and remanins for archive and reference purposes only. Refer to the files at `/dfa-tscompiler` for the new version. You can delete the files at `backend` if you do not plan to use the old version.**
+> **Note:** The old Python version is in the `backend/` directory. The project no longer maintains that version. That version exists for reference only. The active TypeScript source is in the project root. You can delete `backend/` if you do not need it.
 
-The project keeps the runtime simple. There is no Flask dependency in the frontend. Python is only used as a parity check during development.
+The project keeps the runtime simple. The frontend has no Python or Flask dependencies. Python appears only in `backend/` for the archived version and as a reference during parity tests.
 
-## setup
+## Setup
 
 Requirements:
 
 - Node.js 20+
 - npm
-- Python 3 if you want to run the parity check against the reference backend in /backend`
+- Python 3 (optional: needed only to run parity tests against `backend/`)
+
+Run all commands below from the root  directory.
 
 Install dependencies:
 
@@ -24,104 +26,118 @@ Install dependencies:
 npm install
 ```
 
-Run the dev server:
+Start the development server:
 
 ```bash
 npm run dev
 ```
 
-Build the app:
+Build the application:
 
 ```bash
 npm run build
 ```
 
-## useful commands
+## Useful Commands
 
 ```bash
 npm run typecheck
 npm run lint
+npm run format
 npm run test:automata
 npm run test:parity
 npm run build
+npm run preview
 ```
 
-What they do:
+Command descriptions:
 
-- `typecheck` runs `tsc --noEmit`
-- `lint` runs ESLint across the app
-- `test:automata` runs the TypeScript engine tests in `scripts/automata-tests.ts`
-- `test:parity` compares the TypeScript implementation against the Python reference engine in `../backend`
-- `build` produces the production bundle with Vite
+- `typecheck` — Runs `tsc --noEmit`.
+- `lint` — Runs ESLint across the project.
+- `format` — Runs Prettier on all `.ts` and `.tsx` files.
+- `test:automata` — Runs the TypeScript engine tests in `scripts/automata-tests.ts`.
+- `test:parity` — Compares the TypeScript engine against the Python reference engine in `../backend/`.
+- `build` — Checks types with `tsc -b` and builds the production files with Vite.
+- `preview` — Serves the production build locally with Vite.
 
-## project structure
+## Project Structure
 
-The frontend is small enough that the main pieces are easy to track.
+All paths below are relative to the project root.
 
 ```text
 src/
-  App.tsx                         Main workbench layout and interaction flow
-  index.css                       App-wide styling and layout rules
+  main.tsx                          Vite entry point, renders <App />
+  App.tsx                           Main workbench layout and interaction flow
+  index.css                         App-wide styling and layout rules
   components/
     automata/
-      GraphCanvas.tsx             Shared SVG graph renderer for DFA and PDA
+      GraphCanvas.tsx               Shared SVG graph renderer for DFA and PDA
     ui/
-      select.tsx                  shadcn Select primitive
-      tabs.tsx                    shadcn Tabs primitive
-      button.tsx                  shadcn Button primitive
+      button.tsx                    shadcn Button primitive
+      select.tsx                    shadcn Select primitive
+      tabs.tsx                      shadcn Tabs primitive
   lib/
+    utils.ts                        Utility functions (such as cn for class names)
     automata/
-      types.ts                    Shared types for DFA, CFG, PDA, graph models
-      dfa.ts                      DFA validation and simulation
-      cfg.ts                      DFA-to-CFG derivation and CFG simulation
-      pda.ts                      DFA-to-PDA derivation and PDA simulation
-      layout.ts                   Graph model generation from machine definitions
-      examples.ts                 Presets, samples, and manual node coordinates
+      types.ts                      Shared types for DFA, CFG, PDA, and graph models
+      dfa.ts                        DFA validation and simulation
+      cfg.ts                        DFA-to-CFG derivation and CFG simulation
+      pda.ts                        DFA-to-PDA derivation and PDA simulation
+      layout.ts                     Graph model generation from machine definitions
+      examples.ts                   Presets, samples, and manual node coordinates
 scripts/
-  automata-tests.ts               TypeScript test runner
-  parity.ts                       Python parity runner
+  automata-tests.ts                 TypeScript test runner
+  parity.ts                         Python parity runner
 ```
 
-## how the app is wired
+## How the App Works
 
-`src/App.tsx` is the entry point for the workbench.
+`src/main.tsx` is the Vite entry point. It renders `<App />`.
 
-- It chooses the active preset and mode.
-- It runs the right simulator for the current mode.
-- It keeps track of the active step for playback.
+`src/App.tsx` controls the workbench:
+
+- It selects the active preset and mode.
+- It runs the simulator for the active mode.
+- It tracks the active step for playback.
 - It builds the graph model for DFA and PDA views.
 - It renders the left rail, the visualization panel, and the trace panel.
 
-The workbench does not fetch machine data over HTTP. Everything is local and typed.
+The workbench does not fetch machine data over HTTP. All data is local and typed.
 
-## machine definitions and customization
+## Machine Definitions and Customization
 
 The main customization file is `src/lib/automata/examples.ts`.
 
 Each preset starts from a `DFADefinition`. The app derives the CFG and PDA versions from that DFA.
 
-The practical rule is simple:
+To add or change a machine:
 
-- edit `examples.ts` to add or change a machine
-- keep the DFA definition correct
-- the CFG and PDA views will update from the same source definition
+1. Edit `examples.ts`.
+2. Keep the DFA definition valid.
 
-### fields you will care about most
+The CFG and PDA views update automatically from that definition.
 
-- `id`: stable identifier used across the app
-- `name`: short machine name shown in the UI
-- `expression`: display string shown in the control panel
-- `states`: list of states and optional labels
-- `startState`: the DFA start state
-- `acceptingStates`: accepting state list
-- `trapStates`: optional trap-state list for DFA styling and stop behavior
-- `transitions`: per-state transition table
-- `layout`: manual node coordinates for graph rendering
-- `samples`: accepted and rejected example inputs
+### DFADefinition Fields
 
-### adding a new machine
+The `DFADefinition` type in `src/lib/automata/types.ts` contains these fields:
 
-Use the existing presets as the template.
+- `id` — Stable identifier used across the app
+- `name` — Short machine name shown in the UI
+- `expression` — Display string shown in the control panel
+- `description` — Short text that describes what the machine accepts
+- `alphabet` — List of input symbols that the machine reads
+- `states` — List of states, each with an `id` and an optional `label`
+- `startState` — Start state of the DFA
+- `acceptingStates` — List of accepting states
+- `trapStates` — (Optional) List of trap states, used for styling and stop behavior
+- `transitions` — Transition table for each state
+- `layout` — (Optional) Manual node coordinates for graph rendering
+- `stopOnTrap` — (Optional) If true, the simulation stops when it enters a trap state
+- `samples` — Accepted and rejected example inputs
+
+### Adding a New Machine
+
+Use the existing presets as a template.
 
 ```ts
 const myDfa: DFADefinition = {
@@ -155,7 +171,7 @@ const myDfa: DFADefinition = {
 }
 ```
 
-Then add it to the preset list:
+Add the machine to the preset list:
 
 ```ts
 export const AUTOMATA_PRESETS: AutomataPreset[] = [
@@ -165,11 +181,11 @@ export const AUTOMATA_PRESETS: AutomataPreset[] = [
 ]
 ```
 
-## layout and graph rendering
+## Layout and Graph Rendering
 
-There are two layers to the graph view.
+The graph view has two layers.
 
-`layout.ts` builds a `GraphModel` from a machine definition:
+`layout.ts` builds a `GraphModel` from a machine definition. The model contains:
 
 - nodes
 - grouped edges
@@ -179,42 +195,42 @@ There are two layers to the graph view.
 
 Important details:
 
-- DFA transitions that share the same source and target are grouped into one edge label
-- PDA transitions are grouped by source and target and rendered as multi-line labels
-- manual coordinates from `examples.ts` are used when present
-- if no layout is provided, the renderer falls back to a radial layout
+- The renderer groups DFA transitions that share the same source and target into one edge label.
+- The renderer groups PDA transitions by source and target, and renders them as multi-line labels.
+- The renderer uses manual coordinates from `examples.ts` when present.
+- If `examples.ts` provides no layout, the renderer uses a radial layout.
 
-### tuning graph coordinates
+### Tuning Graph Coordinates
 
-If labels overlap or the graph reads poorly, edit the `layout` block in `examples.ts`.
+If labels overlap or the graph is difficult to read, edit the `layout` block in `examples.ts`.
 
-Each coordinate is a plain `{ x, y }` point. There is no auto-layout pass beyond the radial fallback, so manual positioning is the intended way to tune readability.
+Each coordinate is a plain `{ x, y }` point. The app provides no automatic layout pass other than the radial layout. Position nodes manually to improve readability.
 
-Good rule of thumb:
+Guidelines:
 
-- keep the main path moving left to right
-- separate trap states from the main cluster
-- give accepting states enough room for double rings and loop labels
-- leave more space than you think you need for PDA labels
+- Keep the main path moving left to right.
+- Separate trap states from the main cluster.
+- Give accepting states enough room for double rings and loop labels.
+- Leave more space than you expect for PDA labels.
 
-## simulation implementation
+## Simulation Implementation
 
 ### DFA
 
 `src/lib/automata/dfa.ts` handles:
 
-- definition validation
-- grouped edge ids for graph highlighting
-- step-by-step simulation
+- Machine definition validation
+- Grouped edge IDs for graph highlighting
+- Step-by-step simulation
 
-The DFA trace drives the active node and edge styling in the graph.
+The DFA trace controls the active node and edge styling in the graph.
 
 ### CFG
 
 `src/lib/automata/cfg.ts` handles:
 
 - DFA-to-right-linear-grammar derivation
-- CFG search/simulation used by the UI trace
+- CFG search and simulation (used by the UI trace)
 
 The CFG view does not render a node graph. It renders the grammar list and the current sentential form.
 
@@ -228,33 +244,33 @@ The CFG view does not render a node graph. It renders the grammar list and the c
 
 The PDA view reuses the graph renderer and adds the stack panel beside it.
 
-## parity with the Python reference
+## Parity with the Python Reference
 
-`npm run test:parity` runs the TypeScript engines against the Python reference logic in `../backend`.
+`npm run test:parity` runs the TypeScript engines against the Python reference logic in `../backend/`.
 
-That check exists to catch behavior drift while the frontend keeps its own TypeScript runtime.
+This check detects differences in behavior between the TypeScript runtime and the Python backend.
 
-Use it when you:
+Use this test when you:
 
-- change DFA, CFG, or PDA simulation logic
-- add new presets and want a sanity check
-- refactor shared automata helpers
+- Change DFA, CFG, or PDA simulation logic.
+- Add new presets to verify.
+- Refactor shared automata helpers.
 
-## common edit entry points
+## Common Edit Entry Points
 
-If you are making a change and want the shortest path to the right file:
+File locations for common changes:
 
-- add or change a machine: `src/lib/automata/examples.ts`
-- change DFA logic: `src/lib/automata/dfa.ts`
-- change CFG logic: `src/lib/automata/cfg.ts`
-- change PDA logic: `src/lib/automata/pda.ts`
-- change graph node placement or viewBox logic: `src/lib/automata/layout.ts`
-- change SVG rendering or edge labels: `src/components/automata/GraphCanvas.tsx`
-- change page layout or visual styling: `src/App.tsx` and `src/index.css`
+- Add or change a machine: `src/lib/automata/examples.ts`
+- Change DFA logic: `src/lib/automata/dfa.ts`
+- Change CFG logic: `src/lib/automata/cfg.ts`
+- Change PDA logic: `src/lib/automata/pda.ts`
+- Change graph node placement or viewBox logic: `src/lib/automata/layout.ts`
+- Change SVG rendering or edge labels: `src/components/automata/GraphCanvas.tsx`
+- Change page layout or visual styling: `src/App.tsx` and `src/index.css`
 
-## development notes
+## Development Notes
 
-- The app assumes the preset data is local and trusted.
-- Most UI state lives in `App.tsx` on purpose.
-- The current code favors explicit machine definitions over abstraction-heavy config layers.
-- Small layout fixes usually belong in `examples.ts` or `index.css`, not in the simulation code.
+- The app assumes that preset data is local and trusted.
+- The app stores all UI state in `App.tsx` by design.
+- The code favors explicit machine definitions over abstraction layers.
+- Apply small layout adjustments in `examples.ts` or `index.css`, not in the simulation code.
