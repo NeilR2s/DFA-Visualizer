@@ -1,29 +1,30 @@
 # Automata workbench
 
-A TypeScript web workbench providing three synchronized views of formal machines:
+A TypeScript web workbench providing three types of formal machines (formal languages/automata):
 
 - Deterministic Finite Automata (DFA) simulation
 - Context-Free Grammar (CFG) derivation
 - Pushdown Automata (PDA) simulation
 
-The project keeps the runtime simple. There is no Flask dependency in the frontend. Python is only used as a parity check during development.
+> [!NOTE]
+> The project was recently migrated from Python (Flask) to Typescript (Vite)
+> Python is only used as a parity check during development (`backend/` is no longer maintained, and remains for archive only).
+> New website: https://dfa-visualizer-nr2s.vercel.app/
+> Old website: https://dfa-nr2s.vercel.app/
 
 ## Demo
 
 ![Automata Workbench Demo](dfa-tscompiler/videos/automata-workbench-demo.gif)
-
-> [!TIP]
-> A high-definition 60 FPS recording is also available at [`dfa-tscompiler/videos/automata-workbench-demo.mp4`](dfa-tscompiler/videos/automata-workbench-demo.mp4).
+A high-definition 60 FPS recording is also available at [`dfa-tscompiler/videos/automata-workbench-demo.mp4`](dfa-tscompiler/videos/automata-workbench-demo.mp4).
 
 ## Notes
 
 **NOTE: the old version is at `backend`, but this version is no longer maintained and remanins for archive and reference purposes only. Refer to the files at `/dfa-tscompiler` for the new version. You can delete the files at `backend` if you do not plan to use the old version.**
-New website: https://dfa-visualizer-nr2s.vercel.app/
-Old website: https://dfa-nr2s.vercel.app/
 
-## setup
+## Setup
 
 Requirements:
+
 - Node.js 20+
 - npm
 - Python 3 (optional, required only for running Python parity tests)
@@ -131,7 +132,7 @@ All machine data is processed locally in TypeScript without external network req
 
 Edit preset machines in `src/lib/automata/examples.ts`.
 
-Each preset starts from a `DFADefinition`. The application mechanically derives equivalent CFG and PDA models from that DFA.
+Each preset starts from a `DFADefinition`. The application derives equivalent CFG and PDA models from that DFA.
 
 ### DFA definition fields
 
@@ -157,44 +158,44 @@ Define your machine in `src/lib/automata/examples.ts`:
 
 ```ts
 const myDfa: DFADefinition = {
-  id: "ends-with-01",
-  name: "ENDS_01",
-  expression: "(0 + 1)*01",
-  description: "Accepts binary strings ending in 01.",
-  alphabet: ["0", "1"],
-  states: [
-    { id: 0, label: "q0" },
-    { id: 1, label: "q1" },
-    { id: 2, label: "q2" },
-  ],
-  startState: 0,
-  acceptingStates: [2],
-  trapStates: [],
-  transitions: {
-    0: { "0": 1, "1": 0 },
-    1: { "0": 1, "1": 2 },
-    2: { "0": 1, "1": 0 },
-  },
-  layout: {
-    0: { x: 80, y: 120 },
-    1: { x: 220, y: 120 },
-    2: { x: 360, y: 120 },
-  },
-  samples: {
-    accepted: ["01", "101"],
-    rejected: ["", "0", "11"],
-  },
-}
+    id: "ends-with-01",
+    name: "ENDS_01",
+    expression: "(0 + 1)*01",
+    description: "Accepts binary strings ending in 01.",
+    alphabet: ["0", "1"],
+    states: [
+        { id: 0, label: "q0" },
+        { id: 1, label: "q1" },
+        { id: 2, label: "q2" },
+    ],
+    startState: 0,
+    acceptingStates: [2],
+    trapStates: [],
+    transitions: {
+        0: { "0": 1, "1": 0 },
+        1: { "0": 1, "1": 2 },
+        2: { "0": 1, "1": 0 },
+    },
+    layout: {
+        0: { x: 80, y: 120 },
+        1: { x: 220, y: 120 },
+        2: { x: 360, y: 120 },
+    },
+    samples: {
+        accepted: ["01", "101"],
+        rejected: ["", "0", "11"],
+    },
+};
 ```
 
 Add your machine to the preset export:
 
 ```ts
 export const AUTOMATA_PRESETS: AutomataPreset[] = [
-  createPreset(betsDfa),
-  createPreset(starsDfa),
-  createPreset(myDfa),
-]
+    createPreset(betsDfa),
+    createPreset(starsDfa),
+    createPreset(myDfa),
+];
 ```
 
 ## Graph layout and rendering
