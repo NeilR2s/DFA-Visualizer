@@ -1,0 +1,42 @@
+{
+  "$schema": "https://webreel.dev/schema/v1.json",
+  "outDir": "./videos",
+  "baseUrl": "http://localhost:5173",
+  "viewport": "desktop",
+  "defaultDelay": 350,
+  "videos": {
+    "automata-workbench-demo": {
+      "url": "/",
+      "waitFor": "#input-string",
+      "output": "automata-workbench-demo.mp4",
+      "steps": [
+        { "action": "pause", "ms": 1500, "label": "Overview workbench" },
+
+        { "action": "click", "text": "Simulate", "label": "Run DFA simulation" },
+        { "action": "pause", "ms": 4500, "label": "Watch DFA trace playback" },
+
+        { "action": "click", "text": "Control", "label": "Switch back to control" },
+        { "action": "pause", "ms": 500 },
+
+        { "action": "click", "text": "CFG", "label": "Switch to CFG mode" },
+        { "action": "pause", "ms": 1000, "label": "Inspect CFG rules" },
+
+        { "action": "click", "text": "Simulate", "label": "Run CFG derivation" },
+        { "action": "pause", "ms": 3500, "label": "Watch grammar derivation" },
+
+        { "action": "click", "text": "Control", "label": "Switch back to control" },
+        { "action": "pause", "ms": 500 },
+
+        { "action": "click", "text": "PDA", "label": "Switch to PDA mode" },
+        { "action": "pause", "ms": 1000, "label": "Inspect PDA model" },
+
+        { "action": "click", "text": "Simulate", "label": "Run PDA simulation" },
+        { "action": "pause", "ms": 4500, "label": "Watch PDA stack execution" },
+
+        { "action": "click", "text": "Control", "label": "Switch back to control" },
+        { "action": "click", "text": "Reset", "label": "Reset simulation" },
+        { "action": "pause", "ms": 1500, "label": "Complete demonstration" }
+      ]
+    }
+  }
+}

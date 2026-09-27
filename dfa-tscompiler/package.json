@@ -12,7 +12,9 @@
     "test:parity": "tsx scripts/parity.ts",
     "test:e2e": "tsx scripts/e2e-tests.ts",
     "typecheck": "tsc --noEmit",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "demo:record": "webreel record && ffmpeg -y -i videos/automata-workbench-demo.mp4 -vf \"fps=15,scale=1280:-1:flags=lanczos,split[s0][s1];[s0]palettegen=max_colors=128[p];[s1][p]paletteuse=dither=bayer:bayer_scale=3\" videos/automata-workbench-demo.gif",
+    "demo:preview": "webreel preview"
   },
   "dependencies": {
     "@fontsource-variable/inter": "^5.2.8",
@@ -44,6 +46,7 @@
     "tsx": "^4.21.0",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.57.1",
-    "vite": "^7.3.1"
+    "vite": "^7.3.1",
+    "webreel": "^0.1.4"
   }
 }

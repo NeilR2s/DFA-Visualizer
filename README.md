@@ -8,6 +8,13 @@ A TypeScript web workbench providing three synchronized views of formal machines
 
 The project keeps the runtime simple. There is no Flask dependency in the frontend. Python is only used as a parity check during development.
 
+## Demo
+
+![Automata Workbench Demo](dfa-tscompiler/videos/automata-workbench-demo.gif)
+
+> [!TIP]
+> A high-definition 60 FPS recording is also available at [`dfa-tscompiler/videos/automata-workbench-demo.mp4`](dfa-tscompiler/videos/automata-workbench-demo.mp4).
+
 ## Notes
 
 **NOTE: the old version is at `backend`, but this version is no longer maintained and remanins for archive and reference purposes only. Refer to the files at `/dfa-tscompiler` for the new version. You can delete the files at `backend` if you do not plan to use the old version.**
@@ -56,6 +63,8 @@ npm run format
 npm run test:automata
 npm run test:parity
 npm run test:e2e
+npm run demo:preview
+npm run demo:record
 npm run build
 npm run preview
 ```
@@ -68,6 +77,8 @@ Command descriptions:
 - `test:automata` — Executes the TypeScript engine simulation test suite.
 - `test:parity` — Verifies TypeScript engines against the Python reference in `backend/`.
 - `test:e2e` — Runs automated Playwright browser tests for viewports, non-collision, and trace stepping.
+- `demo:preview` — Previews the scripted webreel browser demo in a visible browser window.
+- `demo:record` — Records the demo video and generates both MP4 and GIF using webreel.
 - `build` — Checks types and compiles the production bundle with Vite.
 - `preview` — Serves the production build locally with Vite.
 
