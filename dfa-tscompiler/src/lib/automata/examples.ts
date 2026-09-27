@@ -1,12 +1,20 @@
 import { deriveCfgFromDfa } from "./cfg"
 import { deriveStackPdaFromDfa } from "./pda"
-import { type AutomataPreset, type DFADefinition, type MachineSamples, type Point, type StateId } from "./types"
+import {
+  type AutomataPreset,
+  type DFADefinition,
+  type MachineSamples,
+  type Point,
+  type StateId,
+} from "./types"
 
 function numberedStates(ids: number[]) {
   return ids.map((id) => ({ id, label: `q${id}` }))
 }
 
-function layoutFromEntries(entries: Array<[StateId, number, number]>): Record<string, Point> {
+function layoutFromEntries(
+  entries: Array<[StateId, number, number]>
+): Record<string, Point> {
   return Object.fromEntries(entries.map(([id, x, y]) => [String(id), { x, y }]))
 }
 
@@ -23,7 +31,17 @@ const betsSamples: MachineSamples = {
     "babbbaabbaa",
     "bbababb",
   ],
-  rejected: ["baaababaabb", "ababaa", "aaacaa", "aaabac", "aa", "", "aaabax", "aabbb", "aaaba"],
+  rejected: [
+    "baaababaabb",
+    "ababaa",
+    "aaacaa",
+    "aaabac",
+    "aa",
+    "",
+    "aaabax",
+    "aabbb",
+    "aaaba",
+  ],
 }
 
 const starsSamples: MachineSamples = {
@@ -38,7 +56,15 @@ const starsSamples: MachineSamples = {
     "1111011101",
     "10100000000000000001",
   ],
-  rejected: ["000111101", "11110101001", "111111111", "111", "", "1111a11101", "1111111"],
+  rejected: [
+    "000111101",
+    "11110101001",
+    "111111111",
+    "111",
+    "",
+    "1111a11101",
+    "1111111",
+  ],
 }
 
 const betsLayoutScale = {
@@ -49,8 +75,10 @@ const betsLayoutScale = {
 const betsDfa: DFADefinition = {
   id: "bets-dfa",
   name: "BETS",
-  expression: "(aa + bb + aba + ba)(aba + bab + bbb)(a + b)*(a + b + aa + abab)(aa + bb)*",
-  description: "A DFA over {a, b} migrated from the original Flask implementation.",
+  expression:
+    "(aa + bb + aba + ba)(aba + bab + bbb)(a + b)*(a + b + aa + abab)(aa + bb)*",
+  description:
+    "A deterministic finite automaton evaluating patterns over the alphabet {a, b}.",
   alphabet: ["a", "b"],
   states: numberedStates([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]),
   startState: 0,
@@ -93,10 +121,15 @@ const betsDfa: DFADefinition = {
 const starsDfa: DFADefinition = {
   id: "stars-dfa",
   name: "STARS",
-  expression: "(111 + 101 + 001 + 010)(1 + 0 + 11)(1 + 0 + 11)*(111 + 000)(111 + 000)*(01 + 10 + 00)",
-  description: "A binary DFA migrated from the original Flask implementation.",
+  expression:
+    "(111 + 101 + 001 + 010)(1 + 0 + 11)(1 + 0 + 11)*(111 + 000)(111 + 000)*(01 + 10 + 00)",
+  description:
+    "A binary state machine evaluating patterns over the alphabet {0, 1}.",
   alphabet: ["0", "1"],
-  states: numberedStates([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]),
+  states: numberedStates([
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+    21, 22, 23,
+  ]),
   startState: 0,
   acceptingStates: [10, 11, 18, 21, 22, 23],
   trapStates: [4],
@@ -167,4 +200,7 @@ function createPreset(dfa: DFADefinition): AutomataPreset {
   }
 }
 
-export const AUTOMATA_PRESETS: AutomataPreset[] = [createPreset(betsDfa), createPreset(starsDfa)]
+export const AUTOMATA_PRESETS: AutomataPreset[] = [
+  createPreset(betsDfa),
+  createPreset(starsDfa),
+]

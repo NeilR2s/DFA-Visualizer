@@ -18,7 +18,9 @@ type PdaQueueItem = {
   transitionId?: string
 }
 
-export function deriveStackPdaFromDfa(definition: DFADefinition): PDADefinition {
+export function deriveStackPdaFromDfa(
+  definition: DFADefinition
+): PDADefinition {
   const transitions: PDATransition[] = []
 
   for (const state of definition.states) {
@@ -58,7 +60,12 @@ export function deriveStackPdaFromDfa(definition: DFADefinition): PDADefinition 
   }
 }
 
-export function pdaTransitionId(from: StateId, input: string, stackTop: string, to: StateId): string {
+export function pdaTransitionId(
+  from: StateId,
+  input: string,
+  stackTop: string,
+  to: StateId
+): string {
   return `pda-edge-${stateKey(from)}-${input}-${stackTop}-${stateKey(to)}`
 }
 
@@ -69,39 +76,58 @@ export function validatePda(definition: PDADefinition): ValidationResult {
   const stackAlphabet = new Set(definition.stackAlphabet)
 
   if (!states.has(stateKey(definition.startState))) {
-    errors.push(`PDA start state ${stateKey(definition.startState)} is not defined.`)
+    errors.push(
+      `PDA start state ${stateKey(definition.startState)} is not defined.`
+    )
   }
 
   if (!stackAlphabet.has(definition.initialStackSymbol)) {
-    errors.push(`Initial stack symbol ${definition.initialStackSymbol} is not in the stack alphabet.`)
+    errors.push(
+      `Initial stack symbol ${definition.initialStackSymbol} is not in the stack alphabet.`
+    )
   }
 
   for (const acceptingState of definition.acceptingStates) {
     if (!states.has(stateKey(acceptingState))) {
-      errors.push(`PDA accepting state ${stateKey(acceptingState)} is not defined.`)
+      errors.push(
+        `PDA accepting state ${stateKey(acceptingState)} is not defined.`
+      )
     }
   }
 
   for (const transition of definition.transitions) {
     if (!states.has(stateKey(transition.from))) {
-      errors.push(`Transition ${transition.id} starts from undefined state ${stateKey(transition.from)}.`)
+      errors.push(
+        `Transition ${transition.id} starts from undefined state ${stateKey(transition.from)}.`
+      )
     }
 
     if (!states.has(stateKey(transition.to))) {
-      errors.push(`Transition ${transition.id} targets undefined state ${stateKey(transition.to)}.`)
+      errors.push(
+        `Transition ${transition.id} targets undefined state ${stateKey(transition.to)}.`
+      )
     }
 
     if (transition.input !== EPSILON && !inputAlphabet.has(transition.input)) {
-      errors.push(`Transition ${transition.id} consumes ${transition.input}, which is outside the input alphabet.`)
+      errors.push(
+        `Transition ${transition.id} consumes ${transition.input}, which is outside the input alphabet.`
+      )
     }
 
-    if (transition.stackTop !== EPSILON && !stackAlphabet.has(transition.stackTop)) {
-      errors.push(`Transition ${transition.id} reads ${transition.stackTop}, which is outside the stack alphabet.`)
+    if (
+      transition.stackTop !== EPSILON &&
+      !stackAlphabet.has(transition.stackTop)
+    ) {
+      errors.push(
+        `Transition ${transition.id} reads ${transition.stackTop}, which is outside the stack alphabet.`
+      )
     }
 
     for (const pushedSymbol of transition.push) {
       if (pushedSymbol !== EPSILON && !stackAlphabet.has(pushedSymbol)) {
-        errors.push(`Transition ${transition.id} pushes ${pushedSymbol}, which is outside the stack alphabet.`)
+        errors.push(
+          `Transition ${transition.id} pushes ${pushedSymbol}, which is outside the stack alphabet.`
+        )
       }
     }
   }
@@ -112,7 +138,10 @@ export function validatePda(definition: PDADefinition): ValidationResult {
   }
 }
 
-export function simulatePda(definition: PDADefinition, input: string): PDASimulationResult {
+export function simulatePda(
+  definition: PDADefinition,
+  input: string
+): PDASimulationResult {
   const validation = validatePda(definition)
   if (!validation.valid) {
     return {
@@ -170,7 +199,10 @@ export function simulatePda(definition: PDADefinition, input: string): PDASimula
       bestPath = history
     }
 
-    if (item.inputIndex === inputSymbols.length && acceptingStates.has(stateKey(item.state))) {
+    if (
+      item.inputIndex === inputSymbols.length &&
+      acceptingStates.has(stateKey(item.state))
+    ) {
       return {
         input,
         accepted: true,
