@@ -6,10 +6,15 @@ A TypeScript web workbench providing three synchronized views of formal machines
 - Context-Free Grammar (CFG) derivation
 - Pushdown Automata (PDA) simulation
 
-> [!NOTE]
-> The legacy Python implementation resides in `backend/` for historical reference and parity testing. The active application is entirely TypeScript and located in `dfa-tscompiler/`.
+The project keeps the runtime simple. There is no Flask dependency in the frontend. Python is only used as a parity check during development.
 
-## Setup
+## Notes
+
+**NOTE: the old version is at `backend`, but this version is no longer maintained and remanins for archive and reference purposes only. Refer to the files at `/dfa-tscompiler` for the new version. You can delete the files at `backend` if you do not plan to use the old version.**
+New website: https://dfa-visualizer-nr2s.vercel.app/
+Old website: https://dfa-nr2s.vercel.app/
+
+## setup
 
 Requirements:
 - Node.js 20+
