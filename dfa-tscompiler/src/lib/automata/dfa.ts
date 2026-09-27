@@ -19,7 +19,9 @@ export function dfaEdgeId(from: StateId, to: StateId): string {
 
 export function validateDfa(definition: DFADefinition): ValidationResult {
   const errors: string[] = []
-  const stateKeys = new Set(definition.states.map((state) => stateKey(state.id)))
+  const stateKeys = new Set(
+    definition.states.map((state) => stateKey(state.id))
+  )
   const alphabet = new Set(definition.alphabet)
 
   if (definition.states.length === 0) {
@@ -31,7 +33,9 @@ export function validateDfa(definition: DFADefinition): ValidationResult {
   }
 
   if (!stateKeys.has(stateKey(definition.startState))) {
-    errors.push(`Start state ${stateKey(definition.startState)} is not defined.`)
+    errors.push(
+      `Start state ${stateKey(definition.startState)} is not defined.`
+    )
   }
 
   for (const acceptingState of definition.acceptingStates) {
@@ -55,7 +59,9 @@ export function validateDfa(definition: DFADefinition): ValidationResult {
 
     for (const symbol of definition.alphabet) {
       if (!(symbol in transitionsForState)) {
-        errors.push(`Missing transition for q${stateKey(state.id)} on "${symbol}".`)
+        errors.push(
+          `Missing transition for q${stateKey(state.id)} on "${symbol}".`
+        )
         continue
       }
 
@@ -69,7 +75,9 @@ export function validateDfa(definition: DFADefinition): ValidationResult {
 
     for (const symbol of Object.keys(transitionsForState)) {
       if (!alphabet.has(symbol)) {
-        errors.push(`Transition for q${stateKey(state.id)} uses "${symbol}", which is outside the alphabet.`)
+        errors.push(
+          `Transition for q${stateKey(state.id)} uses "${symbol}", which is outside the alphabet.`
+        )
       }
     }
   }
@@ -80,7 +88,10 @@ export function validateDfa(definition: DFADefinition): ValidationResult {
   }
 }
 
-export function simulateDfa(definition: DFADefinition, input: string): DFASimulationResult {
+export function simulateDfa(
+  definition: DFADefinition,
+  input: string
+): DFASimulationResult {
   const validation = validateDfa(definition)
   const symbols = Array.from(input)
   const acceptingStates = new Set(definition.acceptingStates.map(stateKey))
@@ -222,7 +233,10 @@ export function simulateDfa(definition: DFADefinition, input: string): DFASimula
 }
 
 export function groupDfaTransitions(definition: DFADefinition) {
-  const grouped = new Map<string, { from: StateId; to: StateId; symbols: InputSymbol[] }>()
+  const grouped = new Map<
+    string,
+    { from: StateId; to: StateId; symbols: InputSymbol[] }
+  >()
 
   for (const state of definition.states) {
     const transitionsForState = definition.transitions[stateKey(state.id)] ?? {}

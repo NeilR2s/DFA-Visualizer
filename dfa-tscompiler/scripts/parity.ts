@@ -43,12 +43,19 @@ type PythonParityOutput = Record<
   }
 >
 
-type ParityCases = Record<string, { dfa: string[]; cfg: string[]; pda: string[] }>
+type ParityCases = Record<
+  string,
+  { dfa: string[]; cfg: string[]; pda: string[] }
+>
 
 const cases: ParityCases = {}
 
 for (const preset of AUTOMATA_PRESETS) {
-  const dfaInputs = unique([...preset.dfa.samples.accepted, ...preset.dfa.samples.rejected, ...generateStrings(preset.dfa.alphabet, 3)])
+  const dfaInputs = unique([
+    ...preset.dfa.samples.accepted,
+    ...preset.dfa.samples.rejected,
+    ...generateStrings(preset.dfa.alphabet, 3),
+  ])
   const cfgInputs = unique([
     ...preset.cfg.samples.accepted.slice(0, 2),
     ...preset.cfg.samples.rejected.slice(0, 2),
@@ -62,7 +69,9 @@ for (const preset of AUTOMATA_PRESETS) {
   }
 }
 
-const pythonOutput = runPythonOracle(JSON.stringify({ presets: AUTOMATA_PRESETS, cases }))
+const pythonOutput = runPythonOracle(
+  JSON.stringify({ presets: AUTOMATA_PRESETS, cases })
+)
 const oracle = JSON.parse(pythonOutput) as PythonParityOutput
 
 for (const preset of AUTOMATA_PRESETS) {
@@ -72,25 +81,49 @@ for (const preset of AUTOMATA_PRESETS) {
   for (const input of cases[preset.id].dfa) {
     const tsResult = simulateDfa(preset.dfa, input)
     const pyResult = oraclePreset.dfa[input]
-    assert.equal(tsResult.accepted, pyResult.accepted, `${preset.id} DFA acceptance mismatch for ${input || "ε"}`)
-    assert.equal(tsResult.finalState, pyResult.final_state, `${preset.id} DFA final state mismatch for ${input || "ε"}`)
-    assert.deepEqual(tsResult.stateSequence, pyResult.state_sequence, `${preset.id} DFA trace mismatch for ${input || "ε"}`)
+    assert.equal(
+      tsResult.accepted,
+      pyResult.accepted,
+      `${preset.id} DFA acceptance mismatch for ${input || "ε"}`
+    )
+    assert.equal(
+      tsResult.finalState,
+      pyResult.final_state,
+      `${preset.id} DFA final state mismatch for ${input || "ε"}`
+    )
+    assert.deepEqual(
+      tsResult.stateSequence,
+      pyResult.state_sequence,
+      `${preset.id} DFA trace mismatch for ${input || "ε"}`
+    )
   }
 
   for (const input of cases[preset.id].cfg) {
     const tsResult = simulateCfg(preset.cfg, input)
     const pyResult = oraclePreset.cfg[input]
-    assert.equal(tsResult.accepted, pyResult.accepted, `${preset.id} CFG acceptance mismatch for ${input || "ε"}`)
+    assert.equal(
+      tsResult.accepted,
+      pyResult.accepted,
+      `${preset.id} CFG acceptance mismatch for ${input || "ε"}`
+    )
 
     if (tsResult.accepted) {
-      assert.deepEqual(tsResult.sequence, pyResult.sequence, `${preset.id} CFG derivation mismatch for ${input || "ε"}`)
+      assert.deepEqual(
+        tsResult.sequence,
+        pyResult.sequence,
+        `${preset.id} CFG derivation mismatch for ${input || "ε"}`
+      )
     }
   }
 
   for (const input of cases[preset.id].pda) {
     const tsResult = simulatePda(preset.pda, input)
     const pyResult = oraclePreset.pda[input]
-    assert.equal(tsResult.accepted, pyResult.accepted, `${preset.id} PDA acceptance mismatch for ${input || "ε"}`)
+    assert.equal(
+      tsResult.accepted,
+      pyResult.accepted,
+      `${preset.id} PDA acceptance mismatch for ${input || "ε"}`
+    )
     assert.deepEqual(
       tsResult.sequence.map((step) => step.state),
       pyResult.sequence.map((step) => step.state),
@@ -119,13 +152,17 @@ function runPythonOracle(payload: string): string {
     }
 
     if (result.status !== 0) {
-      throw new Error(result.stderr || `${command} oracle failed with status ${result.status}`)
+      throw new Error(
+        result.stderr || `${command} oracle failed with status ${result.status}`
+      )
     }
 
     return result.stdout
   }
 
-  throw new Error("Python is required for parity tests, but neither python3 nor python was available.")
+  throw new Error(
+    "Python is required for parity tests, but neither python3 nor python was available."
+  )
 }
 
 function unique(values: string[]): string[] {
@@ -136,7 +173,9 @@ function generateStrings(alphabet: string[], maxLength: number): string[] {
   const generated = [""]
 
   for (let length = 1; length <= maxLength; length += 1) {
-    const previousLayer = generated.filter((value) => value.length === length - 1)
+    const previousLayer = generated.filter(
+      (value) => value.length === length - 1
+    )
     for (const prefix of previousLayer) {
       for (const symbol of alphabet) {
         generated.push(`${prefix}${symbol}`)

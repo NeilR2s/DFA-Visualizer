@@ -63,16 +63,24 @@ export function validateCfg(definition: CFGDefinition): ValidationResult {
   const terminals = new Set(definition.terminals)
 
   if (!variables.has(definition.startSymbol)) {
-    errors.push(`Start symbol ${definition.startSymbol} is not in the variable set.`)
+    errors.push(
+      `Start symbol ${definition.startSymbol} is not in the variable set.`
+    )
   }
 
   for (const rule of definition.rules) {
     if (!variables.has(rule.from)) {
-      errors.push(`Rule ${rule.id} starts from undefined variable ${rule.from}.`)
+      errors.push(
+        `Rule ${rule.id} starts from undefined variable ${rule.from}.`
+      )
     }
 
     for (const symbol of rule.to) {
-      if (!variables.has(symbol) && !terminals.has(symbol) && symbol !== EPSILON) {
+      if (
+        !variables.has(symbol) &&
+        !terminals.has(symbol) &&
+        symbol !== EPSILON
+      ) {
         errors.push(`Rule ${rule.id} references undefined symbol ${symbol}.`)
       }
     }
@@ -84,7 +92,10 @@ export function validateCfg(definition: CFGDefinition): ValidationResult {
   }
 }
 
-export function simulateCfg(definition: CFGDefinition, targetString: string): CFGSimulationResult {
+export function simulateCfg(
+  definition: CFGDefinition,
+  targetString: string
+): CFGSimulationResult {
   const validation = validateCfg(definition)
   if (!validation.valid) {
     return {
@@ -130,13 +141,18 @@ export function simulateCfg(definition: CFGDefinition, targetString: string): CF
       index: item.history.length,
       form: item.form,
       appliedRuleId: item.appliedRuleId,
-      message: item.appliedRuleId ? `Applied ${item.appliedRuleId}.` : "Start derivation.",
+      message: item.appliedRuleId
+        ? `Applied ${item.appliedRuleId}.`
+        : "Start derivation.",
     }
     const steps = [...item.history, step]
     const terminalPrefix = getTerminalPrefix(item.form, variables)
     const terminalString = getTerminalString(item.form, variables)
 
-    if (targetString.startsWith(terminalPrefix) && terminalPrefix.length > bestPrefixLength) {
+    if (
+      targetString.startsWith(terminalPrefix) &&
+      terminalPrefix.length > bestPrefixLength
+    ) {
       bestPrefixLength = terminalPrefix.length
       bestSteps = steps
     }
@@ -166,7 +182,9 @@ export function simulateCfg(definition: CFGDefinition, targetString: string): CF
       continue
     }
 
-    const leftmostVariableIndex = item.form.findIndex((symbol) => variables.has(symbol))
+    const leftmostVariableIndex = item.form.findIndex((symbol) =>
+      variables.has(symbol)
+    )
     if (leftmostVariableIndex === -1) {
       continue
     }
@@ -208,7 +226,9 @@ function hasVariable(form: string[], variables: Set<string>): boolean {
 }
 
 function getTerminalString(form: string[], variables: Set<string>): string {
-  return form.filter((symbol) => symbol !== EPSILON && !variables.has(symbol)).join("")
+  return form
+    .filter((symbol) => symbol !== EPSILON && !variables.has(symbol))
+    .join("")
 }
 
 function getTerminalPrefix(form: string[], variables: Set<string>): string {
@@ -227,5 +247,6 @@ function getTerminalPrefix(form: string[], variables: Set<string>): string {
 }
 
 function minimumTerminalLength(form: string[], variables: Set<string>): number {
-  return form.filter((symbol) => symbol !== EPSILON && !variables.has(symbol)).length
+  return form.filter((symbol) => symbol !== EPSILON && !variables.has(symbol))
+    .length
 }

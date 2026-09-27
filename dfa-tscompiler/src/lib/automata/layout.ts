@@ -37,13 +37,15 @@ export function buildDfaGraph(definition: DFADefinition): GraphModel {
     return "normal"
   })
 
-  const edges = groupDfaTransitions(definition).map<GraphEdge>((transition) => ({
-    id: dfaEdgeId(transition.from, transition.to),
-    from: transition.from,
-    to: transition.to,
-    label: transition.symbols.join(","),
-    transitionIds: [dfaEdgeId(transition.from, transition.to)],
-  }))
+  const edges = groupDfaTransitions(definition).map<GraphEdge>(
+    (transition) => ({
+      id: dfaEdgeId(transition.from, transition.to),
+      from: transition.from,
+      to: transition.to,
+      label: transition.symbols.join(","),
+      transitionIds: [dfaEdgeId(transition.from, transition.to)],
+    })
+  )
 
   return {
     id: `${definition.id}-graph`,
@@ -123,7 +125,8 @@ function createRadialLayout(states: MachineState[]): Record<string, Point> {
   const radius = Math.max(140, states.length * 12)
   return Object.fromEntries(
     states.map((state, index) => {
-      const angle = (Math.PI * 2 * index) / Math.max(states.length, 1) - Math.PI / 2
+      const angle =
+        (Math.PI * 2 * index) / Math.max(states.length, 1) - Math.PI / 2
       return [
         stateKey(state.id),
         {

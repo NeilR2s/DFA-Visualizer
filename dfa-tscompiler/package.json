@@ -10,6 +10,7 @@
     "format": "prettier --write \"**/*.{ts,tsx}\"",
     "test:automata": "tsx scripts/automata-tests.ts",
     "test:parity": "tsx scripts/parity.ts",
+    "test:e2e": "tsx scripts/e2e-tests.ts",
     "typecheck": "tsc --noEmit",
     "preview": "vite preview"
   },
@@ -37,6 +38,7 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.5.2",
     "globals": "^16.5.0",
+    "playwright": "^1.63.0",
     "prettier": "^3.8.1",
     "prettier-plugin-tailwindcss": "^0.7.2",
     "tsx": "^4.21.0",

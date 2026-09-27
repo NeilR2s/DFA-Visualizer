@@ -151,7 +151,12 @@ export type AutomataPreset = {
   pda: PDADefinition
 }
 
-export type GraphNodeKind = "normal" | "start" | "accept" | "start-accept" | "trap"
+export type GraphNodeKind =
+  | "normal"
+  | "start"
+  | "accept"
+  | "start-accept"
+  | "trap"
 
 export type GraphNode = {
   id: StateId
